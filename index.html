@@ -1068,7 +1068,7 @@ function Dashboard({ inspections, corrective, onNavigate, mobile }) {
           textAlign: "center", cursor: "pointer",
         }, onClick: () => onNavigate("inspect") },
           React.createElement("div", { style: { fontSize: 28, marginBottom: 6 }}, tpl.icon),
-          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: C.text, marginBottom: 2 }}, tpl.name.split(" ").slice(0, 2).join(" ")),
+          React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: C.text, marginBottom: 2, lineHeight: 1.3 }}, tpl.name),
           React.createElement("div", { style: { fontSize: 9, color: C.textDim, marginBottom: 8 }}, tpl.reg),
           React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 12 }},
             React.createElement("div", null,
