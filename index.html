@@ -255,14 +255,20 @@ function importHarnessInventory(file, callback) {
   reader.readAsArrayBuffer(file);
 }
 
-/* ── Locations (editable) ── */
-const DEFAULT_LOCATIONS = [
+/* ── Sites (fixed) + Sub-locations (editable per site) ── */
+const SITES = [
   { id: "cape", name: "Cape Canaveral, FL", short: "Cape" },
   { id: "stennis", name: "Stennis Space Center", short: "Stennis" },
   { id: "wormhole", name: "Wormhole", short: "Wormhole" },
 ];
-function getLocations() { return DB.get("custom_locations", DEFAULT_LOCATIONS); }
-function saveLocations(locs) { DB.set("custom_locations", locs); }
+const DEFAULT_SUBLOCATIONS = {
+  cape: ["Launch Pad A", "Launch Pad B", "VAB High Bay", "Admin Building", "Propulsion Lab"],
+  stennis: ["Test Stand A", "Test Stand B", "Operations Center"],
+  wormhole: ["Main Facility", "Assembly Bay"],
+};
+function getLocations() { return SITES; }
+function getSubLocations(siteId) { return DB.get(`sublocs_${siteId}`, DEFAULT_SUBLOCATIONS[siteId] || []); }
+function saveSubLocations(siteId, locs) { DB.set(`sublocs_${siteId}`, locs); }
 
 /* ── Departments (optional) ── */
 function getDepartments() { return DB.get("departments", ["EHS", "Operations", "Facilities", "Engineering", "Quality"]); }
@@ -1256,7 +1262,8 @@ function InspectionForm({ template, onBack, onSubmit, mobile }) {
   const [photos, setPhotos] = useState({});
   const selectedLocId = DB.get("selected_location", "cape");
   const selectedLoc = getLocations().find(l => l.id === selectedLocId);
-  const [meta, setMeta] = useState({ location: selectedLoc?.name || "Cape Canaveral", weather: "Clear", inspector: DB.get("inspector_name", ""), site: DB.get("site_name", "") });
+  const subLocs = getSubLocations(selectedLocId);
+  const [meta, setMeta] = useState({ location: selectedLoc?.name || "Cape Canaveral, FL", subLocation: "", weather: "Clear", inspector: DB.get("inspector_name", ""), site: DB.get("site_name", "") });
   const [submitted, setSubmitted] = useState(false);
   const [showSettings, setShowSettings] = useState(!DB.get("inspector_name", ""));
   const [showRfidPrompt, setShowRfidPrompt] = useState(tpl.id === "fall-pro" && !DB.get("pending_rfid", ""));
@@ -1277,8 +1284,9 @@ function InspectionForm({ template, onBack, onSubmit, mobile }) {
       id: DB.nextId("inspection"),
       template: tpl.id,
       inspector: meta.inspector,
-      site: meta.site,
-      location: meta.location,
+      site: selectedLoc?.name || meta.location,
+      location: meta.subLocation && meta.subLocation !== "__custom" ? `${selectedLoc?.short || meta.location} \u2014 ${meta.subLocation}` : selectedLoc?.name || meta.location,
+      subLocation: meta.subLocation !== "__custom" ? meta.subLocation : "",
       date: TODAY,
       weather: meta.weather,
       totalItems,
@@ -1618,17 +1626,31 @@ function InspectionForm({ template, onBack, onSubmit, mobile }) {
         React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text }}, DB.get("pending_rfid", "")),
       ),
     ),
-    // Location badge + weather
-    React.createElement("div", { style: { display: "flex", gap: 10, marginBottom: 12, alignItems: "center", flexWrap: "wrap" }},
-      React.createElement("div", { style: { background: C.accentDim, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 14px", display: "flex", alignItems: "center", gap: 8 }},
-        React.createElement("span", { style: { fontSize: 14 }}, "\uD83D\uDCCD"),
-        React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: C.text }}, meta.location),
+    // Site badge + sub-location + weather
+    React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 12, alignItems: "center", flexWrap: "wrap" }},
+      React.createElement("div", { style: { background: C.accentDim, border: `1px solid ${C.border}`, borderRadius: 6, padding: "8px 12px", display: "flex", alignItems: "center", gap: 6 }},
+        React.createElement("span", { style: { fontSize: 12 }}, "\uD83D\uDCCD"),
+        React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: C.text }}, selectedLoc?.short || meta.location),
       ),
+      subLocs.length > 0
+        ? React.createElement("select", { value: meta.subLocation, onChange: e => setMeta(p => ({ ...p, subLocation: e.target.value })),
+            style: { flex: 1, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 13, outline: "none", minHeight: 44 } },
+            React.createElement("option", { value: "" }, "Select area..."),
+            subLocs.map(s => React.createElement("option", { key: s, value: s }, s)),
+            React.createElement("option", { value: "__custom" }, "+ Other"),
+          )
+        : React.createElement("input", { placeholder: "Area / sub-location", value: meta.subLocation, onChange: e => setMeta(p => ({ ...p, subLocation: e.target.value })),
+            style: { flex: 1, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 13, outline: "none", minHeight: 44 } }),
       React.createElement("select", { value: meta.weather, onChange: e => setMeta(p => ({ ...p, weather: e.target.value })),
-        style: { flex: 1, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 14, outline: "none", minHeight: 44 } },
+        style: { background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 13, outline: "none", minHeight: 44 } },
         ["Clear", "Partly Cloudy", "Overcast", "Rain", "Heavy Rain", "Post-Storm"].map(w => React.createElement("option", { key: w, value: w }, w)),
       ),
     ),
+    // Custom sub-location input when "Other" is selected
+    meta.subLocation === "__custom" && React.createElement("input", { placeholder: "Type area name...",
+      onChange: e => setMeta(p => ({ ...p, subLocation: e.target.value === "" ? "__custom" : e.target.value })),
+      autoFocus: true,
+      style: { width: "100%", background: C.surface, border: `1px solid ${C.accent}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 13, outline: "none", minHeight: 44, marginBottom: 8, boxSizing: "border-box" } }),
     // Inspection type dropdown (for fall protection - matches your Power App)
     tpl.id === "fall-pro" && React.createElement("div", { style: { marginBottom: 16 }},
       React.createElement("select", { value: meta.inspectionType || "Pre-Use", onChange: e => setMeta(p => ({ ...p, inspectionType: e.target.value })),
@@ -2336,10 +2358,9 @@ function Settings({ mobile, showToast }) {
   const [flowCorrective, setFlowCorrective] = useState(DB.get("flow_url_corrective", ""));
   const [flowUpdate, setFlowUpdate] = useState(DB.get("flow_url_update", ""));
   const queueCount = DB.get("sync_queue", []).length;
-  const [locations, setLocationsState] = useState(getLocations());
   const [departments, setDepartmentsState] = useState(getDepartments());
-  const [newLoc, setNewLoc] = useState("");
   const [newDept, setNewDept] = useState("");
+  const [, forceUpdate] = useState(0);
 
   const saveProfile = () => {
     DB.set("inspector_name", inspName);
@@ -2386,41 +2407,57 @@ function Settings({ mobile, showToast }) {
       }}, "Save Profile"),
     ),
 
-    // Locations Management
+    // Sub-Locations Management (per site)
     React.createElement("div", { style: sectionStyle },
-      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}, "Site Locations"),
-      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 12, lineHeight: 1.5 }}, "Manage the locations that appear when selecting inspection templates. Templates can be assigned to specific locations."),
-      React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }},
-        locations.map(l => React.createElement("div", { key: l.id, style: {
-          display: "flex", alignItems: "center", gap: 6, background: C.surface, border: `1px solid ${C.border}`,
-          borderRadius: 6, padding: "6px 10px",
-        }},
-          React.createElement("span", { style: { fontSize: 12, color: C.text, fontWeight: 600 }}, l.name),
-          React.createElement("button", { onClick: () => {
-            const updated = locations.filter(x => x.id !== l.id);
-            setLocationsState(updated);
-            saveLocations(updated);
-            showToast(`Removed ${l.name}`);
-          }, style: { background: "none", border: "none", color: C.textDim, fontSize: 16, cursor: "pointer", padding: "0 2px", lineHeight: 1 }}, "\u00D7"),
-        )),
-      ),
-      React.createElement("div", { style: { display: "flex", gap: 8 }},
-        React.createElement("input", { value: newLoc, onChange: e => setNewLoc(e.target.value), placeholder: "New location name",
-          onKeyDown: e => { if (e.key === "Enter" && newLoc.trim()) {
-            const id = newLoc.trim().toLowerCase().replace(/[^a-z0-9]/g, "-");
-            const updated = [...locations, { id, name: newLoc.trim(), short: newLoc.trim().split(" ")[0] }];
-            setLocationsState(updated); saveLocations(updated); setNewLoc(""); showToast("Location added");
-          }},
-          style: { ...inputStyle, flex: 1, fontFamily: "inherit" } }),
-        React.createElement("button", { onClick: () => {
-          if (!newLoc.trim()) return;
-          const id = newLoc.trim().toLowerCase().replace(/[^a-z0-9]/g, "-");
-          const updated = [...locations, { id, name: newLoc.trim(), short: newLoc.trim().split(" ")[0] }];
-          setLocationsState(updated); saveLocations(updated); setNewLoc(""); showToast("Location added");
-        }, style: {
-          background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "10px 16px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 44,
-        }}, "+ Add"),
-      ),
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}, "Sub-Locations by Site"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 14, lineHeight: 1.5 }}, "Add areas, pads, buildings, or zones within each site. These appear as a dropdown when inspectors start an inspection."),
+      SITES.map(site => {
+        const subs = getSubLocations(site.id);
+        return React.createElement("div", { key: site.id, style: { marginBottom: 16 }},
+          React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: C.text, marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }},
+            React.createElement("span", { style: { fontSize: 14 }}, "\uD83D\uDCCD"),
+            site.name,
+            React.createElement("span", { style: { fontSize: 10, color: C.textDim, fontWeight: 600 }}, `(${subs.length})`),
+          ),
+          React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 8 }},
+            subs.map(s => React.createElement("div", { key: s, style: {
+              display: "flex", alignItems: "center", gap: 6, background: C.surface, border: `1px solid ${C.border}`,
+              borderRadius: 6, padding: "5px 10px",
+            }},
+              React.createElement("span", { style: { fontSize: 11, color: C.text }}, s),
+              React.createElement("button", { onClick: () => {
+                const updated = subs.filter(x => x !== s);
+                saveSubLocations(site.id, updated);
+                showToast(`Removed ${s}`);
+                forceUpdate(n => n + 1);
+              }, style: { background: "none", border: "none", color: C.textDim, fontSize: 14, cursor: "pointer", padding: "0 2px", lineHeight: 1 }}, "\u00D7"),
+            )),
+            subs.length === 0 && React.createElement("span", { style: { fontSize: 11, color: C.textDim, fontStyle: "italic" }}, "No sub-locations yet"),
+          ),
+          React.createElement("div", { style: { display: "flex", gap: 6 }},
+            React.createElement("input", { id: `subloc-${site.id}`, placeholder: `Add area to ${site.short}...`,
+              onKeyDown: e => { if (e.key === "Enter" && e.target.value.trim()) {
+                const updated = [...subs, e.target.value.trim()];
+                saveSubLocations(site.id, updated);
+                e.target.value = "";
+                showToast("Sub-location added");
+                forceUpdate(n => n + 1);
+              }},
+              style: { ...inputStyle, flex: 1, fontFamily: "inherit", minHeight: 36, padding: "8px 10px", fontSize: 12 } }),
+            React.createElement("button", { onClick: () => {
+              const input = document.getElementById(`subloc-${site.id}`);
+              if (!input || !input.value.trim()) return;
+              const updated = [...subs, input.value.trim()];
+              saveSubLocations(site.id, updated);
+              input.value = "";
+              showToast("Sub-location added");
+              forceUpdate(n => n + 1);
+            }, style: {
+              background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "8px 12px", fontWeight: 700, fontSize: 11, cursor: "pointer", minHeight: 36,
+            }}, "+"),
+          ),
+        );
+      }),
     ),
 
     // Departments Management
