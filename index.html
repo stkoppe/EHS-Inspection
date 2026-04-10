@@ -255,12 +255,30 @@ function importHarnessInventory(file, callback) {
   reader.readAsArrayBuffer(file);
 }
 
-/* ── Locations ── */
-const LOCATIONS = [
+/* ── Locations (editable) ── */
+const DEFAULT_LOCATIONS = [
   { id: "cape", name: "Cape Canaveral, FL", short: "Cape" },
   { id: "stennis", name: "Stennis Space Center", short: "Stennis" },
   { id: "wormhole", name: "Wormhole", short: "Wormhole" },
 ];
+function getLocations() { return DB.get("custom_locations", DEFAULT_LOCATIONS); }
+function saveLocations(locs) { DB.set("custom_locations", locs); }
+
+/* ── Departments (optional) ── */
+function getDepartments() { return DB.get("departments", ["EHS", "Operations", "Facilities", "Engineering", "Quality"]); }
+function saveDepartments(deps) { DB.set("departments", deps); }
+
+/* ── Custom Templates ── */
+function getCustomTemplates() { return DB.get("custom_templates", []); }
+function saveCustomTemplates(tpls) { DB.set("custom_templates", tpls); }
+
+// Merge built-in + custom templates
+function getAllTemplates() {
+  return [...TEMPLATES, ...getCustomTemplates()];
+}
+
+const ICON_OPTIONS = ["\u26D1", "\uD83C\uDF27", "\u2622", "\uD83D\uDD0D", "\uD83D\uDD27", "\uD83D\uDEE1", "\u2699", "\uD83C\uDFED", "\uD83D\uDE92", "\u26A1", "\uD83E\uDDEA", "\uD83C\uDFF7", "\uD83D\uDCCB", "\u2B50", "\uD83D\uDD25", "\uD83D\uDCA7", "\uD83C\uDF3F", "\uD83E\uDDF1", "\u2693", "\uD83D\uDE80"];
+const COLOR_OPTIONS = ["#C0C0C0", "#797979", "#D5D5D5", "#929292", "#FF4D4D", "#00E676", "#4C9AFF", "#FFB300", "#FF6B35", "#8B5CF6"];
 
 /* ── Templates ── */
 const TEMPLATES = [
@@ -399,7 +417,7 @@ function useToast() {
 function generatePDF(inspection, responses, notes, photos) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  const tpl = TEMPLATES.find(t => t.id === inspection.template);
+  const tpl = getAllTemplates().find(t => t.id === inspection.template);
   const margin = 20;
   let y = 20;
   const pw = doc.internal.pageSize.getWidth() - margin * 2;
@@ -537,7 +555,7 @@ function hexToRgb(hex) {
 function exportInspectionsCSV(inspections) {
   const headers = ["inspection_id","template_id","template_name","regulation","inspector","location","date","weather","total_items","findings_count","critical_count","status","created_at"];
   const rows = inspections.map(i => {
-    const tpl = TEMPLATES.find(t => t.id === i.template);
+    const tpl = getAllTemplates().find(t => t.id === i.template);
     return [i.id, i.template, tpl?.name||"", tpl?.reg||"", i.inspector, `"${i.location}"`, i.date, i.weather, i.totalItems, i.findings, i.critical, i.status, i.createdAt].join(",");
   });
   downloadCSV("ehs_inspections.csv", [headers.join(","), ...rows].join("\n"));
@@ -547,7 +565,7 @@ function exportResponsesCSV(inspections) {
   const headers = ["inspection_id","item_id","section","item_text","response","notes","has_photo","timestamp"];
   const rows = [];
   inspections.forEach(i => {
-    const tpl = TEMPLATES.find(t => t.id === i.template);
+    const tpl = getAllTemplates().find(t => t.id === i.template);
     if (!tpl || !i.responses) return;
     tpl.sections.forEach(s => {
       s.items.forEach(item => {
@@ -594,7 +612,7 @@ function addTableToSheet(ws, tableName, cols, rowCount) {
 // Each has one sheet with one table. Power Automate reads these perfectly.
 
 function exportInspectionXLSX(inspection) {
-  const tpl = TEMPLATES.find(t => t.id === inspection.template);
+  const tpl = getAllTemplates().find(t => t.id === inspection.template);
   const wb = XLSX.utils.book_new();
   const data = [{
     inspection_id: String(inspection.id),
@@ -617,7 +635,7 @@ function exportInspectionXLSX(inspection) {
 }
 
 function exportResponsesXLSX(inspection) {
-  const tpl = TEMPLATES.find(t => t.id === inspection.template);
+  const tpl = getAllTemplates().find(t => t.id === inspection.template);
   const wb = XLSX.utils.book_new();
   const data = [];
   if (tpl) {
@@ -642,7 +660,7 @@ function exportResponsesXLSX(inspection) {
 function exportActionsXLSX(correctiveActions) {
   const wb = XLSX.utils.book_new();
   const data = correctiveActions.map(a => {
-    const tpl = TEMPLATES.find(t => t.id === a.template);
+    const tpl = getAllTemplates().find(t => t.id === a.template);
     return {
       action_id: String(a.id),
       inspection_id: String(a.inspectionId),
@@ -705,11 +723,11 @@ function createOneDriveTemplates() {
 // Appends new rows to the existing OneDrive template file
 // Inspector exports this, then REPLACES the file in OneDrive
 function exportAppendInspection(inspection) {
-  const tpl = TEMPLATES.find(t => t.id === inspection.template);
+  const tpl = getAllTemplates().find(t => t.id === inspection.template);
   const allInspections = DB.get("inspections", []);
   const wb = XLSX.utils.book_new();
   const rows = allInspections.map(i => {
-    const t = TEMPLATES.find(x => x.id === i.template);
+    const t = getAllTemplates().find(x => x.id === i.template);
     return {
       inspection_id: String(i.id),
       template_id: i.template,
@@ -734,7 +752,7 @@ function exportAppendInspection(inspection) {
 function exportAppendActions(actions) {
   const wb = XLSX.utils.book_new();
   const rows = actions.map(a => {
-    const t = TEMPLATES.find(x => x.id === a.template);
+    const t = getAllTemplates().find(x => x.id === a.template);
     return {
       action_id: String(a.id),
       inspection_id: String(a.inspectionId),
@@ -884,7 +902,7 @@ function Dashboard({ inspections, corrective, onNavigate, mobile }) {
           React.createElement("span", { style: { fontSize: 11, color: C.textMuted, cursor: "pointer", fontWeight: 600 }, onClick: () => onNavigate("history") }, "View All \u2192"),
         ),
         inspections.slice(0, mobile ? 4 : 5).map((insp, idx) => {
-          const tpl = TEMPLATES.find(t => t.id === insp.template);
+          const tpl = getAllTemplates().find(t => t.id === insp.template);
           if (!tpl) return null;
           return React.createElement("div", { key: insp.id, className: "action-card", style: { display: "flex", alignItems: "center", gap: 10, padding: "10px 8px", marginBottom: 4, borderRadius: 8, cursor: "default" }},
             React.createElement("div", { style: { width: 36, height: 36, borderRadius: 8, background: `${tpl.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}, tpl.icon),
@@ -931,7 +949,7 @@ function Dashboard({ inspections, corrective, onNavigate, mobile }) {
     ),
     // Template coverage - horizontal cards
     React.createElement("div", { className: "fade-in-d4", style: { display: "grid", gridTemplateColumns: mobile ? "1fr 1fr" : "repeat(4, 1fr)", gap: mobile ? 8 : 12 }},
-      TEMPLATES.map(tpl => {
+      getAllTemplates().map(tpl => {
         const count = inspections.filter(i => i.template === tpl.id).length;
         const findings = inspections.filter(i => i.template === tpl.id).reduce((a, b) => a + (b.findings || 0), 0);
         return React.createElement("div", { key: tpl.id, className: "stat-card", style: {
@@ -957,26 +975,217 @@ function Dashboard({ inspections, corrective, onNavigate, mobile }) {
   );
 }
 
+/* ── Template Builder ── */
+function TemplateBuilder({ onBack, onSave, mobile, editTemplate }) {
+  const [name, setName] = useState(editTemplate?.name || "");
+  const [reg, setReg] = useState(editTemplate?.reg || "");
+  const [frequency, setFrequency] = useState(editTemplate?.frequency || "Monthly");
+  const [icon, setIcon] = useState(editTemplate?.icon || "\uD83D\uDCCB");
+  const [color, setColor] = useState(editTemplate?.color || "#C0C0C0");
+  const [dept, setDept] = useState(editTemplate?.department || "");
+  const [selectedLocs, setSelectedLocs] = useState(editTemplate?.locations || getLocations().map(l => l.id));
+  const [sections, setSections] = useState(editTemplate?.sections || [{ title: "General", items: [{ id: "item-1", text: "" }] }]);
+
+  const addSection = () => setSections(p => [...p, { title: "", items: [{ id: `item-${Date.now()}`, text: "" }] }]);
+  const removeSection = (idx) => setSections(p => p.filter((_, i) => i !== idx));
+  const updateSection = (idx, title) => setSections(p => p.map((s, i) => i === idx ? { ...s, title } : s));
+  const addItem = (sIdx) => setSections(p => p.map((s, i) => i === sIdx ? { ...s, items: [...s.items, { id: `item-${Date.now()}`, text: "" }] } : s));
+  const removeItem = (sIdx, iIdx) => setSections(p => p.map((s, i) => i === sIdx ? { ...s, items: s.items.filter((_, j) => j !== iIdx) } : s));
+  const updateItem = (sIdx, iIdx, text) => setSections(p => p.map((s, i) => i === sIdx ? { ...s, items: s.items.map((item, j) => j === iIdx ? { ...item, text } : item) } : s));
+
+  const handleSave = () => {
+    if (!name.trim()) return;
+    const cleanSections = sections.filter(s => s.title.trim() && s.items.some(i => i.text.trim())).map(s => ({
+      title: s.title.trim(),
+      items: s.items.filter(i => i.text.trim()).map(i => ({ id: i.id || `item-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`, text: i.text.trim() })),
+    }));
+    if (cleanSections.length === 0) return;
+
+    const template = {
+      id: editTemplate?.id || `custom-${Date.now()}`,
+      name: name.trim(), reg: reg.trim(), frequency, icon, color,
+      department: dept, locations: selectedLocs, sections: cleanSections, custom: true,
+    };
+
+    const existing = getCustomTemplates();
+    const idx = existing.findIndex(t => t.id === template.id);
+    if (idx >= 0) { existing[idx] = template; } else { existing.push(template); }
+    saveCustomTemplates(existing);
+    onSave();
+  };
+
+  const inputStyle = { width: "100%", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "10px 12px", color: C.text, fontSize: 13, outline: "none", minHeight: 44, boxSizing: "border-box" };
+  const labelStyle = { fontSize: 10, color: C.textDim, fontWeight: 700, display: "block", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.08em" };
+
+  return React.createElement("div", { className: "fade-in", style: { paddingBottom: 40 }},
+    React.createElement("button", { onClick: onBack, style: { background: "none", border: "none", color: C.textMuted, fontSize: 13, cursor: "pointer", padding: "8px 0", marginBottom: 12, minHeight: 44 }}, "\u2190 Back"),
+    React.createElement("h2", { style: { fontSize: mobile ? 18 : 22, fontWeight: 800, color: C.text, marginBottom: 4 }}, editTemplate ? "Edit Template" : "Create Template"),
+    React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 20 }}, "Build a custom inspection checklist. Anyone with the app can use it."),
+
+    // Basic info
+    React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: mobile ? 16 : 20, marginBottom: 14 }},
+      React.createElement("div", { style: { marginBottom: 12 }},
+        React.createElement("label", { style: labelStyle }, "Template Name *"),
+        React.createElement("input", { value: name, onChange: e => setName(e.target.value), placeholder: "e.g. Confined Space Entry", style: inputStyle }),
+      ),
+      React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: 12, marginBottom: 12 }},
+        React.createElement("div", null,
+          React.createElement("label", { style: labelStyle }, "Regulation / Standard"),
+          React.createElement("input", { value: reg, onChange: e => setReg(e.target.value), placeholder: "e.g. OSHA 1910.146", style: inputStyle }),
+        ),
+        React.createElement("div", null,
+          React.createElement("label", { style: labelStyle }, "Frequency"),
+          React.createElement("select", { value: frequency, onChange: e => setFrequency(e.target.value), style: inputStyle },
+            ["Daily", "Weekly", "Monthly", "Quarterly", "Annually", "As Needed", "Pre-Use", "Per Event"].map(f => React.createElement("option", { key: f, value: f }, f)),
+          ),
+        ),
+      ),
+      React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: 12 }},
+        React.createElement("div", null,
+          React.createElement("label", { style: labelStyle }, "Department (optional)"),
+          React.createElement("input", { value: dept, onChange: e => setDept(e.target.value), placeholder: "e.g. EHS, Operations", style: inputStyle,
+            list: "dept-list" }),
+          React.createElement("datalist", { id: "dept-list" }, getDepartments().map(d => React.createElement("option", { key: d, value: d }))),
+        ),
+        React.createElement("div", null,
+          React.createElement("label", { style: labelStyle }, "Locations"),
+          React.createElement("div", { style: { display: "flex", gap: 4, flexWrap: "wrap" }},
+            getLocations().map(l => React.createElement("button", { key: l.id, onClick: () => {
+              setSelectedLocs(p => p.includes(l.id) ? p.filter(x => x !== l.id) : [...p, l.id]);
+            }, style: {
+              padding: "6px 10px", borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer",
+              background: selectedLocs.includes(l.id) ? C.accentDim : C.surface,
+              color: selectedLocs.includes(l.id) ? C.text : C.textDim,
+              border: selectedLocs.includes(l.id) ? `1px solid ${C.accent}44` : `1px solid ${C.border}`,
+            }}, l.short || l.name)),
+          ),
+        ),
+      ),
+    ),
+
+    // Icon + Color
+    React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: mobile ? 16 : 20, marginBottom: 14 }},
+      React.createElement("label", { style: { ...labelStyle, marginBottom: 8 } }, "Icon"),
+      React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }},
+        ICON_OPTIONS.map(ic => React.createElement("button", { key: ic, onClick: () => setIcon(ic), style: {
+          width: 40, height: 40, borderRadius: 8, fontSize: 20, cursor: "pointer",
+          background: icon === ic ? C.accentDim : C.surface,
+          border: icon === ic ? `2px solid ${C.accent}` : `1px solid ${C.border}`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}, ic)),
+      ),
+      React.createElement("label", { style: { ...labelStyle, marginBottom: 8 } }, "Color"),
+      React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" }},
+        COLOR_OPTIONS.map(clr => React.createElement("button", { key: clr, onClick: () => setColor(clr), style: {
+          width: 32, height: 32, borderRadius: "50%", cursor: "pointer",
+          background: clr, border: color === clr ? `3px solid ${C.accent}` : `2px solid ${C.border}`,
+        }})),
+      ),
+    ),
+
+    // Sections + Items
+    React.createElement("div", { style: { marginBottom: 14 }},
+      React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }},
+        React.createElement("label", { style: { ...labelStyle, margin: 0 } }, "Checklist Sections *"),
+        React.createElement("button", { onClick: addSection, style: {
+          background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 6,
+          padding: "6px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer",
+        }}, "+ Add Section"),
+      ),
+
+      sections.map((section, sIdx) => React.createElement("div", { key: sIdx, style: {
+        background: C.card, border: `1px solid ${C.border}`, borderRadius: 12,
+        padding: mobile ? 14 : 18, marginBottom: 10,
+      }},
+        React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 10, alignItems: "center" }},
+          React.createElement("input", { value: section.title, onChange: e => updateSection(sIdx, e.target.value),
+            placeholder: "Section name (e.g. Pre-Entry Checks)",
+            style: { ...inputStyle, fontWeight: 700, flex: 1 } }),
+          sections.length > 1 && React.createElement("button", { onClick: () => removeSection(sIdx), style: {
+            background: C.dangerDim, color: C.danger, border: "none", borderRadius: 6, width: 36, height: 36,
+            fontSize: 16, cursor: "pointer", flexShrink: 0,
+          }}, "\u00D7"),
+        ),
+
+        section.items.map((item, iIdx) => React.createElement("div", { key: iIdx, style: {
+          display: "flex", gap: 6, marginBottom: 6, alignItems: "center",
+        }},
+          React.createElement("span", { style: { fontSize: 11, color: C.textDim, width: 20, textAlign: "center", flexShrink: 0 }}, `${iIdx + 1}.`),
+          React.createElement("input", { value: item.text, onChange: e => updateItem(sIdx, iIdx, e.target.value),
+            placeholder: "Checklist item (e.g. Atmospheric testing completed)",
+            style: { ...inputStyle, flex: 1 } }),
+          section.items.length > 1 && React.createElement("button", { onClick: () => removeItem(sIdx, iIdx), style: {
+            background: "none", color: C.textDim, border: "none", fontSize: 18, cursor: "pointer", padding: "0 4px", flexShrink: 0,
+          }}, "\u00D7"),
+        )),
+
+        React.createElement("button", { onClick: () => addItem(sIdx), style: {
+          background: "none", color: C.textMuted, border: `1px dashed ${C.border}`, borderRadius: 6,
+          padding: "8px", fontSize: 12, cursor: "pointer", width: "100%", marginTop: 4,
+        }}, "+ Add Item"),
+      )),
+    ),
+
+    // Preview + Save
+    React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" }},
+      React.createElement("button", { onClick: handleSave, disabled: !name.trim(), className: "btn-primary", style: {
+        flex: 1, background: name.trim() ? C.accent : C.surfaceHover, color: name.trim() ? "#000" : C.textDim,
+        border: "none", borderRadius: 10, padding: "14px 24px", fontWeight: 700, fontSize: 14,
+        cursor: name.trim() ? "pointer" : "not-allowed", minHeight: 52,
+      }}, editTemplate ? "Save Changes" : "Create Template"),
+      editTemplate?.custom && React.createElement("button", { onClick: () => {
+        if (confirm(`Delete "${editTemplate.name}"? This cannot be undone.`)) {
+          const updated = getCustomTemplates().filter(t => t.id !== editTemplate.id);
+          saveCustomTemplates(updated);
+          onSave();
+        }
+      }, style: {
+        background: C.dangerDim, color: C.danger, border: `1px solid ${C.danger}33`, borderRadius: 10,
+        padding: "14px 20px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 52,
+      }}, "Delete"),
+    ),
+  );
+}
+
 /* ── Template List ── */
 function TemplateList({ onSelect, mobile }) {
   const [selectedLocation, setSelectedLocation] = useState(() => DB.get("selected_location", "cape"));
-  const filteredTemplates = TEMPLATES.filter(tpl => !tpl.locations || tpl.locations.includes(selectedLocation));
-  const loc = LOCATIONS.find(l => l.id === selectedLocation);
+  const [showBuilder, setShowBuilder] = useState(false);
+  const [editingTemplate, setEditingTemplate] = useState(null);
+  const [, forceUpdate] = useState(0);
+  const filteredTemplates = getAllTemplates().filter(tpl => !tpl.locations || tpl.locations.includes(selectedLocation));
+  const loc = getLocations().find(l => l.id === selectedLocation);
 
   const handleLocationChange = (locId) => {
     setSelectedLocation(locId);
     DB.set("selected_location", locId);
   };
 
+  // Show builder
+  if (showBuilder || editingTemplate) {
+    return React.createElement(TemplateBuilder, {
+      mobile, editTemplate: editingTemplate,
+      onBack: () => { setShowBuilder(false); setEditingTemplate(null); },
+      onSave: () => { setShowBuilder(false); setEditingTemplate(null); forceUpdate(n => n + 1); },
+    });
+  }
+
   return React.createElement("div", null,
-    React.createElement("div", { style: { marginBottom: mobile ? 16 : 20 }},
-      React.createElement("h2", { style: { fontSize: mobile ? 18 : 22, fontWeight: 800, color: C.text }}, "New Inspection"),
-      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 4 }}, `Select a template for ${loc?.name || "your location"}`),
+    React.createElement("div", { style: { marginBottom: mobile ? 16 : 20, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }},
+      React.createElement("div", null,
+        React.createElement("h2", { style: { fontSize: mobile ? 18 : 22, fontWeight: 800, color: C.text }}, "New Inspection"),
+        React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 4 }}, `Select a template for ${loc?.name || "your location"}`),
+      ),
+      React.createElement("button", { onClick: () => setShowBuilder(true), className: "btn-primary", style: {
+        background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8,
+        padding: mobile ? "8px 12px" : "10px 16px", fontWeight: 700, fontSize: 12, cursor: "pointer",
+        display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap",
+      }}, "\u002B Create Template"),
     ),
 
     // Location selector
     React.createElement("div", { style: { display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }},
-      LOCATIONS.map(l =>
+      getLocations().map(l =>
         React.createElement("button", { key: l.id, onClick: () => handleLocationChange(l.id), style: {
           padding: "10px 18px", borderRadius: 6, border: selectedLocation === l.id ? `2px solid ${C.accent}` : `1px solid ${C.border}`,
           fontSize: 13, fontWeight: 700, cursor: "pointer", minHeight: 42,
@@ -1019,9 +1228,15 @@ function TemplateList({ onSelect, mobile }) {
             React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" }},
               React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center" }},
                 React.createElement(Badge, { color: tpl.color }, tpl.frequency),
+                tpl.department && React.createElement(Badge, { color: C.info }, tpl.department),
+                tpl.custom && React.createElement(Badge, { color: C.textDim }, "Custom"),
               ),
-              React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 4 }},
+              React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6 }},
                 React.createElement("span", { style: { fontSize: 11, color: C.textDim } }, `${itemCount} items`),
+                tpl.custom && React.createElement("button", { onClick: (e) => { e.stopPropagation(); setEditingTemplate(tpl); }, style: {
+                  background: "none", border: `1px solid ${C.border}`, borderRadius: 4, color: C.textMuted,
+                  fontSize: 11, padding: "2px 8px", cursor: "pointer",
+                }}, "Edit"),
                 React.createElement("span", { style: { fontSize: 14, color: C.textDim }}, "\u203A"),
               ),
             ),
@@ -1035,12 +1250,12 @@ function TemplateList({ onSelect, mobile }) {
 
 /* ── Inspection Form ── */
 function InspectionForm({ template, onBack, onSubmit, mobile }) {
-  const tpl = TEMPLATES.find(t => t.id === template);
+  const tpl = getAllTemplates().find(t => t.id === template);
   const [responses, setResponses] = useState({});
   const [notes, setNotes] = useState({});
   const [photos, setPhotos] = useState({});
   const selectedLocId = DB.get("selected_location", "cape");
-  const selectedLoc = LOCATIONS.find(l => l.id === selectedLocId);
+  const selectedLoc = getLocations().find(l => l.id === selectedLocId);
   const [meta, setMeta] = useState({ location: selectedLoc?.name || "Cape Canaveral", weather: "Clear", inspector: DB.get("inspector_name", ""), site: DB.get("site_name", "") });
   const [submitted, setSubmitted] = useState(false);
   const [showSettings, setShowSettings] = useState(!DB.get("inspector_name", ""));
@@ -1489,7 +1704,7 @@ function CorrectiveActions({ corrective, setCorrective, mobile, showToast }) {
     setEditing(null);
 
     // Push update to Power Automate
-    const tpl = TEMPLATES.find(t => t.id === prev?.template);
+    const tpl = getAllTemplates().find(t => t.id === prev?.template);
     const result = await pushToFlow("update", {
       type: "corrective_action_update",
       action_id: id,
@@ -1528,7 +1743,7 @@ function CorrectiveActions({ corrective, setCorrective, mobile, showToast }) {
     ),
     React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 }},
       filtered.map(ca => {
-        const tpl = TEMPLATES.find(t => t.id === ca.template);
+        const tpl = getAllTemplates().find(t => t.id === ca.template);
         const overdue = (ca.status === "Open" || ca.status === "In Progress") && ca.due < TODAY;
         return React.createElement("div", { key: ca.id, onClick: () => setEditing(ca.id), style: {
           background: C.card, border: `1px solid ${overdue ? `${C.danger}44` : C.border}`,
@@ -1631,7 +1846,7 @@ function CorrectiveActions({ corrective, setCorrective, mobile, showToast }) {
                   const jiraBase = DB.get("jira_base_url", "");
                   const jiraProject = DB.get("jira_project_key", "EHS");
                   if (!jiraBase) { alert("Set your Jira URL in Settings first."); return; }
-                  const tpl = TEMPLATES.find(t => t.id === ca.template);
+                  const tpl = getAllTemplates().find(t => t.id === ca.template);
                   const summary = encodeURIComponent(`[EHS ${ca.priority}] ${ca.finding.slice(0, 80)}`);
                   const description = encodeURIComponent(
                     `*EHS Corrective Action*\n\n*Finding:* ${ca.finding}\n*Priority:* ${ca.priority}\n*Location:* ${ca.location}\n*Template:* ${tpl?.name || ""}\n*Due Date:* ${ca.due}\n*Inspector:* ${DB.get("inspector_name", "")}\n\n_Created from EHS Inspect app_`
@@ -1659,7 +1874,7 @@ function CorrectiveActions({ corrective, setCorrective, mobile, showToast }) {
               React.createElement("button", { onClick: () => {
                 const email = document.getElementById("edit-notify-email").value.trim();
                 if (!email) { return; }
-                const tpl = TEMPLATES.find(t => t.id === ca.template);
+                const tpl = getAllTemplates().find(t => t.id === ca.template);
                 const inspector = DB.get("inspector_name", "");
                 const subject = encodeURIComponent(`[EHS ${ca.priority}] ${tpl?.name || ""} Finding - ${ca.location}`);
                 const body = encodeURIComponent(
@@ -1727,7 +1942,7 @@ function InspectionHistory({ inspections, mobile, showToast }) {
     // Card list (works on both mobile and desktop)
     React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 }},
       inspections.map(insp => {
-        const tpl = TEMPLATES.find(t => t.id === insp.template);
+        const tpl = getAllTemplates().find(t => t.id === insp.template);
         if (!tpl) return null;
         return React.createElement("div", { key: insp.id, style: {
           background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
@@ -2121,6 +2336,10 @@ function Settings({ mobile, showToast }) {
   const [flowCorrective, setFlowCorrective] = useState(DB.get("flow_url_corrective", ""));
   const [flowUpdate, setFlowUpdate] = useState(DB.get("flow_url_update", ""));
   const queueCount = DB.get("sync_queue", []).length;
+  const [locations, setLocationsState] = useState(getLocations());
+  const [departments, setDepartmentsState] = useState(getDepartments());
+  const [newLoc, setNewLoc] = useState("");
+  const [newDept, setNewDept] = useState("");
 
   const saveProfile = () => {
     DB.set("inspector_name", inspName);
@@ -2165,6 +2384,78 @@ function Settings({ mobile, showToast }) {
       React.createElement("button", { onClick: saveProfile, style: {
         background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "10px 20px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 40,
       }}, "Save Profile"),
+    ),
+
+    // Locations Management
+    React.createElement("div", { style: sectionStyle },
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}, "Site Locations"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 12, lineHeight: 1.5 }}, "Manage the locations that appear when selecting inspection templates. Templates can be assigned to specific locations."),
+      React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }},
+        locations.map(l => React.createElement("div", { key: l.id, style: {
+          display: "flex", alignItems: "center", gap: 6, background: C.surface, border: `1px solid ${C.border}`,
+          borderRadius: 6, padding: "6px 10px",
+        }},
+          React.createElement("span", { style: { fontSize: 12, color: C.text, fontWeight: 600 }}, l.name),
+          React.createElement("button", { onClick: () => {
+            const updated = locations.filter(x => x.id !== l.id);
+            setLocationsState(updated);
+            saveLocations(updated);
+            showToast(`Removed ${l.name}`);
+          }, style: { background: "none", border: "none", color: C.textDim, fontSize: 16, cursor: "pointer", padding: "0 2px", lineHeight: 1 }}, "\u00D7"),
+        )),
+      ),
+      React.createElement("div", { style: { display: "flex", gap: 8 }},
+        React.createElement("input", { value: newLoc, onChange: e => setNewLoc(e.target.value), placeholder: "New location name",
+          onKeyDown: e => { if (e.key === "Enter" && newLoc.trim()) {
+            const id = newLoc.trim().toLowerCase().replace(/[^a-z0-9]/g, "-");
+            const updated = [...locations, { id, name: newLoc.trim(), short: newLoc.trim().split(" ")[0] }];
+            setLocationsState(updated); saveLocations(updated); setNewLoc(""); showToast("Location added");
+          }},
+          style: { ...inputStyle, flex: 1, fontFamily: "inherit" } }),
+        React.createElement("button", { onClick: () => {
+          if (!newLoc.trim()) return;
+          const id = newLoc.trim().toLowerCase().replace(/[^a-z0-9]/g, "-");
+          const updated = [...locations, { id, name: newLoc.trim(), short: newLoc.trim().split(" ")[0] }];
+          setLocationsState(updated); saveLocations(updated); setNewLoc(""); showToast("Location added");
+        }, style: {
+          background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "10px 16px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 44,
+        }}, "+ Add"),
+      ),
+    ),
+
+    // Departments Management
+    React.createElement("div", { style: sectionStyle },
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}, "Departments"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 12, lineHeight: 1.5 }}, "Departments can be assigned to templates for organization. These show as suggestions when creating templates."),
+      React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }},
+        departments.map(d => React.createElement("div", { key: d, style: {
+          display: "flex", alignItems: "center", gap: 6, background: C.surface, border: `1px solid ${C.border}`,
+          borderRadius: 6, padding: "6px 10px",
+        }},
+          React.createElement("span", { style: { fontSize: 12, color: C.text, fontWeight: 600 }}, d),
+          React.createElement("button", { onClick: () => {
+            const updated = departments.filter(x => x !== d);
+            setDepartmentsState(updated);
+            saveDepartments(updated);
+            showToast(`Removed ${d}`);
+          }, style: { background: "none", border: "none", color: C.textDim, fontSize: 16, cursor: "pointer", padding: "0 2px", lineHeight: 1 }}, "\u00D7"),
+        )),
+      ),
+      React.createElement("div", { style: { display: "flex", gap: 8 }},
+        React.createElement("input", { value: newDept, onChange: e => setNewDept(e.target.value), placeholder: "New department name",
+          onKeyDown: e => { if (e.key === "Enter" && newDept.trim()) {
+            const updated = [...departments, newDept.trim()];
+            setDepartmentsState(updated); saveDepartments(updated); setNewDept(""); showToast("Department added");
+          }},
+          style: { ...inputStyle, flex: 1, fontFamily: "inherit" } }),
+        React.createElement("button", { onClick: () => {
+          if (!newDept.trim()) return;
+          const updated = [...departments, newDept.trim()];
+          setDepartmentsState(updated); saveDepartments(updated); setNewDept(""); showToast("Department added");
+        }, style: {
+          background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "10px 16px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 44,
+        }}, "+ Add"),
+      ),
     ),
 
     // Jira Integration
@@ -2403,7 +2694,7 @@ function App() {
     }
 
     // Push to Power Automate
-    const tpl = TEMPLATES.find(t => t.id === inspection.template);
+    const tpl = getAllTemplates().find(t => t.id === inspection.template);
     const inspPayload = {
       type: "inspection",
       inspection_id: inspection.id,
