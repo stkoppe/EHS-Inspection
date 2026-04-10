@@ -425,6 +425,82 @@ const TEMPLATES = [
       ]},
     ],
   },
+  {
+    id: "forklift", name: "Forklift / PIT Pre-Use", reg: "OSHA 1910.178",
+    icon: "\uD83D\uDE9C", frequency: "Pre-Use", color: "#FFB300",
+    locations: ["cape", "stennis", "wormhole"],
+    sections: [
+      { title: "Visual / Walk-Around", items: [
+        { id: "fl1", text: "Tires in good condition \u2014 no excessive wear, cuts, or low pressure" },
+        { id: "fl2", text: "Forks straight, not cracked, worn, or bent" },
+        { id: "fl3", text: "Mast and chains free of damage, lubricated, no binding" },
+        { id: "fl4", text: "Overhead guard and load backrest intact" },
+        { id: "fl5", text: "No fluid leaks (hydraulic, fuel, coolant, battery acid)" },
+        { id: "fl6", text: "Data plate legible and capacity rating visible" },
+        { id: "fl7", text: "Fire extinguisher present, inspection current, fully charged" },
+      ]},
+      { title: "Operator Controls", items: [
+        { id: "fl8", text: "Steering operates smoothly with no excessive play" },
+        { id: "fl9", text: "Service brake stops and holds the load" },
+        { id: "fl10", text: "Parking brake engages and holds on incline" },
+        { id: "fl11", text: "Accelerator / inching pedal operates smoothly" },
+        { id: "fl12", text: "Lift, tilt, and attachment controls function properly" },
+        { id: "fl13", text: "Forward/reverse directional control works" },
+      ]},
+      { title: "Safety Systems", items: [
+        { id: "fl14", text: "Horn functional" },
+        { id: "fl15", text: "Backup alarm operational" },
+        { id: "fl16", text: "Lights functional \u2014 headlights, tail lights, warning lights" },
+        { id: "fl17", text: "Seatbelt present and functional" },
+        { id: "fl18", text: "Mirrors clean and properly adjusted" },
+        { id: "fl19", text: "Blue/red spot safety light operational (if equipped)" },
+      ]},
+      { title: "Battery / Fuel (if applicable)", items: [
+        { id: "fl20", text: "Battery charge level adequate for shift" },
+        { id: "fl21", text: "Battery connections tight, no corrosion" },
+        { id: "fl22", text: "Fuel level adequate (propane/diesel/gas)" },
+        { id: "fl23", text: "Propane tank secured properly (if LP)" },
+      ]},
+    ],
+  },
+  {
+    id: "machinery", name: "Machinery / Equipment Inspection", reg: "OSHA 1910.212 / 1926.550",
+    icon: "\u2699", frequency: "Pre-Use", color: "#90A4AE",
+    locations: ["cape", "stennis", "wormhole"],
+    sections: [
+      { title: "General Equipment Condition", items: [
+        { id: "ma1", text: "Equipment clean, free of debris, leaks, or damage" },
+        { id: "ma2", text: "All safety labels, warnings, and data plates legible" },
+        { id: "ma3", text: "No unauthorized modifications" },
+        { id: "ma4", text: "Load charts / capacity ratings posted and current" },
+      ]},
+      { title: "Guards & Safety Devices", items: [
+        { id: "ma5", text: "Machine guards in place and secured" },
+        { id: "ma6", text: "Emergency stop (E-stop) accessible and functional" },
+        { id: "ma7", text: "Lockout/Tagout (LOTO) devices available" },
+        { id: "ma8", text: "Safety interlocks functional (doors, covers, light curtains)" },
+        { id: "ma9", text: "Anti-two-block device functional (if crane/hoist)" },
+      ]},
+      { title: "Controls & Operation", items: [
+        { id: "ma10", text: "All controls clearly labeled and functional" },
+        { id: "ma11", text: "Brakes and holding devices operational" },
+        { id: "ma12", text: "Wire ropes, slings, and rigging in good condition (if applicable)" },
+        { id: "ma13", text: "Limit switches and overload devices functional" },
+      ]},
+      { title: "Electrical & Fluid Systems", items: [
+        { id: "ma14", text: "Power cords, plugs, and connections in good condition" },
+        { id: "ma15", text: "No fluid leaks (hydraulic, pneumatic, coolant)" },
+        { id: "ma16", text: "Pressure gauges within normal operating range" },
+        { id: "ma17", text: "Grounding / bonding intact" },
+      ]},
+      { title: "Operator Requirements", items: [
+        { id: "ma18", text: "Operator trained and authorized for this equipment" },
+        { id: "ma19", text: "Required PPE available and worn" },
+        { id: "ma20", text: "Pre-use inspection log available at equipment" },
+        { id: "ma21", text: "Work area clear of personnel and obstructions" },
+      ]},
+    ],
+  },
 ];
 
 const priColors = { Critical: C.danger, High: "#F97316", Medium: C.accent, Low: C.info };
