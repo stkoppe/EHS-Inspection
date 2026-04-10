@@ -319,26 +319,55 @@ const TEMPLATES = [
   {
     id: "swppp", name: "SWPPP Site Inspection", reg: "EPA CGP / FL DEP",
     icon: "\uD83C\uDF27", frequency: "Weekly + Post-Storm", color: "#797979",
-    locations: ["cape", "stennis"],
+    locations: ["cape"],
     sections: [
-      { title: "Erosion & Sediment Controls", items: [
+      { title: "Perimeter Erosion Controls", items: [
         { id: "sw1", text: "Silt fences intact, properly entrenched, no undercutting" },
-        { id: "sw2", text: "Inlet protection devices in place and functional" },
-        { id: "sw3", text: "Sediment basins/traps at proper capacity (<50% full)" },
-        { id: "sw4", text: "Construction exits have stone tracking pads, functional" },
-        { id: "sw5", text: "Temporary seeding/mulching in place on inactive areas" },
+        { id: "sw2", text: "Silt fence stakes secure and upright" },
+        { id: "sw3", text: "No sediment accumulation exceeding 1/3 fence height" },
+        { id: "sw4", text: "Erosion control blankets/mats secured and undamaged" },
       ]},
-      { title: "Good Housekeeping / Materials", items: [
-        { id: "sw6", text: "Waste dumpsters covered and not overflowing" },
-        { id: "sw7", text: "Concrete washout area properly contained" },
-        { id: "sw8", text: "Chemical/fuel storage areas have secondary containment" },
-        { id: "sw9", text: "No evidence of illicit discharge or spills to storm drains" },
-        { id: "sw10", text: "Portable toilet units on level ground, away from drainage" },
+      { title: "Inlet & Drainage Protection", items: [
+        { id: "sw5", text: "Inlet protection devices in place and functional" },
+        { id: "sw6", text: "Filter socks/wattles around inlets intact" },
+        { id: "sw7", text: "Drainage swales and ditches clear of debris and sediment" },
+        { id: "sw8", text: "No bypass or short-circuiting of BMPs" },
       ]},
-      { title: "Discharge Points", items: [
-        { id: "sw11", text: "Outfall points inspected \u2014 water clarity acceptable" },
-        { id: "sw12", text: "No visible sheen, discoloration, or odor at discharge" },
-        { id: "sw13", text: "Receiving waters show no signs of sedimentation" },
+      { title: "Sediment Basins & Traps", items: [
+        { id: "sw9", text: "Sediment basins/traps at proper capacity (<50% full)" },
+        { id: "sw10", text: "Basin outlet structures functional" },
+        { id: "sw11", text: "Dewatering controls in place if pumping" },
+      ]},
+      { title: "Construction Exits & Tracking", items: [
+        { id: "sw12", text: "Construction exits have stone tracking pads, functional" },
+        { id: "sw13", text: "No evidence of sediment tracking onto paved roads" },
+        { id: "sw14", text: "Street sweeping performed as needed" },
+      ]},
+      { title: "Stabilization & Vegetation", items: [
+        { id: "sw15", text: "Temporary seeding/mulching in place on inactive areas (>14 days)" },
+        { id: "sw16", text: "Permanent stabilization progressing on completed areas" },
+        { id: "sw17", text: "No bare soil exposed outside active work areas" },
+      ]},
+      { title: "Materials & Waste Management", items: [
+        { id: "sw18", text: "Waste dumpsters covered and not overflowing" },
+        { id: "sw19", text: "Concrete washout area properly contained and not full" },
+        { id: "sw20", text: "Chemical/fuel storage areas have secondary containment" },
+        { id: "sw21", text: "Spill kits available and stocked near chemical storage" },
+        { id: "sw22", text: "No evidence of illicit discharge or spills to storm drains" },
+        { id: "sw23", text: "Portable toilet units secured, level, away from drainage" },
+        { id: "sw24", text: "Paint, solvents, and hazardous materials stored under cover" },
+      ]},
+      { title: "Discharge Points & Receiving Waters", items: [
+        { id: "sw25", text: "Outfall points inspected \u2014 water clarity acceptable" },
+        { id: "sw26", text: "No visible sheen, discoloration, foam, or odor at discharge" },
+        { id: "sw27", text: "Receiving waters show no signs of sedimentation or erosion" },
+        { id: "sw28", text: "No floating debris or trash in receiving waters" },
+      ]},
+      { title: "Documentation & Compliance", items: [
+        { id: "sw29", text: "SWPPP document available on-site and current" },
+        { id: "sw30", text: "NOI posted at site entrance or in construction trailer" },
+        { id: "sw31", text: "Previous inspection reports on file and corrective actions documented" },
+        { id: "sw32", text: "Rain gauge or weather data available for storm event tracking" },
       ]},
     ],
   },
@@ -1270,8 +1299,18 @@ function InspectionForm({ template, onBack, onSubmit, mobile }) {
   const [rfidManualId, setRfidManualId] = useState("");
   const [rfidScanning, setRfidScanning] = useState(false);
 
-  const setResponse = (id, val) => setResponses(p => ({ ...p, [id]: val }));
-  const setNote = (id, val) => setNotes(p => ({ ...p, [id]: val }));
+  const setResponse = (id, val) => {
+    setResponses(p => ({ ...p, [id]: val }));
+    // Initialize findings array when marking "no"
+    if (val === "no" && (!notes[id] || !Array.isArray(notes[id]))) {
+      setNotes(p => ({ ...p, [id]: [{ text: "", priority: "Medium", location: "" }] }));
+    }
+  };
+  const addFinding = (id) => setNotes(p => ({ ...p, [id]: [...(p[id] || []), { text: "", priority: "Medium", location: "" }] }));
+  const removeFinding = (id, idx) => setNotes(p => ({ ...p, [id]: (p[id] || []).filter((_, i) => i !== idx) }));
+  const updateFinding = (id, idx, field, val) => setNotes(p => ({
+    ...p, [id]: (p[id] || []).map((f, i) => i === idx ? { ...f, [field]: val } : f),
+  }));
 
   const totalItems = tpl.sections.reduce((a, s) => a + s.items.length, 0);
   const answered = Object.keys(responses).length;
@@ -1317,28 +1356,51 @@ function InspectionForm({ template, onBack, onSubmit, mobile }) {
       DB.set("pending_rfid", "");
     }
 
-    // Auto-create corrective actions for "no" answers
-    const newActions = noItems.map(([itemId]) => {
+    // Auto-create corrective actions — one per finding, not per item
+    const newActions = [];
+    noItems.forEach(([itemId]) => {
       const allItems = tpl.sections.flatMap(s => s.items);
       const item = allItems.find(i => i.id === itemId);
-      const noteText = notes[itemId] || "";
-      const priority = noteText.toLowerCase().includes("critical") || noteText.toLowerCase().includes("immediate") ? "Critical"
-        : noteText.toLowerCase().includes("high") || noteText.toLowerCase().includes("urgent") ? "High"
-        : noteText.toLowerCase().includes("low") || noteText.toLowerCase().includes("minor") ? "Low" : "Medium";
-      return {
-        id: DB.nextId("corrective"),
-        inspectionId: inspection.id,
-        template: tpl.id,
-        finding: item ? item.text : itemId,
-        notes: noteText,
-        priority,
-        assigned: "",
-        location: meta.location,
-        due: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
-        status: "Open",
-        createdAt: new Date().toISOString(),
-        completedAt: "",
-      };
+      const findings = Array.isArray(notes[itemId]) ? notes[itemId] : [{ text: notes[itemId] || "", priority: "Medium", location: "" }];
+
+      findings.filter(f => f.text && f.text.trim()).forEach(finding => {
+        newActions.push({
+          id: DB.nextId("corrective"),
+          inspectionId: inspection.id,
+          template: tpl.id,
+          finding: finding.text.trim(),
+          checklistItem: item ? item.text : itemId,
+          notes: "",
+          priority: finding.priority || "Medium",
+          assigned: "",
+          location: finding.location
+            ? `${inspection.location} \u2014 ${finding.location}`
+            : inspection.location,
+          due: new Date(Date.now() + (finding.priority === "Critical" ? 2 : finding.priority === "High" ? 5 : 7) * 86400000).toISOString().slice(0, 10),
+          status: "Open",
+          createdAt: new Date().toISOString(),
+          completedAt: "",
+        });
+      });
+
+      // If no findings were described but item was marked No, create a generic one
+      if (findings.filter(f => f.text && f.text.trim()).length === 0) {
+        newActions.push({
+          id: DB.nextId("corrective"),
+          inspectionId: inspection.id,
+          template: tpl.id,
+          finding: item ? item.text : itemId,
+          checklistItem: item ? item.text : itemId,
+          notes: "",
+          priority: "Medium",
+          assigned: "",
+          location: inspection.location,
+          due: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+          status: "Open",
+          createdAt: new Date().toISOString(),
+          completedAt: "",
+        });
+      }
     });
 
     onSubmit(inspection, newActions);
@@ -1686,10 +1748,51 @@ function InspectionForm({ template, onBack, onSubmit, mobile }) {
                 ),
               ),
             ),
-            responses[item.id] === "no" && React.createElement("div", null,
-              React.createElement("textarea", { placeholder: "Describe finding... (include 'critical' or 'high' to set priority)", value: notes[item.id] || "", onChange: e => setNote(item.id, e.target.value), rows: 2,
-                style: { width: "100%", marginTop: 8, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: 10, color: C.text, fontSize: 13, outline: "none", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", minHeight: 60 } }),
-              React.createElement(PhotoCapture, { itemId: item.id, photos, onPhotos: setPhotos, mobile }),
+            responses[item.id] === "no" && React.createElement("div", { style: { marginTop: 8 }},
+              // Multiple findings per item
+              (Array.isArray(notes[item.id]) ? notes[item.id] : []).map((finding, fIdx) =>
+                React.createElement("div", { key: fIdx, style: {
+                  background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+                  padding: mobile ? 10 : 12, marginBottom: 6, position: "relative",
+                }},
+                  // Finding header
+                  React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }},
+                    React.createElement("span", { style: { fontSize: 10, fontWeight: 700, color: C.danger, textTransform: "uppercase", letterSpacing: "0.08em" }},
+                      `Finding ${fIdx + 1}`
+                    ),
+                    (notes[item.id] || []).length > 1 && React.createElement("button", { onClick: () => removeFinding(item.id, fIdx), style: {
+                      background: "none", border: "none", color: C.textDim, fontSize: 16, cursor: "pointer", padding: "0 4px",
+                    }}, "\u00D7"),
+                  ),
+                  // Finding description
+                  React.createElement("textarea", {
+                    placeholder: "Describe the specific issue and location (e.g. NW corner - 12ft section down)",
+                    value: finding.text || "",
+                    onChange: e => updateFinding(item.id, fIdx, "text", e.target.value),
+                    rows: 2,
+                    style: { width: "100%", background: C.bg, border: `1px solid ${C.border}`, borderRadius: 6, padding: 10, color: C.text, fontSize: 13, outline: "none", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", minHeight: 50, marginBottom: 6 },
+                  }),
+                  // Priority + specific location
+                  React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" }},
+                    React.createElement("select", { value: finding.priority || "Medium", onChange: e => updateFinding(item.id, fIdx, "priority", e.target.value),
+                      style: { background: C.bg, border: `1px solid ${C.border}`, borderRadius: 6, padding: "6px 10px", color: C.text, fontSize: 12, outline: "none", minHeight: 34 } },
+                      ["Critical", "High", "Medium", "Low"].map(p => React.createElement("option", { key: p, value: p }, p)),
+                    ),
+                    React.createElement("input", { placeholder: "Specific location (e.g. NW corner, Inlet #3)",
+                      value: finding.location || "",
+                      onChange: e => updateFinding(item.id, fIdx, "location", e.target.value),
+                      style: { flex: 1, background: C.bg, border: `1px solid ${C.border}`, borderRadius: 6, padding: "6px 10px", color: C.text, fontSize: 12, outline: "none", minHeight: 34, minWidth: 140 } }),
+                  ),
+                  // Photo per finding
+                  React.createElement(PhotoCapture, { itemId: `${item.id}_f${fIdx}`, photos, onPhotos: setPhotos, mobile }),
+                ),
+              ),
+              // Add another finding button
+              React.createElement("button", { onClick: () => addFinding(item.id), style: {
+                width: "100%", background: "none", border: `1px dashed ${C.danger}44`, borderRadius: 6,
+                padding: "8px", fontSize: 12, fontWeight: 600, cursor: "pointer", color: C.danger,
+                marginTop: 2,
+              }}, "+ Add Another Finding"),
             ),
           ),
         ),
@@ -1701,7 +1804,10 @@ function InspectionForm({ template, onBack, onSubmit, mobile }) {
       background: C.bg, borderTop: `1px solid ${C.border}`, padding: "12px 16px",
       display: "flex", justifyContent: "space-between", alignItems: "center", zIndex: 20,
     }},
-      React.createElement("span", { style: { fontSize: 12, color: C.textMuted }}, `${answered}/${totalItems} \u00B7 ${noItems.length} finding${noItems.length !== 1 ? "s" : ""}`),
+      React.createElement("span", { style: { fontSize: 12, color: C.textMuted }}, (() => {
+        const totalFindings = noItems.reduce((sum, [id]) => sum + Math.max(1, (Array.isArray(notes[id]) ? notes[id].filter(f => f.text?.trim()) : []).length), 0);
+        return `${answered}/${totalItems} \u00B7 ${totalFindings} finding${totalFindings !== 1 ? "s" : ""}`;
+      })()),
       React.createElement("button", { onClick: handleSubmit, disabled: answered < totalItems, style: {
         background: answered >= totalItems ? C.accent : C.surfaceHover,
         color: answered >= totalItems ? "#000" : C.textDim,
