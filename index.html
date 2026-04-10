@@ -1124,12 +1124,19 @@ function InspectionForm({ template, onBack, onSubmit, mobile }) {
 
   // RFID-first prompt for Fall Protection
   if (showRfidPrompt) {
-    const hasNFC = "NDEFReader" in window;
+    const hasWebNFC = "NDEFReader" in window;
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
     const [scanError, setScanError] = useState("");
+    const [showSetup, setShowSetup] = useState(false);
 
     const handleRfidScan = async () => {
-      if (!hasNFC) {
-        setScanError("NFC is not available on this device. Use an Android phone with Chrome for RFID scanning, or enter the harness info manually below.");
+      if (!hasWebNFC) {
+        if (isIOS) {
+          setScanError("iPhone requires the Shortcuts app for RFID scanning. Tap 'iPhone Setup Guide' below, or enter the harness number manually.");
+        } else {
+          setScanError("NFC scanning requires Chrome on Android. Enter the harness number manually below.");
+        }
         return;
       }
       setRfidScanning(true);
@@ -1153,54 +1160,139 @@ function InspectionForm({ template, onBack, onSubmit, mobile }) {
       setShowRfidPrompt(false);
     };
 
-    return React.createElement("div", { style: { maxWidth: 440, margin: "0 auto", padding: mobile ? 20 : 40, textAlign: "center" }},
+    // iPhone setup guide overlay
+    if (showSetup) {
+      return React.createElement("div", { style: { maxWidth: 440, margin: "0 auto", padding: mobile ? 16 : 40 }},
+        React.createElement("button", { onClick: () => setShowSetup(false), style: { background: "none", border: "none", color: C.textMuted, fontSize: 13, cursor: "pointer", padding: "8px 0", marginBottom: 16, minHeight: 44 }}, "\u2190 Back"),
+        React.createElement("img", { src: RELATIVITY_LOGO, style: { height: 18, marginBottom: 16 } }),
+        React.createElement("h2", { style: { fontSize: 18, fontWeight: 800, color: C.text, marginBottom: 6 }}, "iPhone RFID Setup"),
+        React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 20, lineHeight: 1.5 }}, "One-time setup using Apple Shortcuts. Takes about 2 minutes. After this, scanning 3M harness tags is one tap."),
+
+        React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: 16, marginBottom: 12 }},
+          React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 12 }}, "Create the Shortcut"),
+          [
+            "Open the Shortcuts app on your iPhone (white/blue icon, comes pre-installed)",
+            "Tap the + button (top right) to create a new shortcut",
+            "Tap Add Action",
+            "Search for \"NFC\" and tap Scan NFC Tag",
+            "Tap Add Action again",
+            "Search for \"URL\" and tap URL",
+            "In the URL field, type:\nhttps://stkoppe.github.io/EHS-Inspection/?tag=",
+            "After the = sign, tap the blue NFC Tag variable from the scan step. Select \"Content\" if asked.",
+            "Tap Add Action again, search for \"Open URLs\", tap it",
+            "Rename the shortcut to \"Scan Harness\" (tap the name at top)",
+            "Tap Done",
+          ].map((step, i) =>
+            React.createElement("div", { key: i, style: { display: "flex", gap: 10, marginBottom: 10, alignItems: "flex-start" }},
+              React.createElement("div", { style: {
+                width: 24, height: 24, borderRadius: "50%", background: C.accentDim, border: `1px solid ${C.border}`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 11, fontWeight: 800, color: C.text, flexShrink: 0,
+              }}, i + 1),
+              React.createElement("div", { style: { fontSize: 12, color: C.textMuted, lineHeight: 1.5, whiteSpace: "pre-wrap" }}, step),
+            ),
+          ),
+        ),
+
+        React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: 16, marginBottom: 12 }},
+          React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 12 }}, "Add to Home Screen"),
+          [
+            "In the Shortcuts app, long-press on Scan Harness",
+            "Tap Share",
+            "Tap Add to Home Screen",
+            "Choose an icon and tap Add",
+          ].map((step, i) =>
+            React.createElement("div", { key: i, style: { display: "flex", gap: 10, marginBottom: 8, alignItems: "flex-start" }},
+              React.createElement("div", { style: {
+                width: 24, height: 24, borderRadius: "50%", background: C.successDim, border: `1px solid ${C.success}33`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 11, fontWeight: 800, color: C.success, flexShrink: 0,
+              }}, i + 1),
+              React.createElement("div", { style: { fontSize: 12, color: C.textMuted, lineHeight: 1.5 }}, step),
+            ),
+          ),
+        ),
+
+        React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: 16 }},
+          React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 8 }}, "How to use"),
+          React.createElement("div", { style: { fontSize: 12, color: C.textMuted, lineHeight: 1.6 }},
+            "Tap the Scan Harness icon on your home screen \u2192 hold phone near 3M harness RFID tag \u2192 the app opens automatically with the harness loaded \u2192 start your inspection."
+          ),
+        ),
+      );
+    }
+
+    return React.createElement("div", { className: "fade-in", style: { maxWidth: 440, margin: "0 auto", padding: mobile ? 20 : 40, textAlign: "center" }},
       React.createElement("img", { src: RELATIVITY_LOGO, style: { height: 22, marginBottom: 24 } }),
       React.createElement("div", { style: { fontSize: 48, marginBottom: 16 }}, "\u26D1"),
-      React.createElement("h2", { style: { fontSize: 20, fontWeight: 800, color: C.text, marginBottom: 6 }}, "Fall Protection Inspection"),
+      React.createElement("h2", { style: { fontSize: 20, fontWeight: 800, color: C.text, marginBottom: 6, letterSpacing: "-0.02em" }}, "Fall Protection Inspection"),
       React.createElement("p", { style: { color: C.textMuted, fontSize: 13, marginBottom: 24, lineHeight: 1.5 }},
-        hasNFC
-          ? "Scan the harness RFID tag or enter the model/serial number to begin."
-          : "Enter the harness model or serial number to begin. RFID scanning requires an Android phone with Chrome."
+        "Identify the 3M harness to begin your inspection."
       ),
 
-      // NFC scan button - shows status
-      React.createElement("button", { onClick: handleRfidScan, disabled: rfidScanning, style: {
-        width: "100%", background: hasNFC ? C.accent : C.surface,
-        color: hasNFC ? "#000" : C.textMuted,
-        border: hasNFC ? "none" : `1px solid ${C.border}`,
-        borderRadius: 8, padding: "18px 24px", fontWeight: 700, fontSize: 15,
-        cursor: rfidScanning ? "wait" : "pointer",
-        minHeight: 56, marginBottom: 8, letterSpacing: "0.02em",
-      }}, rfidScanning ? "\uD83D\uDD04 Hold phone near tag..." : hasNFC ? "\uD83D\uDCF1 Scan RFID Tag" : "\uD83D\uDCF1 Scan RFID Tag (requires Android)"),
+      // Android: direct scan button
+      hasWebNFC && React.createElement("button", { onClick: handleRfidScan, disabled: rfidScanning, className: "btn-primary", style: {
+        width: "100%", background: C.accent, color: "#000", border: "none", borderRadius: 10,
+        padding: "18px 24px", fontWeight: 700, fontSize: 15, cursor: rfidScanning ? "wait" : "pointer",
+        minHeight: 56, marginBottom: 12, letterSpacing: "0.02em",
+      }}, rfidScanning ? "\uD83D\uDD04 Hold phone near 3M tag..." : "\uD83D\uDCF1 Scan RFID Tag"),
 
-      // Error/info message
+      // iPhone: shortcut explanation
+      !hasWebNFC && isIOS && React.createElement("div", { style: { marginBottom: 12 }},
+        React.createElement("div", { style: {
+          background: `linear-gradient(135deg, ${C.card}, ${C.surface})`, border: `1px solid ${C.border}`, borderRadius: 10,
+          padding: 16, marginBottom: 8, textAlign: "left",
+        }},
+          React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 6, display: "flex", alignItems: "center", gap: 8 }},
+            React.createElement("span", null, "\uD83D\uDCF1"),
+            "iPhone RFID Scanning",
+          ),
+          React.createElement("div", { style: { fontSize: 12, color: C.textMuted, lineHeight: 1.5, marginBottom: 10 }},
+            "Use the Scan Harness shortcut on your home screen to read 3M RFID tags. The shortcut reads the tag and opens this app with the harness pre-loaded."
+          ),
+          React.createElement("button", { onClick: () => setShowSetup(true), style: {
+            background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8,
+            padding: "10px 16px", fontWeight: 700, fontSize: 12, cursor: "pointer", width: "100%",
+          }}, "\u2699 iPhone Setup Guide"),
+        ),
+      ),
+
+      // PC / unsupported
+      !hasWebNFC && !isIOS && React.createElement("div", { style: {
+        background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: 14, marginBottom: 12,
+        fontSize: 12, color: C.textMuted, textAlign: "left", lineHeight: 1.5,
+      }}, "RFID scanning requires a mobile device. Enter the 3M harness number below."),
+
+      // Error message
       scanError && React.createElement("div", { style: {
-        background: C.dangerDim, border: `1px solid ${C.danger}33`, borderRadius: 6,
+        background: C.dangerDim, border: `1px solid ${C.danger}33`, borderRadius: 8,
         padding: "10px 14px", marginBottom: 8, fontSize: 12, color: C.danger, textAlign: "left", lineHeight: 1.5,
       }}, scanError),
 
       // Divider
       React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, margin: "16px 0" }},
         React.createElement("div", { style: { flex: 1, height: 1, background: C.border }}),
-        React.createElement("span", { style: { fontSize: 11, color: C.textDim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em" }}, hasNFC ? "or enter manually" : "enter harness info"),
+        React.createElement("span", { style: { fontSize: 10, color: C.textDim, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em" }}, "or enter harness number"),
         React.createElement("div", { style: { flex: 1, height: 1, background: C.border }}),
       ),
 
-      // Manual entry - more prominent when no NFC
+      // Manual entry
       React.createElement("input", { value: rfidManualId, onChange: e => setRfidManualId(e.target.value),
-        placeholder: "Harness model, serial number, or tag ID",
+        placeholder: "3M harness number / serial / tag ID",
         onKeyDown: e => { if (e.key === "Enter") handleRfidBypass(); },
-        autoFocus: !hasNFC,
-        style: { width: "100%", background: C.surface, border: `1px solid ${hasNFC ? C.border : C.accent}`,
-          borderRadius: 8, padding: "14px 16px", color: C.text, fontSize: 14, outline: "none",
-          minHeight: 50, textAlign: "center", marginBottom: 12, boxSizing: "border-box" } }),
+        autoFocus: !hasWebNFC,
+        style: { width: "100%", background: C.surface, border: `1px solid ${!hasWebNFC ? C.accent : C.border}`,
+          borderRadius: 10, padding: "14px 16px", color: C.text, fontSize: 15, outline: "none",
+          minHeight: 52, textAlign: "center", marginBottom: 12, boxSizing: "border-box",
+          fontWeight: 600, letterSpacing: "0.02em",
+        } }),
 
-      React.createElement("button", { onClick: handleRfidBypass, style: {
-        width: "100%", background: hasNFC ? C.surface : C.accent,
-        color: hasNFC ? C.text : "#000",
-        border: hasNFC ? `1px solid ${C.border}` : "none",
-        borderRadius: 8, padding: "14px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 50, marginBottom: 16,
-      }}, "Continue"),
+      React.createElement("button", { onClick: handleRfidBypass, className: !hasWebNFC ? "btn-primary" : "", style: {
+        width: "100%", background: !hasWebNFC ? C.accent : C.surface,
+        color: !hasWebNFC ? "#000" : C.text,
+        border: !hasWebNFC ? "none" : `1px solid ${C.border}`,
+        borderRadius: 10, padding: "14px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 52, marginBottom: 16,
+      }}, "Continue to Inspection"),
 
       React.createElement("button", { onClick: () => { DB.set("pending_rfid", ""); setShowRfidPrompt(false); }, style: {
         background: "none", border: "none", color: C.textDim, fontSize: 12, cursor: "pointer", padding: 8,
