@@ -15,20 +15,42 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body, #root { height: 100%; width: 100%; overflow: hidden; }
-  body { font-family: 'Arial', 'Helvetica Neue', system-ui, sans-serif; background: #0A0A0A; color: #FEFFFF; -webkit-font-smoothing: antialiased; }
+  body { font-family: 'Arial', 'Helvetica Neue', system-ui, sans-serif; background: #060608; color: #FEFFFF; -webkit-font-smoothing: antialiased; }
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #0A0A0A; }
+  ::-webkit-scrollbar-track { background: #060608; }
   ::-webkit-scrollbar-thumb { background: #2A2A2A; border-radius: 3px; }
   ::placeholder { color: #5C6078; }
   input, select, textarea, button { font-family: inherit; }
   @media (max-width: 768px) { ::-webkit-scrollbar { display: none; } }
-  .toast { position: fixed; top: 20px; right: 20px; padding: 12px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; z-index: 1000; animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s; }
+  .toast { position: fixed; top: 20px; right: 20px; padding: 12px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; z-index: 1000; animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s; pointer-events: none; }
   @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
   @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+  @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  @keyframes glow { 0%,100% { box-shadow: 0 0 8px rgba(255,255,255,0.05); } 50% { box-shadow: 0 0 20px rgba(255,255,255,0.1); } }
+  .fade-in { animation: fadeInUp 0.4s ease both; }
+  .fade-in-d1 { animation: fadeInUp 0.4s ease 0.05s both; }
+  .fade-in-d2 { animation: fadeInUp 0.4s ease 0.1s both; }
+  .fade-in-d3 { animation: fadeInUp 0.4s ease 0.15s both; }
+  .fade-in-d4 { animation: fadeInUp 0.4s ease 0.2s both; }
+  .stat-card { transition: all 0.2s ease; }
+  .stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .action-card { transition: all 0.2s ease; }
+  .action-card:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); border-color: #3A3A3A !important; }
+  .template-card { transition: all 0.25s ease; }
+  .template-card:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
+  .nav-item { transition: all 0.15s ease; }
+  .btn-primary { transition: all 0.15s ease; }
+  .btn-primary:hover { transform: scale(1.02); box-shadow: 0 4px 16px rgba(255,255,255,0.15); }
+  .btn-primary:active { transform: scale(0.98); }
   .photo-grid { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-  .photo-thumb { width: 56px; height: 56px; border-radius: 6px; object-fit: cover; border: 1px solid #2A2E3D; }
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; display: flex; align-items: center; justify-content: center; }
-  .modal { background: #1E2130; border: 1px solid #2A2E3D; border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
+  .photo-thumb { width: 56px; height: 56px; border-radius: 6px; object-fit: cover; border: 1px solid #2A2A2A; transition: transform 0.15s; }
+  .photo-thumb:hover { transform: scale(1.1); }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 100; display: flex; align-items: center; justify-content: center; animation: fadeInUp 0.2s ease; }
+  .modal { background: #121214; border: 1px solid #2A2A2A; border-radius: 16px; padding: 24px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; animation: fadeInUp 0.3s ease; }
+  .gradient-border { position: relative; }
+  .gradient-border::before { content: ""; position: absolute; top: -1px; left: -1px; right: -1px; bottom: -1px; border-radius: inherit; background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent, rgba(255,255,255,0.05)); pointer-events: none; z-index: 0; padding: 1px; -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
 </style>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
@@ -41,13 +63,16 @@ const { useState, useEffect, useRef, useCallback } = React;
 
 /* ── Colors ── */
 const C = {
-  bg: "#0A0A0A", surface: "#141414", surfaceHover: "#1E1E1E",
-  card: "#181818", border: "#2A2A2A", borderLight: "#3A3A3A",
-  accent: "#FFFFFF", accentDim: "rgba(255,255,255,0.08)",
-  danger: "#EF4444", dangerDim: "rgba(239,68,68,0.12)",
-  success: "#22C55E", successDim: "rgba(34,197,94,0.12)",
-  info: "#797979", infoDim: "rgba(121,121,121,0.12)",
-  text: "#FEFFFF", textMuted: "#919191", textDim: "#5A5A5A",
+  bg: "#060608", surface: "#0E0E12", surfaceHover: "#161619",
+  card: "#111114", border: "#1E1E22", borderLight: "#2A2A30",
+  accent: "#FFFFFF", accentDim: "rgba(255,255,255,0.06)",
+  accentGlow: "rgba(255,255,255,0.12)",
+  danger: "#FF4D4D", dangerDim: "rgba(255,77,77,0.1)",
+  success: "#00E676", successDim: "rgba(0,230,118,0.1)",
+  info: "#90A4AE", infoDim: "rgba(144,164,174,0.1)",
+  warning: "#FFB300",
+  text: "#FEFFFF", textMuted: "#8A8A96", textDim: "#4A4A56",
+  glow: "0 0 20px rgba(255,255,255,0.04)",
 };
 
 /* ── LocalStorage DB ── */
@@ -232,7 +257,7 @@ function importHarnessInventory(file, callback) {
 
 /* ── Locations ── */
 const LOCATIONS = [
-  { id: "cape", name: "Cape Canaveral", short: "Cape" },
+  { id: "cape", name: "Cape Canaveral, FL", short: "Cape" },
   { id: "stennis", name: "Stennis Space Center", short: "Stennis" },
   { id: "wormhole", name: "Wormhole", short: "Wormhole" },
 ];
@@ -798,94 +823,136 @@ function Dashboard({ inspections, corrective, onNavigate, mobile }) {
   const criticalOpen = corrective.filter(c => c.priority === "Critical" && c.status !== "Verified" && c.status !== "Completed");
   const overdueActions = corrective.filter(c => (c.status === "Open" || c.status === "In Progress") && c.due < TODAY);
   const completedThisMonth = inspections.filter(i => i.date >= TODAY.slice(0, 8) + "01").length;
+  const totalCompleted = inspections.length;
+  const complianceRate = totalCompleted > 0 ? Math.round(((totalCompleted - corrective.filter(c => c.status === "Open").length) / Math.max(totalCompleted, 1)) * 100) : 100;
 
   return React.createElement("div", null,
-    React.createElement("div", { style: { marginBottom: mobile ? 20 : 28, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }},
-      React.createElement("div", null,
-        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }},
-          React.createElement("img", { src: RELATIVITY_LOGO, style: { height: mobile ? 16 : 20 } }),
+    // Hero header
+    React.createElement("div", { className: "fade-in", style: {
+      background: `linear-gradient(135deg, ${C.card} 0%, ${C.surface} 50%, ${C.card} 100%)`,
+      border: `1px solid ${C.border}`, borderRadius: 16,
+      padding: mobile ? "24px 20px" : "32px 28px", marginBottom: mobile ? 16 : 20,
+      position: "relative", overflow: "hidden",
+    }},
+      // Subtle grid pattern overlay
+      React.createElement("div", { style: {
+        position: "absolute", inset: 0, opacity: 0.03,
+        backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+        backgroundSize: "40px 40px",
+      }}),
+      React.createElement("div", { style: { position: "relative", zIndex: 1 }},
+        React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start" }},
+          React.createElement("div", null,
+            React.createElement("img", { src: RELATIVITY_LOGO, style: { height: mobile ? 18 : 24, marginBottom: 12 } }),
+            React.createElement("h2", { style: { fontSize: mobile ? 22 : 30, fontWeight: 800, color: C.text, letterSpacing: "-0.03em", lineHeight: 1.1 }}, "EHS Dashboard"),
+            React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 6 }}, `Relativity Space \u00B7 ${new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}`),
+          ),
+          React.createElement("div", { style: { textAlign: "right" }},
+            React.createElement("div", { style: { fontSize: 36, fontWeight: 800, color: complianceRate >= 80 ? C.success : complianceRate >= 50 ? C.warning : C.danger, lineHeight: 1 }}, `${complianceRate}%`),
+            React.createElement("div", { style: { fontSize: 10, color: C.textMuted, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4 }}, "Compliance"),
+          ),
         ),
-        React.createElement("h2", { style: { fontSize: mobile ? 20 : 26, fontWeight: 800, color: C.text, letterSpacing: "-0.02em" }}, "EHS Dashboard"),
-        React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 4 }}, `${LOCATIONS.find(l => l.id === DB.get("selected_location", "cape"))?.name || "All Sites"} \u00B7 ${new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}`),
-      ),
-      !mobile && React.createElement("div", { style: { textAlign: "right" }},
-        React.createElement("div", { style: { fontSize: 10, color: C.textDim, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}, "Inspector"),
-        React.createElement("div", { style: { fontSize: 13, color: C.textMuted, fontWeight: 700 }}, DB.get("inspector_name", "Not set")),
       ),
     ),
-    React.createElement("div", { style: { display: "flex", gap: mobile ? 8 : 14, flexWrap: "wrap", marginBottom: mobile ? 16 : 24 }},
-      React.createElement(StatCard, { label: "Open Actions", value: openActions.length, sub: `${criticalOpen.length} critical`, color: C.danger, icon: "\u26A0", mobile }),
-      React.createElement(StatCard, { label: "Overdue", value: overdueActions.length, sub: "Past due", color: "#F97316", icon: "\u23F0", mobile }),
-      React.createElement(StatCard, { label: "This Month", value: completedThisMonth, sub: "Inspections", color: C.success, icon: "\u2713", mobile }),
-      React.createElement(StatCard, { label: "Templates", value: TEMPLATES.length, sub: "Active", color: C.info, icon: "\uD83D\uDCCB", mobile }),
+
+    // Stat cards
+    React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr 1fr" : "1fr 1fr 1fr 1fr", gap: mobile ? 8 : 12, marginBottom: mobile ? 16 : 20 }},
+      [
+        { label: "Open Actions", value: openActions.length, sub: `${criticalOpen.length} critical`, color: openActions.length > 0 ? C.danger : C.success, icon: "\u26A0", delay: "fade-in-d1" },
+        { label: "Overdue", value: overdueActions.length, sub: "Past due", color: overdueActions.length > 0 ? "#FF6B35" : C.success, icon: "\u23F0", delay: "fade-in-d2" },
+        { label: "This Month", value: completedThisMonth, sub: "Inspections", color: C.success, icon: "\u2713", delay: "fade-in-d3" },
+        { label: "Equipment", value: getHarnessInventory().length, sub: "Tracked", color: C.info, icon: "\uD83C\uDFF7", delay: "fade-in-d4" },
+      ].map(s =>
+        React.createElement("div", { key: s.label, className: `stat-card ${s.delay}`, style: {
+          background: C.card, border: `1px solid ${C.border}`, borderRadius: 12,
+          padding: mobile ? "16px" : "20px", position: "relative", overflow: "hidden", cursor: "default",
+        }},
+          React.createElement("div", { style: { position: "absolute", top: -6, right: -2, fontSize: mobile ? 32 : 40, opacity: 0.05, lineHeight: 1 }}, s.icon),
+          React.createElement("div", { style: { fontSize: 10, color: C.textMuted, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8 }}, s.label),
+          React.createElement("div", { style: { fontSize: mobile ? 28 : 36, fontWeight: 800, color: s.color, lineHeight: 1 }}, s.value),
+          React.createElement("div", { style: { fontSize: 11, color: C.textDim, marginTop: 4 }}, s.sub),
+        ),
+      ),
     ),
-    React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: mobile ? 12 : 14, marginBottom: mobile ? 16 : 24 }},
+
+    // Two-column panels
+    React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: mobile ? 12 : 14, marginBottom: mobile ? 16 : 20 }},
       // Recent Inspections
-      React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 14 : 20 }},
+      React.createElement("div", { className: "fade-in-d2", style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: mobile ? 14 : 20 }},
         React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 12, display: "flex", justifyContent: "space-between" }},
           React.createElement("span", null, "Recent Inspections"),
-          React.createElement("span", { style: { fontSize: 11, color: C.accent, cursor: "pointer", fontWeight: 600 }, onClick: () => onNavigate("history") }, "View All \u2192"),
+          React.createElement("span", { style: { fontSize: 11, color: C.textMuted, cursor: "pointer", fontWeight: 600 }, onClick: () => onNavigate("history") }, "View All \u2192"),
         ),
-        inspections.slice(0, mobile ? 4 : 5).map(insp => {
+        inspections.slice(0, mobile ? 4 : 5).map((insp, idx) => {
           const tpl = TEMPLATES.find(t => t.id === insp.template);
           if (!tpl) return null;
-          return React.createElement("div", { key: insp.id, style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: `1px solid ${C.border}` }},
-            React.createElement("span", { style: { fontSize: 16 }}, tpl.icon),
+          return React.createElement("div", { key: insp.id, className: "action-card", style: { display: "flex", alignItems: "center", gap: 10, padding: "10px 8px", marginBottom: 4, borderRadius: 8, cursor: "default" }},
+            React.createElement("div", { style: { width: 36, height: 36, borderRadius: 8, background: `${tpl.color}15`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}, tpl.icon),
             React.createElement("div", { style: { flex: 1, minWidth: 0 }},
               React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}, tpl.name),
-              React.createElement("div", { style: { fontSize: 11, color: C.textMuted }}, `${insp.location} \u00B7 ${insp.date.slice(5)}`),
+              React.createElement("div", { style: { fontSize: 11, color: C.textDim }}, `${insp.location} \u00B7 ${insp.date.slice(5)}`),
             ),
             insp.findings > 0
-              ? React.createElement(Badge, { color: insp.critical > 0 ? C.danger : C.accent }, insp.findings)
-              : React.createElement(Badge, { color: C.success }, "OK"),
+              ? React.createElement(Badge, { color: insp.critical > 0 ? C.danger : C.warning }, insp.findings)
+              : React.createElement(Badge, { color: C.success }, "\u2713"),
           );
         }),
-        inspections.length === 0 && React.createElement("div", { style: { padding: 20, textAlign: "center", color: C.textDim, fontSize: 13 }}, "No inspections yet. Start one!"),
+        inspections.length === 0 && React.createElement("div", { style: { padding: 30, textAlign: "center" }},
+          React.createElement("div", { style: { fontSize: 32, marginBottom: 8, opacity: 0.3 }}, "\uD83D\uDCCB"),
+          React.createElement("div", { style: { color: C.textDim, fontSize: 12 }}, "No inspections yet"),
+          React.createElement("button", { onClick: () => onNavigate("inspect"), className: "btn-primary", style: {
+            background: C.accent, color: "#000", border: "none", borderRadius: 8, padding: "10px 20px",
+            fontWeight: 700, fontSize: 12, cursor: "pointer", marginTop: 12,
+          }}, "Start First Inspection"),
+        ),
       ),
       // Open Corrective Actions
-      React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 14 : 20 }},
+      React.createElement("div", { className: "fade-in-d3", style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: mobile ? 14 : 20 }},
         React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 12, display: "flex", justifyContent: "space-between" }},
           React.createElement("span", null, "Open Actions"),
-          React.createElement("span", { style: { fontSize: 11, color: C.accent, cursor: "pointer", fontWeight: 600 }, onClick: () => onNavigate("actions") }, "View All \u2192"),
+          React.createElement("span", { style: { fontSize: 11, color: C.textMuted, cursor: "pointer", fontWeight: 600 }, onClick: () => onNavigate("actions") }, "View All \u2192"),
         ),
         openActions.slice(0, mobile ? 4 : 5).map(ca =>
-          React.createElement("div", { key: ca.id, style: { padding: "8px 0", borderBottom: `1px solid ${C.border}` }},
+          React.createElement("div", { key: ca.id, className: "action-card", style: { padding: "10px 8px", marginBottom: 4, borderRadius: 8, borderLeft: `3px solid ${priColors[ca.priority]}`, cursor: "default" }},
             React.createElement("div", { style: { display: "flex", gap: 4, alignItems: "center", marginBottom: 4, flexWrap: "wrap" }},
               React.createElement(Badge, { color: priColors[ca.priority] }, ca.priority),
-              React.createElement(Badge, { color: statColors[ca.status] }, ca.status),
               ca.due < TODAY && React.createElement(Badge, { color: C.danger, dim: C.dangerDim }, "OVERDUE"),
             ),
             React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: C.text, marginBottom: 2, lineHeight: 1.4 }}, ca.finding),
-            React.createElement("div", { style: { fontSize: 11, color: C.textMuted }}, `${ca.assigned} \u00B7 Due: ${ca.due.slice(5)}`),
+            React.createElement("div", { style: { fontSize: 11, color: C.textDim }}, `${ca.assigned || "Unassigned"} \u00B7 ${ca.due.slice(5)}`),
           )
         ),
-        openActions.length === 0 && React.createElement("div", { style: { padding: 20, textAlign: "center", color: C.textDim, fontSize: 13 }}, "No open actions \u2014 nice work!"),
+        openActions.length === 0 && React.createElement("div", { style: { padding: 30, textAlign: "center" }},
+          React.createElement("div", { style: { fontSize: 32, marginBottom: 8 }}, "\u2705"),
+          React.createElement("div", { style: { color: C.success, fontSize: 13, fontWeight: 700 }}, "All Clear"),
+          React.createElement("div", { style: { color: C.textDim, fontSize: 11, marginTop: 4 }}, "No open corrective actions"),
+        ),
       ),
     ),
-    // Coverage
-    React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 14 : 20 }},
-      React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 14 }}, "Inspection Coverage"),
-      React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: 14 }},
-        TEMPLATES.map(tpl => {
-          const count = inspections.filter(i => i.template === tpl.id).length;
-          const findings = inspections.filter(i => i.template === tpl.id).reduce((a, b) => a + (b.findings || 0), 0);
-          return React.createElement("div", { key: tpl.id, style: { textAlign: "center" }},
-            React.createElement("div", { style: { fontSize: 24, marginBottom: 4 }}, tpl.icon),
-            React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: C.text }}, tpl.name),
-            React.createElement("div", { style: { fontSize: 10, color: C.textMuted, marginBottom: 6 }}, tpl.reg),
-            React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 14 }},
-              React.createElement("div", null,
-                React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: tpl.color }}, count),
-                React.createElement("div", { style: { fontSize: 9, color: C.textMuted }}, "inspections"),
-              ),
-              React.createElement("div", null,
-                React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: findings > 0 ? C.accent : C.success }}, findings),
-                React.createElement("div", { style: { fontSize: 9, color: C.textMuted }}, "findings"),
-              ),
+    // Template coverage - horizontal cards
+    React.createElement("div", { className: "fade-in-d4", style: { display: "grid", gridTemplateColumns: mobile ? "1fr 1fr" : "repeat(4, 1fr)", gap: mobile ? 8 : 12 }},
+      TEMPLATES.map(tpl => {
+        const count = inspections.filter(i => i.template === tpl.id).length;
+        const findings = inspections.filter(i => i.template === tpl.id).reduce((a, b) => a + (b.findings || 0), 0);
+        return React.createElement("div", { key: tpl.id, className: "stat-card", style: {
+          background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: mobile ? 14 : 16,
+          textAlign: "center", cursor: "pointer",
+        }, onClick: () => onNavigate("inspect") },
+          React.createElement("div", { style: { fontSize: 28, marginBottom: 6 }}, tpl.icon),
+          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: C.text, marginBottom: 2 }}, tpl.name.split(" ").slice(0, 2).join(" ")),
+          React.createElement("div", { style: { fontSize: 9, color: C.textDim, marginBottom: 8 }}, tpl.reg),
+          React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 12 }},
+            React.createElement("div", null,
+              React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: count > 0 ? C.text : C.textDim }}, count),
+              React.createElement("div", { style: { fontSize: 8, color: C.textDim, textTransform: "uppercase", letterSpacing: "0.05em" }}, "done"),
             ),
-          );
-        }),
-      ),
+            React.createElement("div", null,
+              React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: findings > 0 ? C.danger : C.success }}, findings),
+              React.createElement("div", { style: { fontSize: 8, color: C.textDim, textTransform: "uppercase", letterSpacing: "0.05em" }}, "finds"),
+            ),
+          ),
+        );
+      }),
     ),
   );
 }
@@ -922,22 +989,42 @@ function TemplateList({ onSelect, mobile }) {
 
     // Filtered templates
     React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: mobile ? 10 : 14 }},
-      filteredTemplates.map(tpl => {
+      filteredTemplates.map((tpl, idx) => {
         const itemCount = tpl.sections.reduce((a, s) => a + s.items.length, 0);
-        return React.createElement("div", { key: tpl.id, onClick: () => onSelect(tpl.id), style: {
-          background: C.card, border: `1px solid ${C.border}`, borderRadius: 10,
-          padding: mobile ? 16 : 22, cursor: "pointer", borderLeft: `4px solid ${tpl.color}`, WebkitTapHighlightColor: "transparent",
+        return React.createElement("div", { key: tpl.id, className: `template-card fade-in-d${Math.min(idx + 1, 4)}`, onClick: () => onSelect(tpl.id), style: {
+          background: `linear-gradient(135deg, ${C.card} 0%, ${C.surface} 100%)`,
+          border: `1px solid ${C.border}`, borderRadius: 14,
+          padding: mobile ? 18 : 24, cursor: "pointer",
+          borderLeft: `3px solid ${tpl.color}`,
+          WebkitTapHighlightColor: "transparent", position: "relative", overflow: "hidden",
         }},
-          React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }},
-            React.createElement("span", { style: { fontSize: mobile ? 24 : 28 }}, tpl.icon),
-            React.createElement("div", { style: { flex: 1 }},
-              React.createElement("div", { style: { fontSize: mobile ? 14 : 15, fontWeight: 700, color: C.text }}, tpl.name),
-              React.createElement("div", { style: { fontSize: 11, color: C.textMuted }}, tpl.reg),
+          // Subtle glow in corner
+          React.createElement("div", { style: {
+            position: "absolute", top: -20, right: -20, width: 80, height: 80, borderRadius: "50%",
+            background: `radial-gradient(circle, ${tpl.color}08 0%, transparent 70%)`,
+          }}),
+          React.createElement("div", { style: { position: "relative", zIndex: 1 }},
+            React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }},
+              React.createElement("div", { style: {
+                width: mobile ? 44 : 50, height: mobile ? 44 : 50, borderRadius: 12,
+                background: `${tpl.color}10`, border: `1px solid ${tpl.color}20`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: mobile ? 22 : 26, flexShrink: 0,
+              }}, tpl.icon),
+              React.createElement("div", { style: { flex: 1 }},
+                React.createElement("div", { style: { fontSize: mobile ? 14 : 16, fontWeight: 700, color: C.text, letterSpacing: "-0.01em" }}, tpl.name),
+                React.createElement("div", { style: { fontSize: 11, color: C.textDim, marginTop: 2 }}, tpl.reg),
+              ),
             ),
-          ),
-          React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" }},
-            React.createElement(Badge, { color: tpl.color }, tpl.frequency),
-            React.createElement("span", { style: { fontSize: 11, color: C.textDim }}, `${itemCount} items`),
+            React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" }},
+              React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center" }},
+                React.createElement(Badge, { color: tpl.color }, tpl.frequency),
+              ),
+              React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 4 }},
+                React.createElement("span", { style: { fontSize: 11, color: C.textDim } }, `${itemCount} items`),
+                React.createElement("span", { style: { fontSize: 14, color: C.textDim }}, "\u203A"),
+              ),
+            ),
           ),
         );
       }),
@@ -2269,28 +2356,29 @@ function App() {
     toastEl,
     // Desktop sidebar
     !mobile && React.createElement("div", { style: {
-      width: 220, background: C.surface, borderRight: `1px solid ${C.border}`,
-      padding: "20px 0", display: "flex", flexDirection: "column", flexShrink: 0,
+      width: 230, background: C.surface, borderRight: `1px solid ${C.border}`,
+      padding: "24px 0", display: "flex", flexDirection: "column", flexShrink: 0,
     }},
-      React.createElement("div", { style: { padding: "0 20px", marginBottom: 28 }},
-        React.createElement("img", { src: RELATIVITY_LOGO, style: { height: 18, marginBottom: 6, filter: "brightness(1)" } }),
-        React.createElement("div", { style: { fontSize: 10, color: C.textMuted, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginTop: 2 }}, "EHS INSPECT"),
-        React.createElement("div", { style: { fontSize: 9, color: C.textDim, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 2 }}, DB.get("site_name", "")),
+      React.createElement("div", { style: { padding: "0 22px", marginBottom: 32 }},
+        React.createElement("img", { src: RELATIVITY_LOGO, style: { height: 20, marginBottom: 8 } }),
+        React.createElement("div", { style: {
+          fontSize: 9, color: C.textDim, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginTop: 4,
+          background: "linear-gradient(90deg, #FEFFFF 0%, #8A8A96 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+        }}, "EHS INSPECT"),
       ),
-      nav.map(item => React.createElement("div", { key: item.id, onClick: () => goTo(item.id), style: {
-        display: "flex", alignItems: "center", gap: 10, padding: "10px 20px", cursor: "pointer", fontSize: 13, fontWeight: 600,
-        color: page === item.id ? C.accent : C.textMuted,
-        background: page === item.id ? C.accentDim : "transparent",
-        borderRight: page === item.id ? `3px solid ${C.accent}` : "3px solid transparent",
+      nav.map(item => React.createElement("div", { key: item.id, className: "nav-item", onClick: () => goTo(item.id), style: {
+        display: "flex", alignItems: "center", gap: 12, padding: "11px 22px", cursor: "pointer", fontSize: 13, fontWeight: 600,
+        color: page === item.id ? C.text : C.textDim,
+        background: page === item.id ? `linear-gradient(90deg, ${C.accentDim}, transparent)` : "transparent",
+        borderLeft: page === item.id ? `2px solid ${C.accent}` : "2px solid transparent",
       }},
-        React.createElement("span", { style: { fontSize: 16, width: 20, textAlign: "center" }}, item.icon),
+        React.createElement("span", { style: { fontSize: 15, width: 22, textAlign: "center", opacity: page === item.id ? 1 : 0.5 }}, item.icon),
         item.label,
       )),
       React.createElement("div", { style: { flex: 1 }}),
-      React.createElement("div", { style: { padding: "12px 20px", borderTop: `1px solid ${C.border}`, fontSize: 11, color: C.textDim }},
-        `${DB.get("inspector_name", "Not set")}`,
-        React.createElement("br"),
-        new Date().toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }),
+      React.createElement("div", { style: { padding: "14px 22px", borderTop: `1px solid ${C.border}`, margin: "0 12px" }},
+        React.createElement("div", { style: { fontSize: 12, color: C.text, fontWeight: 600 }}, DB.get("inspector_name", "Not set")),
+        React.createElement("div", { style: { fontSize: 10, color: C.textDim, marginTop: 2 }}, new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })),
       ),
     ),
     // Mobile top bar
