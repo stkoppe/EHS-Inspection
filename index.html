@@ -2261,6 +2261,24 @@ function App() {
   const mobile = useIsMobile();
   const [toastEl, showToast] = useToast();
 
+  // Handle NFC tag URL parameter — iPhone taps an NFC tag with a URL,
+  // iOS opens Safari, the app reads the tag ID from the URL and jumps straight to inspection
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tagId = params.get("tag") || params.get("id") || params.get("rfid");
+    if (tagId) {
+      DB.set("pending_rfid", tagId);
+      const harness = lookupHarness(tagId);
+      if (!harness) {
+        upsertHarness({ RFIDTagID: tagId, HarnessModel: tagId, Status: "Active" });
+      }
+      setActiveTemplate("fall-pro");
+      setPage("inspect");
+      // Clean the URL so refreshing doesn't re-trigger
+      window.history.replaceState({}, "", window.location.pathname);
+    }
+  }, []);
+
   const nav = [
     { id: "dashboard", label: "Dashboard", icon: "\u25E9" },
     { id: "inspect", label: "Inspect", icon: "\uFF0B" },
