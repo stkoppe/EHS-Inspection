@@ -1,0 +1,2340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="theme-color" content="#0F1117" />
+<title>EHS Inspect</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<!-- Relativity Space Logo (white version, embedded) -->
+<script>const RELATIVITY_LOGO = "data:image/png;base64,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";</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body, #root { height: 100%; width: 100%; overflow: hidden; }
+  body { font-family: 'Arial', 'Helvetica Neue', system-ui, sans-serif; background: #0A0A0A; color: #FEFFFF; -webkit-font-smoothing: antialiased; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0A0A0A; }
+  ::-webkit-scrollbar-thumb { background: #2A2A2A; border-radius: 3px; }
+  ::placeholder { color: #5C6078; }
+  input, select, textarea, button { font-family: inherit; }
+  @media (max-width: 768px) { ::-webkit-scrollbar { display: none; } }
+  .toast { position: fixed; top: 20px; right: 20px; padding: 12px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; z-index: 1000; animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s; }
+  @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+  .photo-grid { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .photo-thumb { width: 56px; height: 56px; border-radius: 6px; object-fit: cover; border: 1px solid #2A2E3D; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; display: flex; align-items: center; justify-content: center; }
+  .modal { background: #1E2130; border: 1px solid #2A2E3D; border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
+</style>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* ── Colors ── */
+const C = {
+  bg: "#0A0A0A", surface: "#141414", surfaceHover: "#1E1E1E",
+  card: "#181818", border: "#2A2A2A", borderLight: "#3A3A3A",
+  accent: "#FFFFFF", accentDim: "rgba(255,255,255,0.08)",
+  danger: "#EF4444", dangerDim: "rgba(239,68,68,0.12)",
+  success: "#22C55E", successDim: "rgba(34,197,94,0.12)",
+  info: "#797979", infoDim: "rgba(121,121,121,0.12)",
+  text: "#FEFFFF", textMuted: "#919191", textDim: "#5A5A5A",
+};
+
+/* ── LocalStorage DB ── */
+const DB = {
+  get(key, fallback) { try { return JSON.parse(localStorage.getItem(`ehs_${key}`)) || fallback; } catch { return fallback; } },
+  set(key, val) { localStorage.setItem(`ehs_${key}`, JSON.stringify(val)); },
+  nextId(key) { const id = this.get(`${key}_seq`, 100) + 1; this.set(`${key}_seq`, id); return id; },
+};
+
+/* ── Power Automate Integration ── */
+const FLOW_URLS = {
+  get inspection() { return DB.get("flow_url_inspection", ""); },
+  get corrective() { return DB.get("flow_url_corrective", ""); },
+  get update() { return DB.get("flow_url_update", ""); },
+};
+
+const SyncStatus = { PENDING: "pending", SYNCED: "synced", FAILED: "failed", OFFLINE: "offline" };
+
+async function pushToFlow(flowKey, data) {
+  const url = FLOW_URLS[flowKey];
+  if (!url) return { status: SyncStatus.OFFLINE, reason: "No flow URL configured" };
+
+  try {
+    // Strip base64 photos from payload — too large for Power Automate
+    const cleanData = { ...data };
+    if (cleanData.photos) {
+      const photoCounts = {};
+      Object.entries(cleanData.photos).forEach(([k, v]) => { photoCounts[k] = Array.isArray(v) ? v.length : 0; });
+      cleanData.photoAttachmentCounts = photoCounts;
+      delete cleanData.photos;
+    }
+
+    const resp = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cleanData),
+    });
+
+    if (resp.ok || resp.status === 202) {
+      return { status: SyncStatus.SYNCED };
+    } else {
+      return { status: SyncStatus.FAILED, reason: `HTTP ${resp.status}` };
+    }
+  } catch (err) {
+    // Queue for retry — offline support
+    const queue = DB.get("sync_queue", []);
+    queue.push({ flowKey, data, timestamp: new Date().toISOString(), retries: 0 });
+    DB.set("sync_queue", queue);
+    return { status: SyncStatus.PENDING, reason: err.message };
+  }
+}
+
+// Retry queued items when back online
+async function processRetryQueue(showToast) {
+  const queue = DB.get("sync_queue", []);
+  if (queue.length === 0) return;
+
+  const remaining = [];
+  for (const item of queue) {
+    const url = FLOW_URLS[item.flowKey];
+    if (!url) { remaining.push(item); continue; }
+    try {
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item.data),
+      });
+      if (!resp.ok && resp.status !== 202) {
+        if (item.retries < 3) remaining.push({ ...item, retries: item.retries + 1 });
+      }
+    } catch {
+      if (item.retries < 3) remaining.push({ ...item, retries: item.retries + 1 });
+    }
+  }
+  DB.set("sync_queue", remaining);
+  if (remaining.length < queue.length && showToast) {
+    showToast(`Synced ${queue.length - remaining.length} queued item(s)`);
+  }
+}
+
+/* ── NFC/RFID Scanner ── */
+async function scanNFC() {
+  if (!("NDEFReader" in window)) {
+    return { success: false, error: "NFC not supported on this device/browser. Use Chrome on Android." };
+  }
+  try {
+    const ndef = new NDEFReader();
+    await ndef.scan();
+    return new Promise((resolve) => {
+      ndef.addEventListener("reading", ({ serialNumber }) => {
+        resolve({ success: true, tagId: serialNumber });
+      }, { once: true });
+      setTimeout(() => resolve({ success: false, error: "No tag detected. Hold phone near the RFID tag." }), 10000);
+    });
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+}
+
+/* ── Harness Inventory (mirrors your Power App Excel structure) ── */
+const HARNESS_FIELDS = [
+  "RFIDTagID","HarnessModel","HarnessSize","SerialNumber",
+  "ManufactureDate","PurchaseDate","AssignedTo","AssignedLocation",
+  "Status","LastInspectionDate","LastInspectionResult","NextInspectionDue","Notes"
+];
+
+function getHarnessInventory() { return DB.get("harness_inventory", []); }
+function saveHarnessInventory(inv) { DB.set("harness_inventory", inv); }
+
+function lookupHarness(tagId) {
+  const inv = getHarnessInventory();
+  return inv.find(h => h.RFIDTagID === tagId || h.SerialNumber === tagId);
+}
+
+function upsertHarness(harness) {
+  const inv = getHarnessInventory();
+  const idx = inv.findIndex(h => h.RFIDTagID === harness.RFIDTagID);
+  if (idx >= 0) { inv[idx] = { ...inv[idx], ...harness }; }
+  else { inv.push(harness); }
+  saveHarnessInventory(inv);
+}
+
+// Export harness inventory as Excel (same format as your Power App's HarnessInventory.xlsx)
+function exportHarnessInventoryXLSX() {
+  const inv = getHarnessInventory();
+  if (inv.length === 0) return;
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.json_to_sheet(inv.map(h => {
+    const row = {};
+    HARNESS_FIELDS.forEach(f => { row[f] = h[f] || ""; });
+    return row;
+  }));
+  XLSX.utils.book_append_sheet(wb, ws, "HarnessInventory");
+  XLSX.writeFile(wb, "HarnessInventory.xlsx");
+}
+
+// Export inspection records as Excel (same format as your Power App's InspectionRecords.xlsx)
+function exportInspectionRecordsXLSX(inspections) {
+  const fallProInspections = inspections.filter(i => i.template === "fall-pro");
+  if (fallProInspections.length === 0) return;
+  const wb = XLSX.utils.book_new();
+  const rows = fallProInspections.map(i => ({
+    RFIDTagID: i.rfidTagId || "",
+    InspectionDate: i.createdAt || "",
+    InspectorName: i.inspector || "",
+    InspectionType: i.inspectionType || "Pre-Use",
+    DorsalDRing: i.responses?.fp2 === "yes" ? "Pass" : i.responses?.fp2 === "no" ? "Fail" : "N/A",
+    ChestBuckle: i.responses?.fp3 === "yes" ? "Pass" : i.responses?.fp3 === "no" ? "Fail" : "N/A",
+    GrommetsRivets: i.responses?.fp3 === "yes" ? "Pass" : i.responses?.fp3 === "no" ? "Fail" : "N/A",
+    WebbingShoulders: i.responses?.fp1 === "yes" ? "Pass" : i.responses?.fp1 === "no" ? "Fail" : "N/A",
+    Stitching: i.responses?.fp4 === "yes" ? "Pass" : i.responses?.fp4 === "no" ? "Fail" : "N/A",
+    MoldMildew: i.responses?.fp5 === "yes" ? "Pass" : i.responses?.fp5 === "no" ? "Fail" : "N/A",
+    UnauthorizedMods: "Pass",
+    OverallCondition: i.responses?.fp6 === "yes" ? "Pass" : i.responses?.fp6 === "no" ? "Fail" : "N/A",
+    OverallResult: i.findings > 0 ? "Fail" : "Pass",
+    FailedItems: Object.entries(i.responses || {}).filter(([,v]) => v === "no").map(([k]) => k).join(", "),
+    InspectionNotes: Object.values(i.notes || {}).filter(Boolean).join("; "),
+  }));
+  const ws = XLSX.utils.json_to_sheet(rows);
+  XLSX.utils.book_append_sheet(wb, ws, "InspectionRecords");
+  XLSX.writeFile(wb, "InspectionRecords.xlsx");
+}
+
+// Import harness inventory from Excel
+function importHarnessInventory(file, callback) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const wb = XLSX.read(e.target.result, { type: "array" });
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const data = XLSX.utils.sheet_to_json(ws);
+    const current = getHarnessInventory();
+    data.forEach(row => {
+      const existing = current.findIndex(h => h.RFIDTagID === row.RFIDTagID);
+      if (existing >= 0) { current[existing] = { ...current[existing], ...row }; }
+      else { current.push(row); }
+    });
+    saveHarnessInventory(current);
+    if (callback) callback(current.length);
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+/* ── Locations ── */
+const LOCATIONS = [
+  { id: "cape", name: "Cape Canaveral", short: "Cape" },
+  { id: "stennis", name: "Stennis Space Center", short: "Stennis" },
+  { id: "wormhole", name: "Wormhole", short: "Wormhole" },
+];
+
+/* ── Templates ── */
+const TEMPLATES = [
+  {
+    id: "fall-pro", name: "Fall Protection Equipment", reg: "OSHA 1926.502/503",
+    icon: "\u26D1", frequency: "Monthly", color: "#C0C0C0",
+    locations: ["cape", "stennis", "wormhole"],
+    sections: [
+      { title: "Full Body Harness", items: [
+        { id: "fp1", text: "Webbing free of cuts, burns, chemical damage, fraying" },
+        { id: "fp2", text: "D-rings and hardware free of cracks, distortion, corrosion" },
+        { id: "fp3", text: "Buckles and grommets function properly" },
+        { id: "fp4", text: "Stitching intact \u2014 no pulled, cut, or broken stitches" },
+        { id: "fp5", text: "Labels/tags legible (mfg date, model, capacity)" },
+        { id: "fp6", text: "Impact indicator not deployed" },
+        { id: "fp7", text: "RFID tag present and scannable" },
+      ]},
+      { title: "Self-Retracting Lifeline (SRL)", items: [
+        { id: "fp8", text: "Housing free of cracks or damage" },
+        { id: "fp9", text: "Lifeline retracts and extends smoothly" },
+        { id: "fp10", text: "Locking mechanism engages on quick pull" },
+        { id: "fp11", text: "Snap hook gate closes and locks fully" },
+        { id: "fp12", text: "Annual recertification current" },
+      ]},
+      { title: "Anchorage Points", items: [
+        { id: "fp13", text: "Anchor rated for 5,000 lbs or designed by qualified person" },
+        { id: "fp14", text: "Anchor free of visible damage, corrosion, or modification" },
+        { id: "fp15", text: "Adequate clearance distance below work area calculated" },
+      ]},
+    ],
+  },
+  {
+    id: "swppp", name: "SWPPP Site Inspection", reg: "EPA CGP / FL DEP",
+    icon: "\uD83C\uDF27", frequency: "Weekly + Post-Storm", color: "#797979",
+    locations: ["cape", "stennis"],
+    sections: [
+      { title: "Erosion & Sediment Controls", items: [
+        { id: "sw1", text: "Silt fences intact, properly entrenched, no undercutting" },
+        { id: "sw2", text: "Inlet protection devices in place and functional" },
+        { id: "sw3", text: "Sediment basins/traps at proper capacity (<50% full)" },
+        { id: "sw4", text: "Construction exits have stone tracking pads, functional" },
+        { id: "sw5", text: "Temporary seeding/mulching in place on inactive areas" },
+      ]},
+      { title: "Good Housekeeping / Materials", items: [
+        { id: "sw6", text: "Waste dumpsters covered and not overflowing" },
+        { id: "sw7", text: "Concrete washout area properly contained" },
+        { id: "sw8", text: "Chemical/fuel storage areas have secondary containment" },
+        { id: "sw9", text: "No evidence of illicit discharge or spills to storm drains" },
+        { id: "sw10", text: "Portable toilet units on level ground, away from drainage" },
+      ]},
+      { title: "Discharge Points", items: [
+        { id: "sw11", text: "Outfall points inspected \u2014 water clarity acceptable" },
+        { id: "sw12", text: "No visible sheen, discoloration, or odor at discharge" },
+        { id: "sw13", text: "Receiving waters show no signs of sedimentation" },
+      ]},
+    ],
+  },
+  {
+    id: "rcra", name: "RCRA Haz Waste Storage", reg: "40 CFR 262.17",
+    icon: "\u2622", frequency: "Weekly", color: "#D5D5D5",
+    locations: ["cape", "stennis"],
+    sections: [
+      { title: "Container Condition & Labeling", items: [
+        { id: "rc1", text: "All containers closed and in good condition (no leaks, rust, bulging)" },
+        { id: "rc2", text: "Containers labeled \"Hazardous Waste\" with contents and hazard" },
+        { id: "rc3", text: "Accumulation start date marked and within 90/180/270 day limit" },
+        { id: "rc4", text: "Containers compatible with waste stored" },
+        { id: "rc5", text: "Satellite accumulation areas at or near point of generation" },
+      ]},
+      { title: "Storage Area Requirements", items: [
+        { id: "rc6", text: "Secondary containment intact (no cracks, adequate capacity)" },
+        { id: "rc7", text: "Incompatible wastes separated by dike/berm/wall" },
+        { id: "rc8", text: "Adequate aisle space for emergency access (min 30\")" },
+        { id: "rc9", text: "Area secure from unauthorized access" },
+        { id: "rc10", text: "Emergency equipment accessible (fire extinguisher, spill kit)" },
+      ]},
+      { title: "Documentation", items: [
+        { id: "rc11", text: "Contingency plan posted and current" },
+        { id: "rc12", text: "Emergency coordinator contact info posted" },
+        { id: "rc13", text: "Personnel training records current" },
+        { id: "rc14", text: "Manifest copies available for last 3 years" },
+      ]},
+    ],
+  },
+  {
+    id: "general", name: "General Workplace Safety", reg: "OSHA General Duty",
+    icon: "\uD83D\uDD0D", frequency: "Monthly", color: "#929292",
+    locations: ["cape", "stennis", "wormhole"],
+    sections: [
+      { title: "Walking/Working Surfaces", items: [
+        { id: "gn1", text: "Floors clean, dry, free of trip hazards" },
+        { id: "gn2", text: "Stairways clear, handrails intact" },
+        { id: "gn3", text: "Ladders in good condition, properly stored" },
+      ]},
+      { title: "Electrical", items: [
+        { id: "gn4", text: "No damaged cords, exposed wiring, or missing covers" },
+        { id: "gn5", text: "Electrical panels accessible (36\" clearance), labeled" },
+        { id: "gn6", text: "GFCIs tested and functional" },
+      ]},
+      { title: "Fire Prevention", items: [
+        { id: "gn7", text: "Fire extinguishers accessible, inspected, charged" },
+        { id: "gn8", text: "Emergency exits unobstructed and marked" },
+        { id: "gn9", text: "Flammable storage within allowable limits" },
+      ]},
+      { title: "PPE & Housekeeping", items: [
+        { id: "gn10", text: "Required PPE available and worn correctly" },
+        { id: "gn11", text: "Work areas organized, materials properly stored" },
+        { id: "gn12", text: "SDS accessible for all chemicals in use" },
+      ]},
+    ],
+  },
+];
+
+const priColors = { Critical: C.danger, High: "#F97316", Medium: C.accent, Low: C.info };
+const statColors = { Open: C.danger, "In Progress": C.accent, Completed: C.success, Verified: "#8B5CF6" };
+const TODAY = new Date().toISOString().slice(0, 10);
+
+/* ── Hooks ── */
+function useIsMobile() {
+  const [m, setM] = useState(window.innerWidth <= 768);
+  useEffect(() => { const h = () => setM(window.innerWidth <= 768); window.addEventListener("resize", h); return () => window.removeEventListener("resize", h); }, []);
+  return m;
+}
+
+function useToast() {
+  const [toast, setToast] = useState(null);
+  const show = (msg, type = "success") => { setToast({ msg, type }); setTimeout(() => setToast(null), 3000); };
+  const el = toast ? React.createElement("div", {
+    className: "toast",
+    style: { background: toast.type === "success" ? C.success : toast.type === "error" ? C.danger : C.info, color: "#fff" }
+  }, toast.msg) : null;
+  return [el, show];
+}
+
+/* ── PDF Generation ── */
+function generatePDF(inspection, responses, notes, photos) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const tpl = TEMPLATES.find(t => t.id === inspection.template);
+  const margin = 20;
+  let y = 20;
+  const pw = doc.internal.pageSize.getWidth() - margin * 2;
+
+  const addPage = () => { doc.addPage(); y = 20; };
+  const checkPage = (need) => { if (y + need > 270) addPage(); };
+
+  // Header
+  doc.setFillColor(15, 17, 23);
+  doc.rect(0, 0, 220, 40, "F");
+  doc.setTextColor(245, 158, 11);
+  doc.setFontSize(18);
+  doc.setFont(undefined, "bold");
+  doc.text("EHS INSPECTION REPORT", margin, y + 8);
+  doc.setFontSize(9);
+  doc.setTextColor(139, 143, 163);
+  doc.text("Generated " + new Date().toLocaleString(), margin, y + 15);
+  y = 48;
+
+  // Info box
+  doc.setFillColor(30, 33, 48);
+  doc.roundedRect(margin, y, pw, 32, 3, 3, "F");
+  doc.setFontSize(10);
+  doc.setTextColor(232, 233, 237);
+  doc.setFont(undefined, "bold");
+  doc.text(tpl.name, margin + 6, y + 8);
+  doc.setFont(undefined, "normal");
+  doc.setTextColor(139, 143, 163);
+  doc.setFontSize(9);
+  doc.text(`Regulation: ${tpl.reg}`, margin + 6, y + 15);
+  doc.text(`Location: ${inspection.location}    Inspector: ${inspection.inspector}    Date: ${inspection.date}`, margin + 6, y + 22);
+  doc.text(`Weather: ${inspection.weather}`, margin + 6, y + 28);
+  y += 40;
+
+  // Summary
+  const totalItems = tpl.sections.reduce((a, s) => a + s.items.length, 0);
+  const findings = Object.entries(responses).filter(([, v]) => v === "no").length;
+  doc.setFillColor(findings > 0 ? 40 : 20, findings > 0 ? 25 : 35, findings > 0 ? 25 : 30);
+  doc.roundedRect(margin, y, pw, 14, 3, 3, "F");
+  doc.setFontSize(10);
+  doc.setTextColor(findings > 0 ? 239 : 34, findings > 0 ? 68 : 197, findings > 0 ? 68 : 94);
+  doc.setFont(undefined, "bold");
+  doc.text(`${findings} FINDING${findings !== 1 ? "S" : ""} OUT OF ${totalItems} ITEMS INSPECTED`, margin + 6, y + 9);
+  y += 22;
+
+  // Sections
+  tpl.sections.forEach(section => {
+    checkPage(20);
+    doc.setFillColor(26, 29, 39);
+    doc.roundedRect(margin, y, pw, 10, 2, 2, "F");
+    doc.setFontSize(9);
+    doc.setFont(undefined, "bold");
+    doc.setTextColor(...hexToRgb(tpl.color));
+    doc.text(section.title.toUpperCase(), margin + 4, y + 7);
+    y += 14;
+
+    section.items.forEach(item => {
+      const ans = responses[item.id] || "—";
+      const isNo = ans === "no";
+      checkPage(isNo ? 30 : 12);
+
+      if (isNo) {
+        doc.setFillColor(40, 22, 22);
+        doc.roundedRect(margin, y - 3, pw, notes[item.id] ? 22 : 12, 2, 2, "F");
+      }
+
+      doc.setFontSize(8);
+      doc.setFont(undefined, "normal");
+      doc.setTextColor(200, 200, 200);
+      const lines = doc.splitTextToSize(item.text, pw - 30);
+      doc.text(lines, margin + 4, y + 3);
+
+      doc.setFont(undefined, "bold");
+      doc.setTextColor(
+        ans === "yes" ? 34 : ans === "no" ? 239 : 139,
+        ans === "yes" ? 197 : ans === "no" ? 68 : 143,
+        ans === "yes" ? 94 : ans === "no" ? 68 : 163,
+      );
+      doc.text(ans.toUpperCase(), margin + pw - 10, y + 3);
+
+      y += lines.length * 4 + 4;
+
+      if (isNo && notes[item.id]) {
+        doc.setFont(undefined, "italic");
+        doc.setTextColor(200, 160, 100);
+        doc.setFontSize(7);
+        const noteLines = doc.splitTextToSize("Finding: " + notes[item.id], pw - 12);
+        doc.text(noteLines, margin + 8, y);
+        y += noteLines.length * 3.5 + 4;
+      }
+      y += 2;
+    });
+    y += 4;
+  });
+
+  // Photos section
+  const photoItems = Object.entries(photos).filter(([, arr]) => arr && arr.length > 0);
+  if (photoItems.length > 0) {
+    checkPage(20);
+    doc.setFontSize(11);
+    doc.setFont(undefined, "bold");
+    doc.setTextColor(245, 158, 11);
+    doc.text("PHOTO DOCUMENTATION", margin, y + 5);
+    y += 12;
+
+    photoItems.forEach(([itemId, imgs]) => {
+      const allItems = tpl.sections.flatMap(s => s.items);
+      const item = allItems.find(i => i.id === itemId);
+      checkPage(50);
+      doc.setFontSize(8);
+      doc.setFont(undefined, "bold");
+      doc.setTextColor(200, 200, 200);
+      doc.text(item ? item.text.slice(0, 80) : itemId, margin + 4, y + 3);
+      y += 6;
+      imgs.forEach(img => {
+        checkPage(45);
+        try { doc.addImage(img, "JPEG", margin + 4, y, 40, 30); } catch {}
+        y += 34;
+      });
+      y += 4;
+    });
+  }
+
+  doc.save(`EHS-Inspection-${inspection.template}-${inspection.date}-${inspection.id}.pdf`);
+}
+
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return [r, g, b];
+}
+
+/* ── CSV Export (BigQuery-ready) ── */
+function exportInspectionsCSV(inspections) {
+  const headers = ["inspection_id","template_id","template_name","regulation","inspector","location","date","weather","total_items","findings_count","critical_count","status","created_at"];
+  const rows = inspections.map(i => {
+    const tpl = TEMPLATES.find(t => t.id === i.template);
+    return [i.id, i.template, tpl?.name||"", tpl?.reg||"", i.inspector, `"${i.location}"`, i.date, i.weather, i.totalItems, i.findings, i.critical, i.status, i.createdAt].join(",");
+  });
+  downloadCSV("ehs_inspections.csv", [headers.join(","), ...rows].join("\n"));
+}
+
+function exportResponsesCSV(inspections) {
+  const headers = ["inspection_id","item_id","section","item_text","response","notes","has_photo","timestamp"];
+  const rows = [];
+  inspections.forEach(i => {
+    const tpl = TEMPLATES.find(t => t.id === i.template);
+    if (!tpl || !i.responses) return;
+    tpl.sections.forEach(s => {
+      s.items.forEach(item => {
+        const ans = i.responses[item.id] || "";
+        const note = i.notes?.[item.id] || "";
+        const hasPhoto = (i.photos?.[item.id]?.length || 0) > 0;
+        rows.push([i.id, item.id, `"${s.title}"`, `"${item.text}"`, ans, `"${note.replace(/"/g, '""')}"`, hasPhoto, i.createdAt].join(","));
+      });
+    });
+  });
+  downloadCSV("ehs_responses.csv", [headers.join(","), ...rows].join("\n"));
+}
+
+function exportCorrectiveCSV(actions) {
+  const headers = ["action_id","inspection_id","template_id","finding","priority","assigned_to","location","due_date","status","created_at","completed_at"];
+  const rows = actions.map(a => [a.id, a.inspectionId, a.template, `"${a.finding.replace(/"/g, '""')}"`, a.priority, `"${a.assigned}"`, `"${a.location}"`, a.due, a.status, a.createdAt||"", a.completedAt||""].join(","));
+  downloadCSV("ehs_corrective_actions.csv", [headers.join(","), ...rows].join("\n"));
+}
+
+function downloadCSV(filename, content) {
+  const blob = new Blob([content], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+/* ── OneDrive Sync Export (Excel .xlsx with named Tables) ── */
+
+// Adds a named Excel Table to a worksheet so Power Automate can find it
+function addTableToSheet(ws, tableName, cols, rowCount) {
+  const ref = XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: rowCount, c: cols - 1 } });
+  if (!ws["!tables"]) ws["!tables"] = [];
+  // SheetJS doesn't natively support Tables in the free version,
+  // so we'll use a different approach: export as a single-sheet workbook
+  // with the sheet name matching what Power Automate expects
+  ws["!autofilter"] = { ref: ref };
+  ws["!ref"] = ref;
+}
+
+// Instead of multi-sheet files (which Power Automate struggles with),
+// export 3 SEPARATE Excel files — one per data type.
+// Each has one sheet with one table. Power Automate reads these perfectly.
+
+function exportInspectionXLSX(inspection) {
+  const tpl = TEMPLATES.find(t => t.id === inspection.template);
+  const wb = XLSX.utils.book_new();
+  const data = [{
+    inspection_id: String(inspection.id),
+    template_id: inspection.template,
+    template_name: tpl?.name || "",
+    regulation: tpl?.reg || "",
+    inspector: inspection.inspector,
+    site: inspection.site || "",
+    location: inspection.location,
+    date: inspection.date,
+    weather: inspection.weather,
+    total_items: inspection.totalItems,
+    findings_count: inspection.findings,
+    critical_count: inspection.critical,
+    created_at: inspection.createdAt,
+  }];
+  const ws = XLSX.utils.json_to_sheet(data);
+  XLSX.utils.book_append_sheet(wb, ws, "Table1");
+  return wb;
+}
+
+function exportResponsesXLSX(inspection) {
+  const tpl = TEMPLATES.find(t => t.id === inspection.template);
+  const wb = XLSX.utils.book_new();
+  const data = [];
+  if (tpl) {
+    tpl.sections.forEach(s => {
+      s.items.forEach(item => {
+        data.push({
+          inspection_id: String(inspection.id),
+          item_id: item.id,
+          section: s.title,
+          item_text: item.text,
+          response: inspection.responses?.[item.id] || "",
+          notes: inspection.notes?.[item.id] || "",
+        });
+      });
+    });
+  }
+  const ws = XLSX.utils.json_to_sheet(data);
+  XLSX.utils.book_append_sheet(wb, ws, "Table1");
+  return wb;
+}
+
+function exportActionsXLSX(correctiveActions) {
+  const wb = XLSX.utils.book_new();
+  const data = correctiveActions.map(a => {
+    const tpl = TEMPLATES.find(t => t.id === a.template);
+    return {
+      action_id: String(a.id),
+      inspection_id: String(a.inspectionId),
+      template_name: tpl?.name || "",
+      finding: a.finding,
+      notes: a.notes || "",
+      priority: a.priority,
+      assigned_to: a.assigned || "",
+      location: a.location,
+      due_date: a.due,
+      status: a.status,
+      created_at: a.createdAt || "",
+    };
+  });
+  // If no actions, still create sheet with headers
+  if (data.length === 0) {
+    data.push({ action_id: "", inspection_id: "", template_name: "", finding: "", notes: "", priority: "", assigned_to: "", location: "", due_date: "", status: "", created_at: "" });
+  }
+  const ws = XLSX.utils.json_to_sheet(data);
+  XLSX.utils.book_append_sheet(wb, ws, "Table1");
+  return wb;
+}
+
+function exportForOneDrive(inspection, correctiveActions) {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+
+  // File 1: Inspection summary
+  const wb1 = exportInspectionXLSX(inspection);
+  XLSX.writeFile(wb1, `EHS-Inspection-${timestamp}.xlsx`);
+
+  // File 2: Corrective actions (only if there are findings)
+  if (correctiveActions.length > 0) {
+    const wb3 = exportActionsXLSX(correctiveActions);
+    XLSX.writeFile(wb3, `EHS-Actions-${timestamp}.xlsx`);
+  }
+
+  return correctiveActions.length;
+}
+
+// Creates a TEMPLATE Excel file with proper named Tables for Power Automate
+// Run this ONCE, then keep the template files in OneDrive
+function createOneDriveTemplates() {
+  // Template 1: Inspections
+  const wb1 = XLSX.utils.book_new();
+  const inspHeaders = [["inspection_id","template_id","template_name","regulation","inspector","site","location","date","weather","total_items","findings_count","critical_count","created_at"]];
+  const ws1 = XLSX.utils.aoa_to_sheet(inspHeaders);
+  ws1["!ref"] = "A1:M1";
+  XLSX.utils.book_append_sheet(wb1, ws1, "Inspections");
+  XLSX.writeFile(wb1, "EHS-Inspections-Template.xlsx");
+
+  // Template 2: Corrective Actions
+  const wb2 = XLSX.utils.book_new();
+  const caHeaders = [["action_id","inspection_id","template_name","finding","notes","priority","assigned_to","location","due_date","status","created_at"]];
+  const ws2 = XLSX.utils.aoa_to_sheet(caHeaders);
+  ws2["!ref"] = "A1:K1";
+  XLSX.utils.book_append_sheet(wb2, ws2, "Actions");
+  XLSX.writeFile(wb2, "EHS-Actions-Template.xlsx");
+}
+
+// Appends new rows to the existing OneDrive template file
+// Inspector exports this, then REPLACES the file in OneDrive
+function exportAppendInspection(inspection) {
+  const tpl = TEMPLATES.find(t => t.id === inspection.template);
+  const allInspections = DB.get("inspections", []);
+  const wb = XLSX.utils.book_new();
+  const rows = allInspections.map(i => {
+    const t = TEMPLATES.find(x => x.id === i.template);
+    return {
+      inspection_id: String(i.id),
+      template_id: i.template,
+      template_name: t?.name || "",
+      regulation: t?.reg || "",
+      inspector: i.inspector,
+      site: i.site || "",
+      location: i.location,
+      date: i.date,
+      weather: i.weather,
+      total_items: i.totalItems || 0,
+      findings_count: i.findings || 0,
+      critical_count: i.critical || 0,
+      created_at: i.createdAt || "",
+    };
+  });
+  const ws = XLSX.utils.json_to_sheet(rows);
+  XLSX.utils.book_append_sheet(wb, ws, "Inspections");
+  XLSX.writeFile(wb, "EHS-Inspections-Data.xlsx");
+}
+
+function exportAppendActions(actions) {
+  const wb = XLSX.utils.book_new();
+  const rows = actions.map(a => {
+    const t = TEMPLATES.find(x => x.id === a.template);
+    return {
+      action_id: String(a.id),
+      inspection_id: String(a.inspectionId),
+      template_name: t?.name || "",
+      finding: a.finding,
+      notes: a.notes || "",
+      priority: a.priority,
+      assigned_to: a.assigned || "",
+      location: a.location,
+      due_date: a.due,
+      status: a.status,
+      created_at: a.createdAt || "",
+    };
+  });
+  const ws = XLSX.utils.json_to_sheet(rows);
+  XLSX.utils.book_append_sheet(wb, ws, "Actions");
+  XLSX.writeFile(wb, "EHS-Actions-Data.xlsx");
+}
+
+function exportAllCorrectiveForOneDrive(actions) {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+  const wb = exportActionsXLSX(actions);
+  XLSX.writeFile(wb, `EHS-AllActions-${timestamp}.xlsx`);
+}
+
+/* ── Shared Components ── */
+function Badge({ children, color, dim }) {
+  return React.createElement("span", { style: {
+    display: "inline-block", padding: "2px 10px", borderRadius: 4,
+    fontSize: 11, fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase",
+    color, background: dim || `${color}18`, whiteSpace: "nowrap",
+  }}, children);
+}
+
+function StatCard({ label, value, sub, color, icon, mobile }) {
+  return React.createElement("div", { style: {
+    background: C.card, border: `1px solid ${C.border}`, borderRadius: 10,
+    padding: mobile ? "14px 16px" : "20px 22px", flex: 1, minWidth: mobile ? "calc(50% - 6px)" : 160,
+    position: "relative", overflow: "hidden",
+  }},
+    React.createElement("div", { style: { position: "absolute", top: -8, right: -4, fontSize: mobile ? 36 : 48, opacity: 0.06, lineHeight: 1 }}, icon),
+    React.createElement("div", { style: { fontSize: 10, color: C.textMuted, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 6 }}, label),
+    React.createElement("div", { style: { fontSize: mobile ? 24 : 32, fontWeight: 800, color: color || C.text, lineHeight: 1 }}, value),
+    sub && React.createElement("div", { style: { fontSize: 11, color: C.textMuted, marginTop: 4 }}, sub),
+  );
+}
+
+function PhotoCapture({ itemId, photos, onPhotos, mobile }) {
+  const fileRef = useRef();
+  const imgs = photos[itemId] || [];
+
+  const handleCapture = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const updated = { ...photos, [itemId]: [...(photos[itemId] || []), reader.result] };
+      onPhotos(updated);
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  };
+
+  return React.createElement("div", { style: { marginTop: 6 }},
+    React.createElement("input", { ref: fileRef, type: "file", accept: "image/*", capture: "environment", onChange: handleCapture, style: { display: "none" } }),
+    React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }},
+      React.createElement("button", {
+        onClick: () => fileRef.current.click(),
+        style: {
+          background: C.surface, border: `1px dashed ${C.border}`, borderRadius: 6,
+          width: 56, height: 56, display: "flex", alignItems: "center", justifyContent: "center",
+          cursor: "pointer", fontSize: 20, color: C.textMuted,
+        }
+      }, "\uD83D\uDCF7"),
+      imgs.map((src, i) => React.createElement("img", { key: i, src, className: "photo-thumb", onClick: () => {
+        const updated = { ...photos, [itemId]: imgs.filter((_, j) => j !== i) };
+        onPhotos(updated);
+      }})),
+    ),
+  );
+}
+
+/* ── Dashboard ── */
+function Dashboard({ inspections, corrective, onNavigate, mobile }) {
+  const openActions = corrective.filter(c => c.status === "Open" || c.status === "In Progress");
+  const criticalOpen = corrective.filter(c => c.priority === "Critical" && c.status !== "Verified" && c.status !== "Completed");
+  const overdueActions = corrective.filter(c => (c.status === "Open" || c.status === "In Progress") && c.due < TODAY);
+  const completedThisMonth = inspections.filter(i => i.date >= TODAY.slice(0, 8) + "01").length;
+
+  return React.createElement("div", null,
+    React.createElement("div", { style: { marginBottom: mobile ? 20 : 28, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }},
+      React.createElement("div", null,
+        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }},
+          React.createElement("img", { src: RELATIVITY_LOGO, style: { height: mobile ? 16 : 20 } }),
+        ),
+        React.createElement("h2", { style: { fontSize: mobile ? 20 : 26, fontWeight: 800, color: C.text, letterSpacing: "-0.02em" }}, "EHS Dashboard"),
+        React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 4 }}, `${LOCATIONS.find(l => l.id === DB.get("selected_location", "cape"))?.name || "All Sites"} \u00B7 ${new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}`),
+      ),
+      !mobile && React.createElement("div", { style: { textAlign: "right" }},
+        React.createElement("div", { style: { fontSize: 10, color: C.textDim, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}, "Inspector"),
+        React.createElement("div", { style: { fontSize: 13, color: C.textMuted, fontWeight: 700 }}, DB.get("inspector_name", "Not set")),
+      ),
+    ),
+    React.createElement("div", { style: { display: "flex", gap: mobile ? 8 : 14, flexWrap: "wrap", marginBottom: mobile ? 16 : 24 }},
+      React.createElement(StatCard, { label: "Open Actions", value: openActions.length, sub: `${criticalOpen.length} critical`, color: C.danger, icon: "\u26A0", mobile }),
+      React.createElement(StatCard, { label: "Overdue", value: overdueActions.length, sub: "Past due", color: "#F97316", icon: "\u23F0", mobile }),
+      React.createElement(StatCard, { label: "This Month", value: completedThisMonth, sub: "Inspections", color: C.success, icon: "\u2713", mobile }),
+      React.createElement(StatCard, { label: "Templates", value: TEMPLATES.length, sub: "Active", color: C.info, icon: "\uD83D\uDCCB", mobile }),
+    ),
+    React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: mobile ? 12 : 14, marginBottom: mobile ? 16 : 24 }},
+      // Recent Inspections
+      React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 14 : 20 }},
+        React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 12, display: "flex", justifyContent: "space-between" }},
+          React.createElement("span", null, "Recent Inspections"),
+          React.createElement("span", { style: { fontSize: 11, color: C.accent, cursor: "pointer", fontWeight: 600 }, onClick: () => onNavigate("history") }, "View All \u2192"),
+        ),
+        inspections.slice(0, mobile ? 4 : 5).map(insp => {
+          const tpl = TEMPLATES.find(t => t.id === insp.template);
+          if (!tpl) return null;
+          return React.createElement("div", { key: insp.id, style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: `1px solid ${C.border}` }},
+            React.createElement("span", { style: { fontSize: 16 }}, tpl.icon),
+            React.createElement("div", { style: { flex: 1, minWidth: 0 }},
+              React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}, tpl.name),
+              React.createElement("div", { style: { fontSize: 11, color: C.textMuted }}, `${insp.location} \u00B7 ${insp.date.slice(5)}`),
+            ),
+            insp.findings > 0
+              ? React.createElement(Badge, { color: insp.critical > 0 ? C.danger : C.accent }, insp.findings)
+              : React.createElement(Badge, { color: C.success }, "OK"),
+          );
+        }),
+        inspections.length === 0 && React.createElement("div", { style: { padding: 20, textAlign: "center", color: C.textDim, fontSize: 13 }}, "No inspections yet. Start one!"),
+      ),
+      // Open Corrective Actions
+      React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 14 : 20 }},
+        React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 12, display: "flex", justifyContent: "space-between" }},
+          React.createElement("span", null, "Open Actions"),
+          React.createElement("span", { style: { fontSize: 11, color: C.accent, cursor: "pointer", fontWeight: 600 }, onClick: () => onNavigate("actions") }, "View All \u2192"),
+        ),
+        openActions.slice(0, mobile ? 4 : 5).map(ca =>
+          React.createElement("div", { key: ca.id, style: { padding: "8px 0", borderBottom: `1px solid ${C.border}` }},
+            React.createElement("div", { style: { display: "flex", gap: 4, alignItems: "center", marginBottom: 4, flexWrap: "wrap" }},
+              React.createElement(Badge, { color: priColors[ca.priority] }, ca.priority),
+              React.createElement(Badge, { color: statColors[ca.status] }, ca.status),
+              ca.due < TODAY && React.createElement(Badge, { color: C.danger, dim: C.dangerDim }, "OVERDUE"),
+            ),
+            React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: C.text, marginBottom: 2, lineHeight: 1.4 }}, ca.finding),
+            React.createElement("div", { style: { fontSize: 11, color: C.textMuted }}, `${ca.assigned} \u00B7 Due: ${ca.due.slice(5)}`),
+          )
+        ),
+        openActions.length === 0 && React.createElement("div", { style: { padding: 20, textAlign: "center", color: C.textDim, fontSize: 13 }}, "No open actions \u2014 nice work!"),
+      ),
+    ),
+    // Coverage
+    React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 14 : 20 }},
+      React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 14 }}, "Inspection Coverage"),
+      React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)", gap: 14 }},
+        TEMPLATES.map(tpl => {
+          const count = inspections.filter(i => i.template === tpl.id).length;
+          const findings = inspections.filter(i => i.template === tpl.id).reduce((a, b) => a + (b.findings || 0), 0);
+          return React.createElement("div", { key: tpl.id, style: { textAlign: "center" }},
+            React.createElement("div", { style: { fontSize: 24, marginBottom: 4 }}, tpl.icon),
+            React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: C.text }}, tpl.name),
+            React.createElement("div", { style: { fontSize: 10, color: C.textMuted, marginBottom: 6 }}, tpl.reg),
+            React.createElement("div", { style: { display: "flex", justifyContent: "center", gap: 14 }},
+              React.createElement("div", null,
+                React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: tpl.color }}, count),
+                React.createElement("div", { style: { fontSize: 9, color: C.textMuted }}, "inspections"),
+              ),
+              React.createElement("div", null,
+                React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: findings > 0 ? C.accent : C.success }}, findings),
+                React.createElement("div", { style: { fontSize: 9, color: C.textMuted }}, "findings"),
+              ),
+            ),
+          );
+        }),
+      ),
+    ),
+  );
+}
+
+/* ── Template List ── */
+function TemplateList({ onSelect, mobile }) {
+  const [selectedLocation, setSelectedLocation] = useState(() => DB.get("selected_location", "cape"));
+  const filteredTemplates = TEMPLATES.filter(tpl => !tpl.locations || tpl.locations.includes(selectedLocation));
+  const loc = LOCATIONS.find(l => l.id === selectedLocation);
+
+  const handleLocationChange = (locId) => {
+    setSelectedLocation(locId);
+    DB.set("selected_location", locId);
+  };
+
+  return React.createElement("div", null,
+    React.createElement("div", { style: { marginBottom: mobile ? 16 : 20 }},
+      React.createElement("h2", { style: { fontSize: mobile ? 18 : 22, fontWeight: 800, color: C.text }}, "New Inspection"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 4 }}, `Select a template for ${loc?.name || "your location"}`),
+    ),
+
+    // Location selector
+    React.createElement("div", { style: { display: "flex", gap: 6, marginBottom: 16, flexWrap: "wrap" }},
+      LOCATIONS.map(l =>
+        React.createElement("button", { key: l.id, onClick: () => handleLocationChange(l.id), style: {
+          padding: "10px 18px", borderRadius: 6, border: selectedLocation === l.id ? `2px solid ${C.accent}` : `1px solid ${C.border}`,
+          fontSize: 13, fontWeight: 700, cursor: "pointer", minHeight: 42,
+          background: selectedLocation === l.id ? C.accentDim : C.surface,
+          color: selectedLocation === l.id ? C.accent : C.textMuted,
+          WebkitTapHighlightColor: "transparent",
+        }}, l.name),
+      ),
+    ),
+
+    // Filtered templates
+    React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: mobile ? 10 : 14 }},
+      filteredTemplates.map(tpl => {
+        const itemCount = tpl.sections.reduce((a, s) => a + s.items.length, 0);
+        return React.createElement("div", { key: tpl.id, onClick: () => onSelect(tpl.id), style: {
+          background: C.card, border: `1px solid ${C.border}`, borderRadius: 10,
+          padding: mobile ? 16 : 22, cursor: "pointer", borderLeft: `4px solid ${tpl.color}`, WebkitTapHighlightColor: "transparent",
+        }},
+          React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }},
+            React.createElement("span", { style: { fontSize: mobile ? 24 : 28 }}, tpl.icon),
+            React.createElement("div", { style: { flex: 1 }},
+              React.createElement("div", { style: { fontSize: mobile ? 14 : 15, fontWeight: 700, color: C.text }}, tpl.name),
+              React.createElement("div", { style: { fontSize: 11, color: C.textMuted }}, tpl.reg),
+            ),
+          ),
+          React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" }},
+            React.createElement(Badge, { color: tpl.color }, tpl.frequency),
+            React.createElement("span", { style: { fontSize: 11, color: C.textDim }}, `${itemCount} items`),
+          ),
+        );
+      }),
+      filteredTemplates.length === 0 && React.createElement("div", { style: { padding: 40, textAlign: "center", color: C.textDim, fontSize: 13, gridColumn: "1 / -1" }}, "No templates configured for this location"),
+    ),
+  );
+}
+
+/* ── Inspection Form ── */
+function InspectionForm({ template, onBack, onSubmit, mobile }) {
+  const tpl = TEMPLATES.find(t => t.id === template);
+  const [responses, setResponses] = useState({});
+  const [notes, setNotes] = useState({});
+  const [photos, setPhotos] = useState({});
+  const selectedLocId = DB.get("selected_location", "cape");
+  const selectedLoc = LOCATIONS.find(l => l.id === selectedLocId);
+  const [meta, setMeta] = useState({ location: selectedLoc?.name || "Cape Canaveral", weather: "Clear", inspector: DB.get("inspector_name", ""), site: DB.get("site_name", "") });
+  const [submitted, setSubmitted] = useState(false);
+  const [showSettings, setShowSettings] = useState(!DB.get("inspector_name", ""));
+  const [showRfidPrompt, setShowRfidPrompt] = useState(tpl.id === "fall-pro" && !DB.get("pending_rfid", ""));
+  const [rfidManualId, setRfidManualId] = useState("");
+  const [rfidScanning, setRfidScanning] = useState(false);
+
+  const setResponse = (id, val) => setResponses(p => ({ ...p, [id]: val }));
+  const setNote = (id, val) => setNotes(p => ({ ...p, [id]: val }));
+
+  const totalItems = tpl.sections.reduce((a, s) => a + s.items.length, 0);
+  const answered = Object.keys(responses).length;
+  const progress = totalItems > 0 ? Math.round((answered / totalItems) * 100) : 0;
+  const noItems = Object.entries(responses).filter(([, v]) => v === "no");
+
+  const handleSubmit = () => {
+    const pendingRfid = DB.get("pending_rfid", "");
+    const inspection = {
+      id: DB.nextId("inspection"),
+      template: tpl.id,
+      inspector: meta.inspector,
+      site: meta.site,
+      location: meta.location,
+      date: TODAY,
+      weather: meta.weather,
+      totalItems,
+      findings: noItems.length,
+      critical: noItems.filter(([id]) => {
+        const note = (notes[id] || "").toLowerCase();
+        return note.includes("critical") || note.includes("immediate");
+      }).length,
+      status: "complete",
+      responses: { ...responses },
+      notes: { ...notes },
+      photos: { ...photos },
+      rfidTagId: pendingRfid,
+      inspectionType: meta.inspectionType || "Pre-Use",
+      createdAt: new Date().toISOString(),
+    };
+
+    // Update harness inventory if this is a fall protection inspection with RFID
+    if (tpl.id === "fall-pro" && pendingRfid) {
+      const overallResult = noItems.length > 0 ? "Fail" : "Pass";
+      upsertHarness({
+        RFIDTagID: pendingRfid,
+        Status: overallResult === "Fail" ? "Do Not Use" : "Active",
+        LastInspectionDate: TODAY,
+        LastInspectionResult: overallResult,
+        NextInspectionDue: new Date(Date.now() + 180 * 86400000).toISOString().slice(0, 10),
+      });
+      DB.set("pending_rfid", "");
+    }
+
+    // Auto-create corrective actions for "no" answers
+    const newActions = noItems.map(([itemId]) => {
+      const allItems = tpl.sections.flatMap(s => s.items);
+      const item = allItems.find(i => i.id === itemId);
+      const noteText = notes[itemId] || "";
+      const priority = noteText.toLowerCase().includes("critical") || noteText.toLowerCase().includes("immediate") ? "Critical"
+        : noteText.toLowerCase().includes("high") || noteText.toLowerCase().includes("urgent") ? "High"
+        : noteText.toLowerCase().includes("low") || noteText.toLowerCase().includes("minor") ? "Low" : "Medium";
+      return {
+        id: DB.nextId("corrective"),
+        inspectionId: inspection.id,
+        template: tpl.id,
+        finding: item ? item.text : itemId,
+        notes: noteText,
+        priority,
+        assigned: "",
+        location: meta.location,
+        due: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+        status: "Open",
+        createdAt: new Date().toISOString(),
+        completedAt: "",
+      };
+    });
+
+    onSubmit(inspection, newActions);
+    setSubmitted(true);
+  };
+
+  // RFID-first prompt for Fall Protection
+  if (showRfidPrompt) {
+    const hasNFC = "NDEFReader" in window;
+    const [scanError, setScanError] = useState("");
+
+    const handleRfidScan = async () => {
+      if (!hasNFC) {
+        setScanError("NFC is not available on this device. Use an Android phone with Chrome for RFID scanning, or enter the harness info manually below.");
+        return;
+      }
+      setRfidScanning(true);
+      setScanError("");
+      const result = await scanNFC();
+      setRfidScanning(false);
+      if (result.success) {
+        DB.set("pending_rfid", result.tagId);
+        const harness = lookupHarness(result.tagId);
+        if (harness) { setRfidManualId(harness.HarnessModel || result.tagId); }
+        setShowRfidPrompt(false);
+      } else {
+        setScanError(result.error);
+      }
+    };
+    const handleRfidBypass = () => {
+      if (rfidManualId.trim()) {
+        DB.set("pending_rfid", rfidManualId.trim());
+        upsertHarness({ RFIDTagID: rfidManualId.trim(), HarnessModel: rfidManualId.trim(), Status: "Active" });
+      }
+      setShowRfidPrompt(false);
+    };
+
+    return React.createElement("div", { style: { maxWidth: 440, margin: "0 auto", padding: mobile ? 20 : 40, textAlign: "center" }},
+      React.createElement("img", { src: RELATIVITY_LOGO, style: { height: 22, marginBottom: 24 } }),
+      React.createElement("div", { style: { fontSize: 48, marginBottom: 16 }}, "\u26D1"),
+      React.createElement("h2", { style: { fontSize: 20, fontWeight: 800, color: C.text, marginBottom: 6 }}, "Fall Protection Inspection"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 13, marginBottom: 24, lineHeight: 1.5 }},
+        hasNFC
+          ? "Scan the harness RFID tag or enter the model/serial number to begin."
+          : "Enter the harness model or serial number to begin. RFID scanning requires an Android phone with Chrome."
+      ),
+
+      // NFC scan button - shows status
+      React.createElement("button", { onClick: handleRfidScan, disabled: rfidScanning, style: {
+        width: "100%", background: hasNFC ? C.accent : C.surface,
+        color: hasNFC ? "#000" : C.textMuted,
+        border: hasNFC ? "none" : `1px solid ${C.border}`,
+        borderRadius: 8, padding: "18px 24px", fontWeight: 700, fontSize: 15,
+        cursor: rfidScanning ? "wait" : "pointer",
+        minHeight: 56, marginBottom: 8, letterSpacing: "0.02em",
+      }}, rfidScanning ? "\uD83D\uDD04 Hold phone near tag..." : hasNFC ? "\uD83D\uDCF1 Scan RFID Tag" : "\uD83D\uDCF1 Scan RFID Tag (requires Android)"),
+
+      // Error/info message
+      scanError && React.createElement("div", { style: {
+        background: C.dangerDim, border: `1px solid ${C.danger}33`, borderRadius: 6,
+        padding: "10px 14px", marginBottom: 8, fontSize: 12, color: C.danger, textAlign: "left", lineHeight: 1.5,
+      }}, scanError),
+
+      // Divider
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, margin: "16px 0" }},
+        React.createElement("div", { style: { flex: 1, height: 1, background: C.border }}),
+        React.createElement("span", { style: { fontSize: 11, color: C.textDim, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em" }}, hasNFC ? "or enter manually" : "enter harness info"),
+        React.createElement("div", { style: { flex: 1, height: 1, background: C.border }}),
+      ),
+
+      // Manual entry - more prominent when no NFC
+      React.createElement("input", { value: rfidManualId, onChange: e => setRfidManualId(e.target.value),
+        placeholder: "Harness model, serial number, or tag ID",
+        onKeyDown: e => { if (e.key === "Enter") handleRfidBypass(); },
+        autoFocus: !hasNFC,
+        style: { width: "100%", background: C.surface, border: `1px solid ${hasNFC ? C.border : C.accent}`,
+          borderRadius: 8, padding: "14px 16px", color: C.text, fontSize: 14, outline: "none",
+          minHeight: 50, textAlign: "center", marginBottom: 12, boxSizing: "border-box" } }),
+
+      React.createElement("button", { onClick: handleRfidBypass, style: {
+        width: "100%", background: hasNFC ? C.surface : C.accent,
+        color: hasNFC ? C.text : "#000",
+        border: hasNFC ? `1px solid ${C.border}` : "none",
+        borderRadius: 8, padding: "14px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 50, marginBottom: 16,
+      }}, "Continue"),
+
+      React.createElement("button", { onClick: () => { DB.set("pending_rfid", ""); setShowRfidPrompt(false); }, style: {
+        background: "none", border: "none", color: C.textDim, fontSize: 12, cursor: "pointer", padding: 8,
+      }}, "Skip \u2014 inspect without tracking"),
+
+      React.createElement("button", { onClick: onBack, style: {
+        background: "none", border: "none", color: C.textDim, fontSize: 12, cursor: "pointer", padding: 8, display: "block", margin: "8px auto 0",
+      }}, "\u2190 Back to Templates"),
+    );
+  }
+
+  if (showSettings) {
+    return React.createElement("div", { style: { maxWidth: 400, margin: "0 auto", padding: mobile ? 16 : 40 }},
+      React.createElement("h2", { style: { fontSize: 18, fontWeight: 800, color: C.text, marginBottom: 8 }}, "Inspector Setup"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 20 }}, "This saves to your device for future inspections"),
+      React.createElement("div", { style: { marginBottom: 12 }},
+        React.createElement("label", { style: { fontSize: 11, color: C.textMuted, fontWeight: 600, display: "block", marginBottom: 4 }}, "YOUR NAME"),
+        React.createElement("input", { value: meta.inspector, onChange: e => setMeta(p => ({ ...p, inspector: e.target.value })),
+          style: { width: "100%", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 14, outline: "none", minHeight: 44 } }),
+      ),
+      React.createElement("div", { style: { marginBottom: 20 }},
+        React.createElement("label", { style: { fontSize: 11, color: C.textMuted, fontWeight: 600, display: "block", marginBottom: 4 }}, "SITE / FACILITY"),
+        React.createElement("input", { value: meta.site, onChange: e => setMeta(p => ({ ...p, site: e.target.value })),
+          style: { width: "100%", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 14, outline: "none", minHeight: 44 } }),
+      ),
+      React.createElement("button", { onClick: () => {
+        DB.set("inspector_name", meta.inspector);
+        DB.set("site_name", meta.site);
+        setShowSettings(false);
+      }, disabled: !meta.inspector, style: {
+        width: "100%", background: meta.inspector ? C.accent : C.surfaceHover, color: meta.inspector ? "#000" : C.textDim,
+        border: "none", borderRadius: 6, padding: "12px", fontWeight: 700, fontSize: 14, cursor: meta.inspector ? "pointer" : "not-allowed", minHeight: 44,
+      }}, "Continue"),
+    );
+  }
+
+  if (submitted) {
+    const isPassing = noItems.length === 0;
+    return React.createElement("div", { style: { textAlign: "center", padding: mobile ? 30 : 60, maxWidth: 480, margin: "0 auto" }},
+      React.createElement("img", { src: RELATIVITY_LOGO, style: { height: 18, marginBottom: 24 } }),
+      React.createElement("div", { style: {
+        width: 80, height: 80, borderRadius: "50%", margin: "0 auto 20px",
+        background: isPassing ? C.successDim : C.dangerDim,
+        border: `2px solid ${isPassing ? C.success : C.danger}`,
+        display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36,
+      }}, isPassing ? "\u2713" : "\u26A0"),
+      React.createElement("h2", { style: { color: C.text, fontSize: 22, fontWeight: 800, marginBottom: 4, letterSpacing: "-0.01em" }}, isPassing ? "Inspection Complete" : "Findings Documented"),
+      React.createElement("div", { style: { fontSize: 14, color: isPassing ? C.success : C.danger, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.06em" }}, isPassing ? "ALL ITEMS PASSED" : `${noItems.length} FINDING${noItems.length !== 1 ? "S" : ""} RECORDED`),
+      React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: 16, marginBottom: 20, textAlign: "left" }},
+        React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, fontSize: 12 }},
+          React.createElement("div", null,
+            React.createElement("div", { style: { color: C.textDim, fontSize: 10, textTransform: "uppercase", fontWeight: 600 }}, "Template"),
+            React.createElement("div", { style: { color: C.text, fontWeight: 700 }}, tpl.name),
+          ),
+          React.createElement("div", null,
+            React.createElement("div", { style: { color: C.textDim, fontSize: 10, textTransform: "uppercase", fontWeight: 600 }}, "Location"),
+            React.createElement("div", { style: { color: C.text, fontWeight: 700 }}, meta.location),
+          ),
+          React.createElement("div", null,
+            React.createElement("div", { style: { color: C.textDim, fontSize: 10, textTransform: "uppercase", fontWeight: 600 }}, "Items"),
+            React.createElement("div", { style: { color: C.text, fontWeight: 700 }}, `${answered}/${totalItems}`),
+          ),
+          React.createElement("div", null,
+            React.createElement("div", { style: { color: C.textDim, fontSize: 10, textTransform: "uppercase", fontWeight: 600 }}, "Inspector"),
+            React.createElement("div", { style: { color: C.text, fontWeight: 700 }}, meta.inspector),
+          ),
+        ),
+        DB.get("pending_rfid", "") && React.createElement("div", { style: { marginTop: 10, paddingTop: 10, borderTop: `1px solid ${C.border}` }},
+          React.createElement("div", { style: { color: C.textDim, fontSize: 10, textTransform: "uppercase", fontWeight: 600 }}, "Equipment Tag"),
+          React.createElement("div", { style: { color: C.text, fontWeight: 700, fontSize: 13 }}, DB.get("pending_rfid", "")),
+        ),
+      ),
+      noItems.length > 0 && React.createElement("div", { style: { background: C.dangerDim, border: `1px solid ${C.danger}33`, borderRadius: 8, padding: "10px 14px", marginBottom: 20, fontSize: 12, color: C.danger, fontWeight: 600 }}, `${noItems.length} corrective action${noItems.length !== 1 ? "s" : ""} auto-created \u2014 assign via Jira in Actions tab`),
+      React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }},
+        React.createElement("button", { onClick: onBack, style: { background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "12px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 44 }}, "Done"),
+        React.createElement("button", { onClick: () => {
+          const inspections = DB.get("inspections", []);
+          const insp = inspections[inspections.length - 1];
+          if (insp) generatePDF(insp, insp.responses, insp.notes, insp.photos || {});
+        }, style: { background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 6, padding: "12px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 44 }}, "\uD83D\uDCC4 Download PDF"),
+        React.createElement("button", { onClick: () => {
+          exportAppendInspection();
+          const actions = DB.get("corrective", []);
+          if (actions.length > 0) exportAppendActions(actions);
+        }, style: { background: C.info, color: "#fff", border: "none", borderRadius: 6, padding: "12px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 44 }}, "\uD83D\uDCC2 Save for OneDrive"),
+      ),
+      React.createElement("p", { style: { color: C.textDim, fontSize: 11, marginTop: 12, maxWidth: 380, margin: "12px auto 0", lineHeight: 1.5, textAlign: "center" }}, "Downloads EHS-Inspections-Data.xlsx and EHS-Actions-Data.xlsx. Replace the files in your OneDrive EHS-Data folder."),
+    );
+  }
+
+  return React.createElement("div", { style: { paddingBottom: 80 }},
+    React.createElement("button", { onClick: onBack, style: { background: "none", border: "none", color: C.textMuted, fontSize: 13, cursor: "pointer", padding: "8px 0", marginBottom: 12, minHeight: 44, display: "flex", alignItems: "center", gap: 4 }}, "\u2190 Back"),
+    React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }},
+      React.createElement("span", { style: { fontSize: mobile ? 28 : 36 }}, tpl.icon),
+      React.createElement("div", null,
+        React.createElement("h2", { style: { fontSize: mobile ? 16 : 20, fontWeight: 800, color: C.text }}, tpl.name),
+        React.createElement("span", { style: { fontSize: 11, color: C.textMuted }}, `${tpl.reg} \u00B7 ${tpl.frequency}`),
+      ),
+    ),
+    // RFID tag indicator (for fall protection)
+    tpl.id === "fall-pro" && DB.get("pending_rfid", "") && React.createElement("div", { style: {
+      background: C.accentDim, border: `1px solid ${C.accent}44`, borderRadius: 8, padding: "10px 14px", marginBottom: 12,
+      display: "flex", alignItems: "center", gap: 10,
+    }},
+      React.createElement("span", { style: { fontSize: 20 }}, "\uD83C\uDFF7"),
+      React.createElement("div", null,
+        React.createElement("div", { style: { fontSize: 11, color: C.accent, fontWeight: 600, textTransform: "uppercase" }}, "RFID Tag Linked"),
+        React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text }}, DB.get("pending_rfid", "")),
+      ),
+    ),
+    // Location badge + weather
+    React.createElement("div", { style: { display: "flex", gap: 10, marginBottom: 12, alignItems: "center", flexWrap: "wrap" }},
+      React.createElement("div", { style: { background: C.accentDim, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 14px", display: "flex", alignItems: "center", gap: 8 }},
+        React.createElement("span", { style: { fontSize: 14 }}, "\uD83D\uDCCD"),
+        React.createElement("span", { style: { fontSize: 13, fontWeight: 700, color: C.text }}, meta.location),
+      ),
+      React.createElement("select", { value: meta.weather, onChange: e => setMeta(p => ({ ...p, weather: e.target.value })),
+        style: { flex: 1, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 14, outline: "none", minHeight: 44 } },
+        ["Clear", "Partly Cloudy", "Overcast", "Rain", "Heavy Rain", "Post-Storm"].map(w => React.createElement("option", { key: w, value: w }, w)),
+      ),
+    ),
+    // Inspection type dropdown (for fall protection - matches your Power App)
+    tpl.id === "fall-pro" && React.createElement("div", { style: { marginBottom: 16 }},
+      React.createElement("select", { value: meta.inspectionType || "Pre-Use", onChange: e => setMeta(p => ({ ...p, inspectionType: e.target.value })),
+        style: { width: "100%", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 14, outline: "none", minHeight: 44 } },
+        ["Pre-Use", "Annual Competent Person", "Post-Fall", "Return to Service"].map(t => React.createElement("option", { key: t, value: t }, t)),
+      ),
+    ),
+    // Progress bar
+    React.createElement("div", { style: { background: C.surface, borderRadius: 6, height: 6, marginBottom: 20, overflow: "hidden" }},
+      React.createElement("div", { style: { height: "100%", width: `${progress}%`, background: progress === 100 ? C.success : tpl.color, borderRadius: 6, transition: "width 0.3s" }}),
+    ),
+    // Sections
+    tpl.sections.map(section =>
+      React.createElement("div", { key: section.title, style: { marginBottom: 18 }},
+        React.createElement("div", { style: { fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", color: tpl.color, marginBottom: 8, paddingBottom: 6, borderBottom: `1px solid ${C.border}` }}, section.title),
+        section.items.map(item =>
+          React.createElement("div", { key: item.id, style: {
+            background: responses[item.id] === "no" ? C.dangerDim : C.card,
+            border: `1px solid ${responses[item.id] === "no" ? `${C.danger}44` : C.border}`,
+            borderRadius: 8, padding: mobile ? "10px 12px" : "12px 14px", marginBottom: 8,
+          }},
+            React.createElement("div", { style: { display: "flex", flexDirection: mobile ? "column" : "row", justifyContent: "space-between", alignItems: mobile ? "stretch" : "center", gap: mobile ? 8 : 12 }},
+              React.createElement("div", { style: { fontSize: 13, color: C.text, lineHeight: 1.45 }}, item.text),
+              React.createElement("div", { style: { display: "flex", gap: 6, flexShrink: 0, justifyContent: mobile ? "flex-end" : "flex-start" }},
+                ["yes", "no", "na"].map(opt =>
+                  React.createElement("button", { key: opt, onClick: () => setResponse(item.id, opt), style: {
+                    width: mobile ? 52 : 42, height: mobile ? 40 : 32, borderRadius: 6, border: "none", cursor: "pointer",
+                    fontSize: 12, fontWeight: 700, textTransform: "uppercase",
+                    background: responses[item.id] === opt ? (opt === "yes" ? C.success : opt === "no" ? C.danger : C.textMuted) : C.surface,
+                    color: responses[item.id] === opt ? "#fff" : C.textDim,
+                    WebkitTapHighlightColor: "transparent",
+                  }}, opt === "na" ? "N/A" : opt === "yes" ? "Yes" : "No"),
+                ),
+              ),
+            ),
+            responses[item.id] === "no" && React.createElement("div", null,
+              React.createElement("textarea", { placeholder: "Describe finding... (include 'critical' or 'high' to set priority)", value: notes[item.id] || "", onChange: e => setNote(item.id, e.target.value), rows: 2,
+                style: { width: "100%", marginTop: 8, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: 10, color: C.text, fontSize: 13, outline: "none", resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", minHeight: 60 } }),
+              React.createElement(PhotoCapture, { itemId: item.id, photos, onPhotos: setPhotos, mobile }),
+            ),
+          ),
+        ),
+      ),
+    ),
+    // Sticky submit
+    React.createElement("div", { style: {
+      position: "fixed", bottom: mobile ? 56 : 0, left: mobile ? 0 : 220, right: 0,
+      background: C.bg, borderTop: `1px solid ${C.border}`, padding: "12px 16px",
+      display: "flex", justifyContent: "space-between", alignItems: "center", zIndex: 20,
+    }},
+      React.createElement("span", { style: { fontSize: 12, color: C.textMuted }}, `${answered}/${totalItems} \u00B7 ${noItems.length} finding${noItems.length !== 1 ? "s" : ""}`),
+      React.createElement("button", { onClick: handleSubmit, disabled: answered < totalItems, style: {
+        background: answered >= totalItems ? C.accent : C.surfaceHover,
+        color: answered >= totalItems ? "#000" : C.textDim,
+        border: "none", borderRadius: 6, padding: "10px 24px", fontWeight: 700, fontSize: 13,
+        cursor: answered >= totalItems ? "pointer" : "not-allowed", minHeight: 44,
+      }}, "Submit"),
+    ),
+  );
+}
+
+/* ── Corrective Actions ── */
+function CorrectiveActions({ corrective, setCorrective, mobile, showToast }) {
+  const [filter, setFilter] = useState("all");
+  const [editing, setEditing] = useState(null);
+  const filtered = filter === "all" ? corrective : corrective.filter(c => c.status === filter);
+
+  const updateAction = async (id, updates) => {
+    const prev = corrective.find(c => c.id === id);
+    const updated = corrective.map(c => c.id === id ? { ...c, ...updates } : c);
+    setCorrective(updated);
+    DB.set("corrective", updated);
+    setEditing(null);
+
+    // Push update to Power Automate
+    const tpl = TEMPLATES.find(t => t.id === prev?.template);
+    const result = await pushToFlow("update", {
+      type: "corrective_action_update",
+      action_id: id,
+      inspection_id: prev?.inspectionId,
+      template_name: tpl?.name || "",
+      finding: prev?.finding,
+      ...updates,
+      updated_at: new Date().toISOString(),
+      // Trigger email if status changed to Completed or Verified
+      notify_completion: updates.status === "Completed" || updates.status === "Verified",
+      // Trigger email if reassigned
+      notify_reassign: updates.assigned && updates.assigned !== prev?.assigned,
+    });
+
+    if (result.status === SyncStatus.SYNCED) {
+      showToast("Action updated & synced");
+    } else if (result.status === SyncStatus.PENDING) {
+      showToast("Updated \u2014 will sync when online", "info");
+    } else {
+      showToast("Action updated locally");
+    }
+  };
+
+  return React.createElement("div", null,
+    React.createElement("div", { style: { marginBottom: 16 }},
+      React.createElement("h2", { style: { fontSize: mobile ? 18 : 22, fontWeight: 800, color: C.text }}, "Corrective Actions"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 4 }}, "Track findings to closure"),
+    ),
+    React.createElement("div", { style: { display: "flex", gap: 4, marginBottom: 16, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }},
+      ["all", "Open", "In Progress", "Completed", "Verified"].map(s =>
+        React.createElement("button", { key: s, onClick: () => setFilter(s), style: {
+          padding: "8px 14px", borderRadius: 6, border: "none", fontSize: 12, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", minHeight: 36,
+          background: filter === s ? C.accent : C.surface, color: filter === s ? "#000" : C.textMuted, WebkitTapHighlightColor: "transparent",
+        }}, s === "all" ? `All (${corrective.length})` : `${s} (${corrective.filter(c => c.status === s).length})`),
+      ),
+    ),
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 }},
+      filtered.map(ca => {
+        const tpl = TEMPLATES.find(t => t.id === ca.template);
+        const overdue = (ca.status === "Open" || ca.status === "In Progress") && ca.due < TODAY;
+        return React.createElement("div", { key: ca.id, onClick: () => setEditing(ca.id), style: {
+          background: C.card, border: `1px solid ${overdue ? `${C.danger}44` : C.border}`,
+          borderRadius: 8, padding: mobile ? "12px 14px" : "14px 16px", borderLeft: `4px solid ${priColors[ca.priority]}`, cursor: "pointer",
+        }},
+          React.createElement("div", { style: { display: "flex", gap: 4, alignItems: "center", marginBottom: 6, flexWrap: "wrap" }},
+            React.createElement(Badge, { color: priColors[ca.priority] }, ca.priority),
+            React.createElement(Badge, { color: statColors[ca.status] }, ca.status),
+            !mobile && tpl && React.createElement(Badge, { color: tpl.color }, `${tpl.icon} ${tpl.name}`),
+            overdue && React.createElement(Badge, { color: C.danger, dim: C.dangerDim }, "OVERDUE"),
+          ),
+          React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }},
+            React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 4, lineHeight: 1.45, flex: 1 }}, ca.finding),
+            React.createElement("button", { onClick: (e) => {
+              e.stopPropagation();
+              const tplName = tpl?.name || "";
+              const inspector = DB.get("inspector_name", "");
+              const subject = encodeURIComponent(`[EHS ${ca.priority}] ${tplName} Finding - ${ca.location}`);
+              const body = encodeURIComponent(
+                `EHS Finding Notification\n\n` +
+                `Priority: ${ca.priority}\n` +
+                `Finding: ${ca.finding}\n` +
+                `Location: ${ca.location}\n` +
+                `Template: ${tplName}\n` +
+                `Due Date: ${ca.due}\n` +
+                `Status: ${ca.status}\n` +
+                `${ca.notes ? `Notes: ${ca.notes}\n` : ""}` +
+                `${ca.jiraTicket ? `Jira: ${ca.jiraTicket}\n` : ""}` +
+                `\nReported by: ${inspector}\n` +
+                `Date: ${new Date().toLocaleDateString()}\n\n` +
+                `---\nSent from Relativity Space EHS Inspect`
+              );
+              window.open(`mailto:?subject=${subject}&body=${body}`, "_self");
+            }, style: {
+              background: "none", border: `1px solid ${C.border}`, borderRadius: 6, padding: "6px 10px",
+              cursor: "pointer", fontSize: 14, flexShrink: 0, color: C.textMuted, minHeight: 32,
+            }, title: "Email this finding" }, "\u2709"),
+          ),
+          React.createElement("div", { style: { fontSize: 11, color: C.textMuted, display: "flex", gap: mobile ? 8 : 16, flexWrap: "wrap", alignItems: "center" }},
+            React.createElement("span", null, ca.location),
+            React.createElement("span", null, ca.assigned || "Unassigned"),
+            React.createElement("span", null, `Due: ${ca.due.slice(5)}`),
+            ca.jiraTicket && React.createElement("span", { style: { color: "#4C9AFF", fontWeight: 700, fontSize: 11 }}, `\uD83D\uDD17 ${ca.jiraTicket}`),
+          ),
+        );
+      }),
+      filtered.length === 0 && React.createElement("div", { style: { padding: 40, textAlign: "center", color: C.textDim, fontSize: 13 }}, "No actions match this filter"),
+    ),
+    // Edit modal
+    editing && React.createElement("div", { className: "modal-overlay", onClick: (e) => { if (e.target === e.currentTarget) setEditing(null); }},
+      React.createElement("div", { className: "modal" }, (() => {
+        const ca = corrective.find(c => c.id === editing);
+        if (!ca) return null;
+        return React.createElement("div", null,
+          React.createElement("h3", { style: { color: C.text, fontSize: 16, fontWeight: 700, marginBottom: 12 }}, "Update Action"),
+          React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 16, lineHeight: 1.4 }}, ca.finding),
+          React.createElement("div", { style: { marginBottom: 12 }},
+            React.createElement("label", { style: { fontSize: 11, color: C.textMuted, fontWeight: 600, display: "block", marginBottom: 4 }}, "ASSIGNED TO"),
+            React.createElement("input", { defaultValue: ca.assigned, id: "edit-assigned",
+              style: { width: "100%", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 14, outline: "none", minHeight: 44 } }),
+          ),
+          React.createElement("div", { style: { marginBottom: 12 }},
+            React.createElement("label", { style: { fontSize: 11, color: C.textMuted, fontWeight: 600, display: "block", marginBottom: 4 }}, "PRIORITY"),
+            React.createElement("select", { defaultValue: ca.priority, id: "edit-priority",
+              style: { width: "100%", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 14, outline: "none", minHeight: 44 } },
+              ["Critical", "High", "Medium", "Low"].map(p => React.createElement("option", { key: p, value: p }, p)),
+            ),
+          ),
+          React.createElement("div", { style: { marginBottom: 12 }},
+            React.createElement("label", { style: { fontSize: 11, color: C.textMuted, fontWeight: 600, display: "block", marginBottom: 4 }}, "DUE DATE"),
+            React.createElement("input", { type: "date", defaultValue: ca.due, id: "edit-due",
+              style: { width: "100%", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 14, outline: "none", minHeight: 44 } }),
+          ),
+          React.createElement("div", { style: { marginBottom: 16 }},
+            React.createElement("label", { style: { fontSize: 11, color: C.textMuted, fontWeight: 600, display: "block", marginBottom: 4 }}, "STATUS"),
+            React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap" }},
+              ["Open", "In Progress", "Completed", "Verified"].map(s =>
+                React.createElement("button", { key: s, id: `status-${s}`, onClick: () => {
+                  document.querySelectorAll('[id^="status-"]').forEach(b => b.style.background = C.surface);
+                  document.getElementById(`status-${s}`).style.background = statColors[s] + "33";
+                }, style: {
+                  padding: "8px 14px", borderRadius: 6, border: `1px solid ${statColors[s]}44`, fontSize: 12, fontWeight: 600,
+                  cursor: "pointer", background: ca.status === s ? `${statColors[s]}33` : C.surface, color: statColors[s], minHeight: 36,
+                }}, s),
+              ),
+            ),
+          ),
+          // Jira ticket
+          React.createElement("div", { style: { marginBottom: 16 }},
+            React.createElement("label", { style: { fontSize: 11, color: C.textMuted, fontWeight: 600, display: "block", marginBottom: 4 }}, "JIRA TICKET"),
+            ca.jiraTicket
+              ? React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 }},
+                  React.createElement("span", { style: { fontSize: 13, color: "#4C9AFF", fontWeight: 600 }}, ca.jiraTicket),
+                  React.createElement("button", { onClick: () => {
+                    const jiraBase = DB.get("jira_base_url", "");
+                    if (jiraBase) window.open(`${jiraBase}/browse/${ca.jiraTicket}`, "_blank");
+                  }, style: { background: "none", border: `1px solid #4C9AFF44`, borderRadius: 4, color: "#4C9AFF", fontSize: 11, padding: "4px 10px", cursor: "pointer", fontWeight: 600 }}, "Open in Jira"),
+                )
+              : React.createElement("button", { onClick: () => {
+                  const jiraBase = DB.get("jira_base_url", "");
+                  const jiraProject = DB.get("jira_project_key", "EHS");
+                  if (!jiraBase) { alert("Set your Jira URL in Settings first."); return; }
+                  const tpl = TEMPLATES.find(t => t.id === ca.template);
+                  const summary = encodeURIComponent(`[EHS ${ca.priority}] ${ca.finding.slice(0, 80)}`);
+                  const description = encodeURIComponent(
+                    `*EHS Corrective Action*\n\n*Finding:* ${ca.finding}\n*Priority:* ${ca.priority}\n*Location:* ${ca.location}\n*Template:* ${tpl?.name || ""}\n*Due Date:* ${ca.due}\n*Inspector:* ${DB.get("inspector_name", "")}\n\n_Created from EHS Inspect app_`
+                  );
+                  const jiraUrl = `${jiraBase}/secure/CreateIssueDetails!init.jspa?pid=&issuetype=10001&project=${jiraProject}&summary=${summary}&description=${description}&priority=${ca.priority === "Critical" ? "1" : ca.priority === "High" ? "2" : ca.priority === "Medium" ? "3" : "4"}`;
+                  window.open(jiraUrl, "_blank");
+                  const ticket = prompt("Enter the Jira ticket key (e.g. EHS-123):");
+                  if (ticket) { updateAction(ca.id, { jiraTicket: ticket.toUpperCase() }); }
+                }, style: {
+                  background: "#1A3A5C", color: "#4C9AFF", border: `1px solid #4C9AFF44`, borderRadius: 6,
+                  padding: "10px 16px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 40, width: "100%",
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                }},
+                  React.createElement("span", { style: { fontSize: 16 }}, "\uD83D\uDD17"),
+                  "Create Jira Ticket",
+                ),
+          ),
+
+          // Email notification
+          React.createElement("div", { style: { marginBottom: 16 }},
+            React.createElement("label", { style: { fontSize: 11, color: C.textMuted, fontWeight: 600, display: "block", marginBottom: 4 }}, "NOTIFY SOMEONE"),
+            React.createElement("div", { style: { display: "flex", gap: 8 }},
+              React.createElement("input", { id: "edit-notify-email", placeholder: "Enter email address",
+                style: { flex: 1, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 13, outline: "none", minHeight: 44 } }),
+              React.createElement("button", { onClick: () => {
+                const email = document.getElementById("edit-notify-email").value.trim();
+                if (!email) { return; }
+                const tpl = TEMPLATES.find(t => t.id === ca.template);
+                const inspector = DB.get("inspector_name", "");
+                const subject = encodeURIComponent(`[EHS ${ca.priority}] ${tpl?.name || ""} Finding - ${ca.location}`);
+                const body = encodeURIComponent(
+                  `EHS Finding Notification\n\n` +
+                  `This finding has been flagged for your attention.\n\n` +
+                  `Priority: ${ca.priority}\n` +
+                  `Finding: ${ca.finding}\n` +
+                  `Location: ${ca.location}\n` +
+                  `Inspection Type: ${tpl?.name || ""}\n` +
+                  `Due Date: ${ca.due}\n` +
+                  `Current Status: ${ca.status}\n` +
+                  `Assigned To: ${document.getElementById("edit-assigned").value || "Unassigned"}\n` +
+                  `${ca.notes ? `Notes: ${ca.notes}\n` : ""}` +
+                  `${ca.jiraTicket ? `Jira Ticket: ${ca.jiraTicket}\n` : ""}` +
+                  `\nReported by: ${inspector}\n` +
+                  `Date: ${new Date().toLocaleDateString()}\n\n` +
+                  `Please review and take appropriate action.\n\n` +
+                  `---\nRelativity Space EHS Inspect`
+                );
+                window.open(`mailto:${email}?subject=${subject}&body=${body}`, "_self");
+                showToast(`Email drafted to ${email}`);
+              }, style: {
+                background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 6,
+                padding: "10px 14px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 44,
+                display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap",
+              }}, "\u2709 Send"),
+            ),
+          ),
+
+          React.createElement("div", { style: { display: "flex", gap: 10, justifyContent: "flex-end" }},
+            React.createElement("button", { onClick: () => setEditing(null), style: { background: C.surface, color: C.textMuted, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 20px", fontWeight: 600, fontSize: 13, cursor: "pointer", minHeight: 44 }}, "Cancel"),
+            React.createElement("button", { onClick: () => {
+              const newStatus = ["Open", "In Progress", "Completed", "Verified"].find(s => {
+                const el = document.getElementById(`status-${s}`);
+                return el && el.style.background && el.style.background !== C.surface;
+              }) || ca.status;
+              updateAction(ca.id, {
+                assigned: document.getElementById("edit-assigned").value,
+                priority: document.getElementById("edit-priority").value,
+                due: document.getElementById("edit-due").value,
+                status: newStatus,
+                completedAt: (newStatus === "Completed" || newStatus === "Verified") ? new Date().toISOString() : ca.completedAt,
+              });
+            }, style: { background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "10px 20px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 44 }}, "Save"),
+          ),
+        );
+      })()),
+    ),
+  );
+}
+
+/* ── History ── */
+function InspectionHistory({ inspections, mobile, showToast }) {
+  return React.createElement("div", null,
+    React.createElement("div", { style: { marginBottom: 16, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }},
+      React.createElement("div", null,
+        React.createElement("h2", { style: { fontSize: mobile ? 18 : 22, fontWeight: 800, color: C.text }}, "History"),
+        React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 4 }}, `${inspections.length} inspections`),
+      ),
+      React.createElement("div", { style: { display: "flex", gap: 6 }},
+        React.createElement("button", { onClick: () => { exportInspectionsCSV(inspections); showToast("Inspections CSV downloaded"); }, style: { background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 6, padding: "8px 14px", fontWeight: 600, fontSize: 12, cursor: "pointer", minHeight: 36 }}, "\u2B07 Inspections"),
+        React.createElement("button", { onClick: () => { exportResponsesCSV(inspections); showToast("Responses CSV downloaded"); }, style: { background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 6, padding: "8px 14px", fontWeight: 600, fontSize: 12, cursor: "pointer", minHeight: 36 }}, "\u2B07 Responses"),
+      ),
+    ),
+    // Card list (works on both mobile and desktop)
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 }},
+      inspections.map(insp => {
+        const tpl = TEMPLATES.find(t => t.id === insp.template);
+        if (!tpl) return null;
+        return React.createElement("div", { key: insp.id, style: {
+          background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
+          padding: "12px 14px", borderLeft: `4px solid ${tpl.color}`,
+          display: "flex", justifyContent: "space-between", alignItems: "center",
+        }},
+          React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, flex: 1, minWidth: 0 }},
+            React.createElement("span", { style: { fontSize: 16 }}, tpl.icon),
+            React.createElement("div", { style: { flex: 1, minWidth: 0 }},
+              React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text }}, tpl.name),
+              React.createElement("div", { style: { fontSize: 11, color: C.textMuted }}, `${insp.date} \u00B7 ${insp.location} \u00B7 ${insp.inspector}`),
+            ),
+          ),
+          React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center", flexShrink: 0 }},
+            insp.findings > 0
+              ? React.createElement(Badge, { color: insp.critical > 0 ? C.danger : C.accent }, `${insp.findings}`)
+              : React.createElement(Badge, { color: C.success }, "Clear"),
+            React.createElement("button", { onClick: (e) => { e.stopPropagation(); generatePDF(insp, insp.responses || {}, insp.notes || {}, insp.photos || {}); showToast("PDF downloaded"); },
+              style: { background: "none", border: "none", cursor: "pointer", fontSize: 16, padding: 4 } }, "\uD83D\uDCC4"),
+          ),
+        );
+      }),
+      inspections.length === 0 && React.createElement("div", { style: { padding: 40, textAlign: "center", color: C.textDim, fontSize: 13 }}, "No inspections yet"),
+    ),
+  );
+}
+
+/* ── Equipment Manager (RFID/NFC Scanner + Harness Inventory) ── */
+function EquipmentManager({ inspections, mobile, showToast, onInspect }) {
+  const [inventory, setInventory] = useState(getHarnessInventory());
+  const [scanning, setScanning] = useState(false);
+  const [selectedHarness, setSelectedHarness] = useState(null);
+  const [manualId, setManualId] = useState("");
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newHarness, setNewHarness] = useState({ RFIDTagID: "", SerialNumber: "", HarnessModel: "", HarnessSize: "", AssignedTo: "", AssignedLocation: "", ManufactureDate: "", Status: "Active", Notes: "" });
+  const [filter, setFilter] = useState("all");
+  const importRef = useRef();
+
+  const refresh = () => setInventory(getHarnessInventory());
+
+  const handleScan = async () => {
+    setScanning(true);
+    const result = await scanNFC();
+    setScanning(false);
+    if (result.success) {
+      showToast(`Tag scanned: ${result.tagId}`);
+      const harness = lookupHarness(result.tagId);
+      if (harness) {
+        setSelectedHarness(harness);
+      } else {
+        showToast("New tag \u2014 adding to inventory", "info");
+        setNewHarness(prev => ({ ...prev, RFIDTagID: result.tagId }));
+        setShowAddForm(true);
+      }
+    } else {
+      showToast(result.error, "error");
+    }
+  };
+
+  const handleManualLookup = () => {
+    if (!manualId.trim()) return;
+    const harness = lookupHarness(manualId.trim());
+    if (harness) {
+      setSelectedHarness(harness);
+      setManualId("");
+    } else {
+      showToast("Not found \u2014 check the ID or add new equipment", "error");
+    }
+  };
+
+  const handleAddHarness = () => {
+    if (!newHarness.RFIDTagID && !newHarness.SerialNumber) { showToast("RFID Tag or Serial Number required", "error"); return; }
+    const harness = {
+      ...newHarness,
+      RFIDTagID: newHarness.RFIDTagID || newHarness.SerialNumber,
+      Status: "Active",
+      LastInspectionDate: "",
+      LastInspectionResult: "",
+      NextInspectionDue: new Date(Date.now() + 180 * 86400000).toISOString().slice(0, 10),
+    };
+    upsertHarness(harness);
+    refresh();
+    setShowAddForm(false);
+    setNewHarness({ RFIDTagID: "", SerialNumber: "", HarnessModel: "", HarnessSize: "", AssignedTo: "", AssignedLocation: "", ManufactureDate: "", Status: "Active", Notes: "" });
+    showToast("Equipment added to inventory");
+  };
+
+  const filteredInv = filter === "all" ? inventory
+    : filter === "overdue" ? inventory.filter(h => h.NextInspectionDue && h.NextInspectionDue < TODAY && h.Status === "Active")
+    : inventory.filter(h => h.Status === filter);
+
+  const overdueCount = inventory.filter(h => h.NextInspectionDue && h.NextInspectionDue < TODAY && h.Status === "Active").length;
+
+  const inputStyle = { width: "100%", background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 13, outline: "none", minHeight: 44 };
+  const labelStyle = { fontSize: 11, color: C.textMuted, fontWeight: 600, display: "block", marginBottom: 4, textTransform: "uppercase" };
+
+  // Harness detail view
+  if (selectedHarness) {
+    const h = selectedHarness;
+    const isOverdue = h.NextInspectionDue && h.NextInspectionDue < TODAY && h.Status === "Active";
+    const harnessInspections = inspections.filter(i => i.template === "fall-pro" && i.rfidTagId === h.RFIDTagID);
+    return React.createElement("div", null,
+      React.createElement("button", { onClick: () => setSelectedHarness(null), style: { background: "none", border: "none", color: C.textMuted, fontSize: 13, cursor: "pointer", padding: "8px 0", marginBottom: 12, minHeight: 44 }}, "\u2190 Back to Equipment"),
+
+      React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 16 : 20, marginBottom: 14 }},
+        React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }},
+          React.createElement("h2", { style: { fontSize: 18, fontWeight: 800, color: C.text }}, h.RFIDTagID),
+          React.createElement(Badge, { color: h.Status === "Active" ? C.success : h.Status === "Do Not Use" ? C.danger : C.textMuted }, h.Status || "Unknown"),
+        ),
+        isOverdue && React.createElement("div", { style: { background: C.dangerDim, border: `1px solid ${C.danger}44`, borderRadius: 6, padding: "8px 12px", marginBottom: 12 }},
+          React.createElement(Badge, { color: C.danger, dim: C.dangerDim }, "OVERDUE"),
+          React.createElement("span", { style: { fontSize: 12, color: C.danger, marginLeft: 8 }}, `Inspection was due ${h.NextInspectionDue}`),
+        ),
+        React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr 1fr" : "1fr 1fr 1fr 1fr", gap: 12 }},
+          [
+            ["Model", h.HarnessModel], ["Size", h.HarnessSize], ["Serial", h.SerialNumber],
+            ["Assigned To", h.AssignedTo], ["Location", h.AssignedLocation], ["Mfg Date", h.ManufactureDate],
+            ["Last Inspection", h.LastInspectionDate || "Never"], ["Result", h.LastInspectionResult || "N/A"],
+            ["Next Due", h.NextInspectionDue || "Not set"],
+          ].map(([label, val]) =>
+            React.createElement("div", { key: label },
+              React.createElement("div", { style: { fontSize: 10, color: C.textMuted, textTransform: "uppercase", fontWeight: 600, marginBottom: 2 }}, label),
+              React.createElement("div", { style: { fontSize: 13, color: C.text, fontWeight: 600 }}, val || "\u2014"),
+            )
+          ),
+        ),
+        h.Notes && React.createElement("div", { style: { marginTop: 12, fontSize: 12, color: C.textMuted, fontStyle: "italic" }}, h.Notes),
+      ),
+
+      React.createElement("div", { style: { display: "flex", gap: 10, marginBottom: 14, flexWrap: "wrap" }},
+        React.createElement("button", { onClick: () => onInspect(h.RFIDTagID), style: {
+          background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "12px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 44, flex: 1,
+        }}, "\u26D1 Start Inspection"),
+        React.createElement("button", { onClick: () => {
+          exportHarnessInventoryXLSX();
+          showToast("HarnessInventory.xlsx downloaded");
+        }, style: { background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 6, padding: "12px 16px", fontWeight: 600, fontSize: 13, cursor: "pointer", minHeight: 44 }}, "\u2B07 Export"),
+      ),
+
+      harnessInspections.length > 0 && React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 14 : 20 }},
+        React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: C.text, marginBottom: 10 }}, "Inspection History for This Harness"),
+        harnessInspections.slice(0, 10).map(insp =>
+          React.createElement("div", { key: insp.id, style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: `1px solid ${C.border}` }},
+            React.createElement("div", null,
+              React.createElement("div", { style: { fontSize: 12, fontWeight: 600, color: C.text }}, insp.date),
+              React.createElement("div", { style: { fontSize: 11, color: C.textMuted }}, `${insp.inspector} \u00B7 ${insp.location}`),
+            ),
+            insp.findings > 0
+              ? React.createElement(Badge, { color: C.danger }, "FAIL")
+              : React.createElement(Badge, { color: C.success }, "PASS"),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Add form
+  if (showAddForm) {
+    return React.createElement("div", null,
+      React.createElement("button", { onClick: () => setShowAddForm(false), style: { background: "none", border: "none", color: C.textMuted, fontSize: 13, cursor: "pointer", padding: "8px 0", marginBottom: 12, minHeight: 44 }}, "\u2190 Back"),
+      React.createElement("h2", { style: { fontSize: 18, fontWeight: 800, color: C.text, marginBottom: 16 }}, "Add Equipment"),
+      React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 16 : 20 }},
+        [
+          ["RFID Tag ID", "RFIDTagID", "Scan or type the NFC tag ID"],
+          ["Serial Number", "SerialNumber", "Manufacturer serial number"],
+          ["Harness Model", "HarnessModel", "e.g. 3M DBI-SALA ExoFit"],
+          ["Size", "HarnessSize", "S / M / L / XL"],
+          ["Assigned To", "AssignedTo", "Employee name"],
+          ["Location", "AssignedLocation", "e.g. Launch Pad A"],
+          ["Manufacture Date", "ManufactureDate", "YYYY-MM-DD"],
+          ["Notes", "Notes", "Optional notes"],
+        ].map(([label, field, placeholder]) =>
+          React.createElement("div", { key: field, style: { marginBottom: 12 }},
+            React.createElement("label", { style: labelStyle }, label),
+            React.createElement("input", { value: newHarness[field] || "", placeholder, onChange: e => setNewHarness(p => ({ ...p, [field]: e.target.value })), style: inputStyle }),
+          ),
+        ),
+        React.createElement("button", { onClick: handleAddHarness, style: {
+          background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "12px 24px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 44, width: "100%", marginTop: 8,
+        }}, "Add to Inventory"),
+      ),
+    );
+  }
+
+  // Main equipment list view
+  return React.createElement("div", null,
+    React.createElement("div", { style: { marginBottom: mobile ? 16 : 20 }},
+      React.createElement("h2", { style: { fontSize: mobile ? 18 : 22, fontWeight: 800, color: C.text }}, "Equipment"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 4 }}, `${inventory.length} harnesses tracked${overdueCount > 0 ? ` \u00B7 ${overdueCount} overdue` : ""}`),
+    ),
+
+    // Scan + lookup section
+    React.createElement("div", { style: { background: C.card, border: `1px solid ${C.accent}44`, borderRadius: 10, padding: mobile ? 16 : 20, marginBottom: 14 }},
+      React.createElement("div", { style: { display: "flex", gap: 10, marginBottom: 12, flexWrap: "wrap" }},
+        React.createElement("button", { onClick: handleScan, disabled: scanning, style: {
+          background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "14px 24px", fontWeight: 700, fontSize: 14, cursor: scanning ? "wait" : "pointer", minHeight: 50, flex: mobile ? "1 1 100%" : 1,
+        }}, scanning ? "\uD83D\uDD04 Scanning..." : "\uD83D\uDCF1 Scan RFID Tag"),
+        React.createElement("button", { onClick: () => setShowAddForm(true), style: {
+          background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 6, padding: "14px 20px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 50,
+        }}, "+ Add New"),
+      ),
+      React.createElement("div", { style: { display: "flex", gap: 8 }},
+        React.createElement("input", { value: manualId, onChange: e => setManualId(e.target.value), placeholder: "No RFID? Type serial number here",
+          onKeyDown: e => { if (e.key === "Enter") handleManualLookup(); },
+          style: { ...inputStyle, flex: 1 } }),
+        React.createElement("button", { onClick: handleManualLookup, style: {
+          background: C.info, color: "#fff", border: "none", borderRadius: 6, padding: "10px 16px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 44,
+        }}, "Look Up"),
+      ),
+    ),
+
+    // Filter tabs
+    React.createElement("div", { style: { display: "flex", gap: 4, marginBottom: 14, overflowX: "auto", paddingBottom: 4 }},
+      [["all", "All"], ["Active", "Active"], ["Do Not Use", "Out of Service"], ["overdue", "Overdue"]].map(([id, label]) =>
+        React.createElement("button", { key: id, onClick: () => setFilter(id), style: {
+          padding: "8px 14px", borderRadius: 6, border: "none", fontSize: 12, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", minHeight: 36,
+          background: filter === id ? C.accent : C.surface, color: filter === id ? "#000" : C.textMuted,
+        }}, label + (id === "overdue" && overdueCount > 0 ? ` (${overdueCount})` : id === "all" ? ` (${inventory.length})` : "")),
+      ),
+    ),
+
+    // Import / Export bar
+    React.createElement("div", { style: { display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" }},
+      React.createElement("input", { ref: importRef, type: "file", accept: ".xlsx,.xls", onChange: e => {
+        if (e.target.files[0]) {
+          importHarnessInventory(e.target.files[0], (count) => { refresh(); showToast(`Imported ${count} harnesses from Excel`); });
+        }
+        e.target.value = "";
+      }, style: { display: "none" } }),
+      React.createElement("button", { onClick: () => importRef.current.click(), style: {
+        background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 6, padding: "8px 14px", fontWeight: 600, fontSize: 12, cursor: "pointer", minHeight: 36,
+      }}, "\u2B06 Import from Excel"),
+      React.createElement("button", { onClick: () => { exportHarnessInventoryXLSX(); showToast("HarnessInventory.xlsx downloaded"); }, style: {
+        background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 6, padding: "8px 14px", fontWeight: 600, fontSize: 12, cursor: "pointer", minHeight: 36,
+      }}, "\u2B07 Export to Excel"),
+    ),
+
+    // Inventory list
+    React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 8 }},
+      filteredInv.map(h => {
+        const isOverdue = h.NextInspectionDue && h.NextInspectionDue < TODAY && h.Status === "Active";
+        return React.createElement("div", { key: h.RFIDTagID, onClick: () => setSelectedHarness(h), style: {
+          background: C.card, border: `1px solid ${isOverdue ? `${C.danger}44` : C.border}`,
+          borderRadius: 8, padding: "12px 14px", cursor: "pointer",
+          borderLeft: `4px solid ${h.Status === "Active" ? (isOverdue ? C.danger : C.success) : h.Status === "Do Not Use" ? C.danger : C.textMuted}`,
+        }},
+          React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }},
+            React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text }}, h.RFIDTagID),
+            React.createElement("div", { style: { display: "flex", gap: 4 }},
+              React.createElement(Badge, { color: h.Status === "Active" ? C.success : C.danger }, h.Status || "Unknown"),
+              isOverdue && React.createElement(Badge, { color: C.danger, dim: C.dangerDim }, "OVERDUE"),
+            ),
+          ),
+          React.createElement("div", { style: { fontSize: 12, color: C.textMuted, display: "flex", gap: mobile ? 8 : 16, flexWrap: "wrap" }},
+            h.HarnessModel && React.createElement("span", null, h.HarnessModel),
+            h.AssignedTo && React.createElement("span", null, h.AssignedTo),
+            h.AssignedLocation && React.createElement("span", null, h.AssignedLocation),
+            h.NextInspectionDue && React.createElement("span", null, `Due: ${h.NextInspectionDue}`),
+          ),
+        );
+      }),
+      filteredInv.length === 0 && React.createElement("div", { style: { padding: 40, textAlign: "center", color: C.textDim, fontSize: 13 }},
+        inventory.length === 0 ? "No equipment yet. Scan an RFID tag, add manually, or import from Excel." : "No equipment matches this filter"
+      ),
+    ),
+  );
+}
+
+/* ── Data Export Page ── */
+function DataExport({ inspections, corrective, mobile, showToast }) {
+  const stepBubble = (num) => React.createElement("span", { style: { background: C.accent, color: "#000", borderRadius: "50%", width: 24, height: 24, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 800, flexShrink: 0 }}, num);
+
+  return React.createElement("div", null,
+    React.createElement("div", { style: { marginBottom: 20 }},
+      React.createElement("h2", { style: { fontSize: mobile ? 18 : 22, fontWeight: 800, color: C.text }}, "Data Export"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 4 }}, "Sync to OneDrive \u2192 Power Automate \u2192 Microsoft Lists \u2192 Power BI"),
+    ),
+
+    // STEP 1: ONE-TIME SETUP
+    React.createElement("div", { style: { background: C.card, border: `1px solid ${C.accent}44`, borderRadius: 10, padding: mobile ? 16 : 20, marginBottom: 14 }},
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }},
+        stepBubble("1"),
+        React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.accent }}, "ONE-TIME SETUP: Create Template Files"),
+      ),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 10, lineHeight: 1.5 }},
+        "Download these two template files. Open each one in Excel, click inside the data, go to Insert \u2192 Table, check \"My table has headers\", and click OK. Then save them to your OneDrive EHS-Data folder. Power Automate will use these files."
+      ),
+      React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 14 }},
+        React.createElement("button", { onClick: () => {
+          createOneDriveTemplates();
+          showToast("Template files downloaded \u2014 see instructions below");
+        }, style: {
+          background: C.accent, color: "#000", border: "none", borderRadius: 6,
+          padding: "10px 20px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 44,
+        }}, "\u2B07 Download Template Files"),
+      ),
+      React.createElement("div", { style: { background: C.surface, borderRadius: 8, padding: 14, fontSize: 12, color: C.textMuted, lineHeight: 1.8 }},
+        React.createElement("strong", { style: { color: C.text }}, "After downloading, do this for EACH file:"), React.createElement("br"),
+        "1. Open the .xlsx file in Excel", React.createElement("br"),
+        "2. Click on cell A1", React.createElement("br"),
+        "3. Press Ctrl+A to select all data", React.createElement("br"),
+        "4. Go to Insert (top menu) \u2192 click Table", React.createElement("br"),
+        "5. Check \"\u2713 My table has headers\"", React.createElement("br"),
+        "6. Click OK \u2014 the row will turn blue/styled", React.createElement("br"),
+        "7. Save the file (Ctrl+S)", React.createElement("br"),
+        "8. Upload both files to your OneDrive \u2192 EHS-Data folder", React.createElement("br"),
+        React.createElement("br"),
+        React.createElement("strong", { style: { color: C.accent }}, "Note the Table names"), " \u2014 Excel will call them \"Table1\". You'll need this name in Power Automate.",
+      ),
+    ),
+
+    // STEP 2: DAILY SYNC
+    React.createElement("div", { style: { background: C.card, border: `1px solid ${C.info}44`, borderRadius: 10, padding: mobile ? 16 : 20, marginBottom: 14 }},
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }},
+        stepBubble("2"),
+        React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.info }}, "DAILY USE: Export & Replace"),
+      ),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 10, lineHeight: 1.5 }},
+        "After running inspections, click these buttons to download your updated data files. Then REPLACE the files in your OneDrive EHS-Data folder (save with the same name, overwrite the old one). Power Automate detects the change."
+      ),
+      React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" }},
+        React.createElement("button", { onClick: () => {
+          if (inspections.length === 0) { showToast("No inspections to export", "error"); return; }
+          exportAppendInspection();
+          showToast("EHS-Inspections-Data.xlsx downloaded \u2014 replace the file in OneDrive");
+        }, style: {
+          background: C.info, color: "#fff", border: "none", borderRadius: 6,
+          padding: "10px 20px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 44,
+        }}, "\uD83D\uDCC2 All Inspections (.xlsx)"),
+        React.createElement("button", { onClick: () => {
+          if (corrective.length === 0) { showToast("No actions to export", "error"); return; }
+          exportAppendActions(corrective);
+          showToast("EHS-Actions-Data.xlsx downloaded \u2014 replace the file in OneDrive");
+        }, style: {
+          background: C.info, color: "#fff", border: "none", borderRadius: 6,
+          padding: "10px 20px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 44,
+        }}, "\uD83D\uDCC2 All Corrective Actions (.xlsx)"),
+      ),
+    ),
+
+    // STEP 3: POWER AUTOMATE
+    React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 16 : 20, marginBottom: 14 }},
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }},
+        stepBubble("3"),
+        React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text }}, "POWER AUTOMATE FLOW SETUP"),
+      ),
+      React.createElement("div", { style: { background: C.surface, borderRadius: 8, padding: 14, fontSize: 12, color: C.textMuted, lineHeight: 1.8 }},
+        React.createElement("strong", { style: { color: C.accent }}, "Trigger:"), " When a file is modified (properties only) \u2014 OneDrive for Business \u2192 EHS-Data folder", React.createElement("br"), React.createElement("br"),
+        React.createElement("strong", { style: { color: C.accent }}, "Step 2:"), " List rows present in a table \u2014 Excel Online (Business)", React.createElement("br"),
+        "\u2022 Location: OneDrive for Business", React.createElement("br"),
+        "\u2022 Document Library: OneDrive", React.createElement("br"),
+        "\u2022 File: /EHS-Data/EHS-Inspections-Data.xlsx (browse to it)", React.createElement("br"),
+        "\u2022 Table: Table1", React.createElement("br"), React.createElement("br"),
+        React.createElement("strong", { style: { color: C.accent }}, "Step 3:"), " Apply to each \u2192 Create item (SharePoint)", React.createElement("br"),
+        "\u2022 Site Address: (your SharePoint URL)", React.createElement("br"),
+        "\u2022 List Name: EHS Inspections", React.createElement("br"),
+        "\u2022 Map each column from dynamic content", React.createElement("br"), React.createElement("br"),
+        React.createElement("strong", { style: { color: C.accent }}, "For email:"), " Add a Condition after Create item:", React.createElement("br"),
+        "\u2022 If findings_count > 0 \u2192 Send an email (V2)", React.createElement("br"),
+      ),
+    ),
+
+    // Individual CSV exports
+    React.createElement("div", { style: { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 16 : 20, marginBottom: 14 }},
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}, "CSV Downloads (for BigQuery later)"),
+      React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr 1fr", gap: 10 }},
+        [
+          { title: "Inspections", count: inspections.length, action: () => { exportInspectionsCSV(inspections); showToast("CSV downloaded"); } },
+          { title: "Responses", count: inspections.reduce((a, i) => a + (i.totalItems || 0), 0), action: () => { exportResponsesCSV(inspections); showToast("CSV downloaded"); } },
+          { title: "Corrective Actions", count: corrective.length, action: () => { exportCorrectiveCSV(corrective); showToast("CSV downloaded"); } },
+        ].map(exp =>
+          React.createElement("div", { key: exp.title, onClick: exp.action, style: {
+            background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8,
+            padding: 12, cursor: "pointer", textAlign: "center",
+          }},
+            React.createElement("div", { style: { fontSize: 13, fontWeight: 600, color: C.text, marginBottom: 2 }}, exp.title),
+            React.createElement("div", { style: { fontSize: 16, fontWeight: 800, color: C.accent }}, exp.count),
+            React.createElement("div", { style: { fontSize: 10, color: C.accent, marginTop: 4 }}, "\u2B07 CSV"),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/* ── Settings Page ── */
+function Settings({ mobile, showToast }) {
+  const [inspName, setInspName] = useState(DB.get("inspector_name", ""));
+  const [siteName, setSiteName] = useState(DB.get("site_name", ""));
+  const [flowInspection, setFlowInspection] = useState(DB.get("flow_url_inspection", ""));
+  const [flowCorrective, setFlowCorrective] = useState(DB.get("flow_url_corrective", ""));
+  const [flowUpdate, setFlowUpdate] = useState(DB.get("flow_url_update", ""));
+  const queueCount = DB.get("sync_queue", []).length;
+
+  const saveProfile = () => {
+    DB.set("inspector_name", inspName);
+    DB.set("site_name", siteName);
+    showToast("Profile saved");
+  };
+
+  const saveFlows = () => {
+    DB.set("flow_url_inspection", flowInspection.trim());
+    DB.set("flow_url_corrective", flowCorrective.trim());
+    DB.set("flow_url_update", flowUpdate.trim());
+    showToast("Flow URLs saved");
+  };
+
+  const inputStyle = {
+    width: "100%", background: C.surface, border: `1px solid ${C.border}`,
+    borderRadius: 6, padding: "10px 12px", color: C.text, fontSize: 13, outline: "none", minHeight: 44,
+    fontFamily: "monospace",
+  };
+  const labelStyle = { fontSize: 11, color: C.textMuted, fontWeight: 600, display: "block", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.04em" };
+  const sectionStyle = { background: C.card, border: `1px solid ${C.border}`, borderRadius: 10, padding: mobile ? 16 : 20, marginBottom: 14 };
+
+  return React.createElement("div", null,
+    React.createElement("div", { style: { marginBottom: 20 }},
+      React.createElement("h2", { style: { fontSize: mobile ? 18 : 22, fontWeight: 800, color: C.text }}, "Settings"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginTop: 4 }}, "Configure your profile and Power Automate integration"),
+    ),
+
+    // Profile
+    React.createElement("div", { style: sectionStyle },
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 14 }}, "Inspector Profile"),
+      React.createElement("div", { style: { display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 1fr", gap: 12, marginBottom: 14 }},
+        React.createElement("div", null,
+          React.createElement("label", { style: labelStyle }, "Your Name"),
+          React.createElement("input", { value: inspName, onChange: e => setInspName(e.target.value), style: { ...inputStyle, fontFamily: "inherit" } }),
+        ),
+        React.createElement("div", null,
+          React.createElement("label", { style: labelStyle }, "Site / Facility"),
+          React.createElement("input", { value: siteName, onChange: e => setSiteName(e.target.value), style: { ...inputStyle, fontFamily: "inherit" } }),
+        ),
+      ),
+      React.createElement("button", { onClick: saveProfile, style: {
+        background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "10px 20px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 40,
+      }}, "Save Profile"),
+    ),
+
+    // Jira Integration
+    React.createElement("div", { style: sectionStyle },
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}, "Jira Integration"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 14, lineHeight: 1.5 }},
+        "Connect to Jira to create tickets directly from corrective actions. Findings with Critical or High priority can be assigned to team members via Jira for tracking."
+      ),
+      React.createElement("div", { style: { marginBottom: 12 }},
+        React.createElement("label", { style: labelStyle }, "Jira Base URL"),
+        React.createElement("input", { defaultValue: DB.get("jira_base_url", ""), id: "jira-base-url", placeholder: "https://relativityspace.atlassian.net",
+          style: inputStyle }),
+        React.createElement("div", { style: { fontSize: 10, color: C.textDim, marginTop: 4 }}, "Your Jira instance URL (e.g. https://company.atlassian.net)"),
+      ),
+      React.createElement("div", { style: { marginBottom: 14 }},
+        React.createElement("label", { style: labelStyle }, "Default Project Key"),
+        React.createElement("input", { defaultValue: DB.get("jira_project_key", "EHS"), id: "jira-project-key", placeholder: "EHS",
+          style: { ...inputStyle, fontFamily: "inherit" } }),
+        React.createElement("div", { style: { fontSize: 10, color: C.textDim, marginTop: 4 }}, "Jira project key for EHS tickets (e.g. EHS, SAFETY)"),
+      ),
+      React.createElement("button", { onClick: () => {
+        DB.set("jira_base_url", document.getElementById("jira-base-url").value.trim().replace(/\/$/, ""));
+        DB.set("jira_project_key", document.getElementById("jira-project-key").value.trim());
+        showToast("Jira settings saved");
+      }, style: {
+        background: "#1A3A5C", color: "#4C9AFF", border: `1px solid #4C9AFF44`, borderRadius: 6, padding: "10px 20px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 40,
+      }}, "\uD83D\uDD17 Save Jira Settings"),
+    ),
+
+    // Power Automate
+    React.createElement("div", { style: sectionStyle },
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}, "Power Automate Integration"),
+      React.createElement("p", { style: { color: C.textMuted, fontSize: 12, marginBottom: 14, lineHeight: 1.5 }},
+        "Paste your flow HTTP trigger URLs below. Each flow receives JSON data automatically when inspections are submitted or actions are updated. Leave blank to use offline-only mode."
+      ),
+
+      React.createElement("div", { style: { marginBottom: 12 }},
+        React.createElement("label", { style: labelStyle }, "Inspection Submit Flow URL"),
+        React.createElement("input", { value: flowInspection, onChange: e => setFlowInspection(e.target.value), placeholder: "https://prod-xx.westus.logic.azure.com:443/workflows/...", style: inputStyle }),
+        React.createElement("div", { style: { fontSize: 10, color: C.textDim, marginTop: 4 }}, "Triggered when an inspector submits a completed inspection"),
+      ),
+
+      React.createElement("div", { style: { marginBottom: 12 }},
+        React.createElement("label", { style: labelStyle }, "New Corrective Action Flow URL"),
+        React.createElement("input", { value: flowCorrective, onChange: e => setFlowCorrective(e.target.value), placeholder: "https://prod-xx.westus.logic.azure.com:443/workflows/...", style: inputStyle }),
+        React.createElement("div", { style: { fontSize: 10, color: C.textDim, marginTop: 4 }}, "Triggered for each finding \u2014 use this for email notifications to assignees"),
+      ),
+
+      React.createElement("div", { style: { marginBottom: 14 }},
+        React.createElement("label", { style: labelStyle }, "Action Update Flow URL"),
+        React.createElement("input", { value: flowUpdate, onChange: e => setFlowUpdate(e.target.value), placeholder: "https://prod-xx.westus.logic.azure.com:443/workflows/...", style: inputStyle }),
+        React.createElement("div", { style: { fontSize: 10, color: C.textDim, marginTop: 4 }}, "Triggered when status, assignee, or priority changes on a corrective action"),
+      ),
+
+      React.createElement("button", { onClick: saveFlows, style: {
+        background: C.accent, color: "#000", border: "none", borderRadius: 6, padding: "10px 20px", fontWeight: 700, fontSize: 13, cursor: "pointer", minHeight: 40,
+      }}, "Save Flow URLs"),
+    ),
+
+    // Sync Status
+    React.createElement("div", { style: sectionStyle },
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}, "Sync Status"),
+      React.createElement("div", { style: { display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }},
+        React.createElement("div", null,
+          React.createElement("div", { style: { fontSize: 11, color: C.textMuted, marginBottom: 4 }}, "CONNECTION"),
+          React.createElement(Badge, { color: navigator.onLine ? C.success : C.danger }, navigator.onLine ? "Online" : "Offline"),
+        ),
+        React.createElement("div", null,
+          React.createElement("div", { style: { fontSize: 11, color: C.textMuted, marginBottom: 4 }}, "QUEUED ITEMS"),
+          React.createElement(Badge, { color: queueCount > 0 ? C.accent : C.success }, queueCount > 0 ? `${queueCount} pending` : "All synced"),
+        ),
+        React.createElement("div", null,
+          React.createElement("div", { style: { fontSize: 11, color: C.textMuted, marginBottom: 4 }}, "FLOWS CONFIGURED"),
+          React.createElement(Badge, { color: (flowInspection || flowCorrective || flowUpdate) ? C.success : C.textDim },
+            [flowInspection && "Inspection", flowCorrective && "Corrective", flowUpdate && "Update"].filter(Boolean).join(", ") || "None"
+          ),
+        ),
+        queueCount > 0 && React.createElement("button", { onClick: () => processRetryQueue(showToast), style: {
+          background: C.surface, color: C.accent, border: `1px solid ${C.accent}44`, borderRadius: 6, padding: "8px 16px", fontWeight: 600, fontSize: 12, cursor: "pointer", minHeight: 36,
+        }}, "Retry Now"),
+      ),
+    ),
+
+    // Setup Guide
+    React.createElement("div", { style: sectionStyle },
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}, "Setup Guide"),
+      React.createElement("div", { style: { fontSize: 12, color: C.textMuted, lineHeight: 1.7 }},
+        React.createElement("strong", { style: { color: C.accent }}, "Step 1: "),
+        "In Power Automate, create a new flow with trigger: ",
+        React.createElement("strong", { style: { color: C.text }}, "\"When an HTTP request is received\""),
+        React.createElement("br"),
+
+        React.createElement("strong", { style: { color: C.accent }}, "Step 2: "),
+        "Add action: ",
+        React.createElement("strong", { style: { color: C.text }}, "\"Create item\" (SharePoint)"),
+        " \u2014 map the JSON fields to your list columns",
+        React.createElement("br"),
+
+        React.createElement("strong", { style: { color: C.accent }}, "Step 3: "),
+        "Add a Condition: if priority = Critical or High \u2192 ",
+        React.createElement("strong", { style: { color: C.text }}, "\"Send an email (V2)\""),
+        " to the assigned_to field",
+        React.createElement("br"),
+
+        React.createElement("strong", { style: { color: C.accent }}, "Step 4: "),
+        "Copy the HTTP POST URL from the trigger and paste it above",
+        React.createElement("br"),
+        React.createElement("br"),
+
+        React.createElement("strong", { style: { color: C.text }}, "Tip: "),
+        "You can use the same flow URL for all three if you route by the \"type\" field in the JSON (inspection, new_corrective_action, corrective_action_update).",
+      ),
+    ),
+
+    // Sample JSON
+    React.createElement("div", { style: sectionStyle },
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 10 }}, "Sample JSON Payloads"),
+      React.createElement("div", { style: { fontSize: 11, color: C.textMuted, marginBottom: 6 }}, "Use these in Power Automate's \"Use sample payload to generate schema\""),
+
+      React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: C.accent, marginBottom: 4, marginTop: 10 }}, "INSPECTION SUBMIT"),
+      React.createElement("pre", { style: { background: C.surface, borderRadius: 6, padding: 12, fontSize: 10, color: C.textMuted, overflow: "auto", lineHeight: 1.5, whiteSpace: "pre-wrap", wordBreak: "break-all" }},
+        JSON.stringify({
+          type: "inspection", inspection_id: 101, template_id: "fall-pro", template_name: "Fall Protection Equipment",
+          regulation: "OSHA 1926.502/503", inspector: "Scott", site: "Cape Canaveral", location: "Launch Pad A",
+          date: "2026-04-09", weather: "Clear", total_items: 15, findings_count: 2, critical_count: 1,
+          status: "complete", created_at: "2026-04-09T10:30:00.000Z",
+          responses: [{ item_id: "fp1", response: "yes", notes: "" }, { item_id: "fp2", response: "no", notes: "Visible corrosion on D-ring" }]
+        }, null, 2)
+      ),
+
+      React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: C.accent, marginBottom: 4, marginTop: 14 }}, "NEW CORRECTIVE ACTION"),
+      React.createElement("pre", { style: { background: C.surface, borderRadius: 6, padding: 12, fontSize: 10, color: C.textMuted, overflow: "auto", lineHeight: 1.5, whiteSpace: "pre-wrap", wordBreak: "break-all" }},
+        JSON.stringify({
+          type: "new_corrective_action", action_id: 201, inspection_id: 101, template_id: "fall-pro",
+          template_name: "Fall Protection Equipment", finding: "D-rings showing visible corrosion",
+          notes: "Critical - remove from service immediately", priority: "Critical", assigned_to: "Mike Torres",
+          location: "Launch Pad A", due_date: "2026-04-16", status: "Open",
+          created_at: "2026-04-09T10:30:00.000Z", notify: true
+        }, null, 2)
+      ),
+
+      React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: C.accent, marginBottom: 4, marginTop: 14 }}, "ACTION UPDATE"),
+      React.createElement("pre", { style: { background: C.surface, borderRadius: 6, padding: 12, fontSize: 10, color: C.textMuted, overflow: "auto", lineHeight: 1.5, whiteSpace: "pre-wrap", wordBreak: "break-all" }},
+        JSON.stringify({
+          type: "corrective_action_update", action_id: 201, inspection_id: 101,
+          template_name: "Fall Protection Equipment", finding: "D-rings showing visible corrosion",
+          status: "Completed", assigned: "Mike Torres", priority: "Critical", due: "2026-04-16",
+          updated_at: "2026-04-12T14:00:00.000Z", notify_completion: true, notify_reassign: false
+        }, null, 2)
+      ),
+    ),
+
+    // Danger zone
+    React.createElement("div", { style: { ...sectionStyle, borderColor: `${C.danger}33` }},
+      React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: C.danger, marginBottom: 10 }}, "Data Management"),
+      React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" }},
+        React.createElement("button", { onClick: () => {
+          if (confirm("Export all data as backup before clearing?")) {
+            const backup = { inspections: DB.get("inspections", []), corrective: DB.get("corrective", []), exported: new Date().toISOString() };
+            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+            const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `ehs-backup-${TODAY}.json`; link.click();
+            showToast("Backup downloaded");
+          }
+        }, style: {
+          background: C.surface, color: C.text, border: `1px solid ${C.border}`, borderRadius: 6, padding: "8px 16px", fontWeight: 600, fontSize: 12, cursor: "pointer", minHeight: 36,
+        }}, "Export Backup (JSON)"),
+        React.createElement("button", { onClick: () => {
+          if (confirm("Clear ALL local inspection data? This cannot be undone. Make sure you have exported first.")) {
+            DB.set("inspections", []); DB.set("corrective", []); DB.set("sync_queue", []);
+            window.location.reload();
+          }
+        }, style: {
+          background: `${C.danger}22`, color: C.danger, border: `1px solid ${C.danger}44`, borderRadius: 6, padding: "8px 16px", fontWeight: 600, fontSize: 12, cursor: "pointer", minHeight: 36,
+        }}, "Clear All Data"),
+      ),
+    ),
+  );
+}
+
+/* ── Main App ── */
+function App() {
+  const [page, setPage] = useState("dashboard");
+  const [activeTemplate, setActiveTemplate] = useState(null);
+  const [inspections, setInspections] = useState(() => DB.get("inspections", []));
+  const [corrective, setCorrective] = useState(() => DB.get("corrective", []));
+  const mobile = useIsMobile();
+  const [toastEl, showToast] = useToast();
+
+  const nav = [
+    { id: "dashboard", label: "Dashboard", icon: "\u25E9" },
+    { id: "inspect", label: "Inspect", icon: "\uFF0B" },
+    { id: "equipment", label: "Equipment", icon: "\uD83C\uDFF7" },
+    { id: "actions", label: "Actions", icon: "\u26A1" },
+    { id: "history", label: "History", icon: "\u2630" },
+    { id: "export", label: "Export", icon: "\u2B07" },
+    { id: "settings", label: "Settings", icon: "\u2699" },
+  ];
+
+  const goTo = (p) => { setPage(p); setActiveTemplate(null); };
+
+  // Retry sync queue when app loads and when coming back online
+  useEffect(() => {
+    processRetryQueue(showToast);
+    const onOnline = () => { showToast("Back online \u2014 syncing..."); processRetryQueue(showToast); };
+    window.addEventListener("online", onOnline);
+    return () => window.removeEventListener("online", onOnline);
+  }, []);
+
+  const handleInspectionSubmit = async (inspection, newActions) => {
+    const updated = [inspection, ...inspections];
+    setInspections(updated);
+    DB.set("inspections", updated);
+
+    if (newActions.length > 0) {
+      const updatedActions = [...newActions, ...corrective];
+      setCorrective(updatedActions);
+      DB.set("corrective", updatedActions);
+    }
+
+    // Push to Power Automate
+    const tpl = TEMPLATES.find(t => t.id === inspection.template);
+    const inspPayload = {
+      type: "inspection",
+      inspection_id: inspection.id,
+      template_id: inspection.template,
+      template_name: tpl?.name || "",
+      regulation: tpl?.reg || "",
+      inspector: inspection.inspector,
+      site: inspection.site,
+      location: inspection.location,
+      date: inspection.date,
+      weather: inspection.weather,
+      total_items: inspection.totalItems,
+      findings_count: inspection.findings,
+      critical_count: inspection.critical,
+      status: inspection.status,
+      created_at: inspection.createdAt,
+      responses: Object.entries(inspection.responses || {}).map(([id, ans]) => ({
+        item_id: id,
+        response: ans,
+        notes: inspection.notes?.[id] || "",
+      })),
+    };
+
+    const result = await pushToFlow("inspection", inspPayload);
+
+    // Push each corrective action
+    for (const action of newActions) {
+      const caPayload = {
+        type: "new_corrective_action",
+        action_id: action.id,
+        inspection_id: action.inspectionId,
+        template_id: action.template,
+        template_name: tpl?.name || "",
+        finding: action.finding,
+        notes: action.notes,
+        priority: action.priority,
+        assigned_to: action.assigned,
+        location: action.location,
+        due_date: action.due,
+        status: action.status,
+        created_at: action.createdAt,
+        // Power Automate can use priority to decide email notifications
+        notify: action.priority === "Critical" || action.priority === "High",
+      };
+      await pushToFlow("corrective", caPayload);
+    }
+
+    if (result.status === SyncStatus.SYNCED) {
+      showToast(`Synced \u2014 ${newActions.length} action${newActions.length !== 1 ? "s" : ""} created`);
+    } else if (result.status === SyncStatus.PENDING) {
+      showToast("Saved offline \u2014 will sync when connected", "info");
+    } else if (result.status === SyncStatus.OFFLINE) {
+      showToast(`Saved locally \u2014 ${newActions.length} action${newActions.length !== 1 ? "s" : ""} created`);
+    } else {
+      showToast("Saved locally \u2014 sync failed, will retry", "error");
+    }
+  };
+
+  return React.createElement("div", { style: { display: "flex", flexDirection: mobile ? "column" : "row", height: "100vh", overflow: "hidden" }},
+    toastEl,
+    // Desktop sidebar
+    !mobile && React.createElement("div", { style: {
+      width: 220, background: C.surface, borderRight: `1px solid ${C.border}`,
+      padding: "20px 0", display: "flex", flexDirection: "column", flexShrink: 0,
+    }},
+      React.createElement("div", { style: { padding: "0 20px", marginBottom: 28 }},
+        React.createElement("img", { src: RELATIVITY_LOGO, style: { height: 18, marginBottom: 6, filter: "brightness(1)" } }),
+        React.createElement("div", { style: { fontSize: 10, color: C.textMuted, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginTop: 2 }}, "EHS INSPECT"),
+        React.createElement("div", { style: { fontSize: 9, color: C.textDim, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", marginTop: 2 }}, DB.get("site_name", "")),
+      ),
+      nav.map(item => React.createElement("div", { key: item.id, onClick: () => goTo(item.id), style: {
+        display: "flex", alignItems: "center", gap: 10, padding: "10px 20px", cursor: "pointer", fontSize: 13, fontWeight: 600,
+        color: page === item.id ? C.accent : C.textMuted,
+        background: page === item.id ? C.accentDim : "transparent",
+        borderRight: page === item.id ? `3px solid ${C.accent}` : "3px solid transparent",
+      }},
+        React.createElement("span", { style: { fontSize: 16, width: 20, textAlign: "center" }}, item.icon),
+        item.label,
+      )),
+      React.createElement("div", { style: { flex: 1 }}),
+      React.createElement("div", { style: { padding: "12px 20px", borderTop: `1px solid ${C.border}`, fontSize: 11, color: C.textDim }},
+        `${DB.get("inspector_name", "Not set")}`,
+        React.createElement("br"),
+        new Date().toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }),
+      ),
+    ),
+    // Mobile top bar
+    mobile && React.createElement("div", { style: {
+      background: C.surface, borderBottom: `1px solid ${C.border}`,
+      padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0,
+    }},
+      React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 }},
+        React.createElement("img", { src: RELATIVITY_LOGO, style: { height: 14 } }),
+        React.createElement("span", { style: { fontSize: 10, fontWeight: 700, color: C.textMuted, letterSpacing: "0.1em" }}, "EHS"),
+      ),
+      React.createElement("div", { style: { fontSize: 11, color: C.textDim }}, `${DB.get("inspector_name", "")} \u00B7 ${new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" })}`),
+    ),
+    // Main content
+    React.createElement("div", { style: { flex: 1, padding: mobile ? 16 : 28, overflowY: "auto", paddingBottom: mobile ? 80 : 28, WebkitOverflowScrolling: "touch" }},
+      page === "dashboard" && React.createElement(Dashboard, { inspections, corrective, onNavigate: goTo, mobile }),
+      page === "inspect" && !activeTemplate && React.createElement(TemplateList, { onSelect: setActiveTemplate, mobile }),
+      page === "inspect" && activeTemplate && React.createElement(InspectionForm, { template: activeTemplate, onBack: () => setActiveTemplate(null), onSubmit: handleInspectionSubmit, mobile }),
+      page === "equipment" && React.createElement(EquipmentManager, { inspections, mobile, showToast, onInspect: (tagId) => { setActiveTemplate("fall-pro"); setPage("inspect"); DB.set("pending_rfid", tagId); } }),
+      page === "actions" && React.createElement(CorrectiveActions, { corrective, setCorrective, mobile, showToast }),
+      page === "history" && React.createElement(InspectionHistory, { inspections, mobile, showToast }),
+      page === "export" && React.createElement(DataExport, { inspections, corrective, mobile, showToast }),
+      page === "settings" && React.createElement(Settings, { mobile, showToast }),
+    ),
+    // Mobile bottom nav
+    mobile && React.createElement("div", { style: {
+      position: "fixed", bottom: 0, left: 0, right: 0,
+      background: C.surface, borderTop: `1px solid ${C.border}`,
+      display: "flex", justifyContent: "space-around", alignItems: "center",
+      height: 56, zIndex: 50, paddingBottom: "env(safe-area-inset-bottom, 0px)",
+    }},
+      nav.map(item => React.createElement("div", { key: item.id, onClick: () => goTo(item.id), style: {
+        display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+        gap: 2, cursor: "pointer", flex: 1, height: "100%",
+        color: page === item.id ? C.accent : C.textDim, WebkitTapHighlightColor: "transparent",
+      }},
+        React.createElement("span", { style: { fontSize: 18 }}, item.icon),
+        React.createElement("span", { style: { fontSize: 9, fontWeight: 600 }}, item.label),
+      )),
+    ),
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+</script>
+</body>
+</html>
